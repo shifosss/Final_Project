@@ -1,1 +1,3 @@
-# Final_Project
+# Final Project 
+## (Recipe Lookup)
+### CSC207
