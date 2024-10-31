@@ -3,6 +3,7 @@ package entity;
 /**
  * Holds instructions about recipe.
  */
+@Deprecated
 public class Instructions {
     private final String[] instructionList;
 

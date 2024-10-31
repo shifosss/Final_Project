@@ -3,6 +3,7 @@ package entity;
 /**
  * Info class that holds information about the recipe.
  */
+@Deprecated
 public class Info {
     private final String id;
     private final String name;
