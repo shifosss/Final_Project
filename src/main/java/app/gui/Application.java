@@ -6,6 +6,8 @@ import usecase.GetAllCategoriesUseCase;
 /**
  * Application that runs the program.
  */
+
+@Deprecated
 public class Application {
 
     /**
