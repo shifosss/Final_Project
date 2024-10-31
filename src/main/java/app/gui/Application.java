@@ -1,7 +1,7 @@
 package app.gui;
 
 import app.Config;
-import usecase.GetAllCategoriesUseCase;
+import use_case.GetAllCategoriesUseCase;
 
 /**
  * Application that runs the program.

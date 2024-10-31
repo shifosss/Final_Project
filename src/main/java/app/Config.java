@@ -3,7 +3,7 @@ package app;
 import api.CocktailsDatabase;
 import api.MealsDatabase;
 import api.RecipeDatabase;
-import usecase.GetAllCategoriesUseCase;
+import use_case.GetAllCategoriesUseCase;
 
 /**
  * Configures the application so that it has everything it needs.

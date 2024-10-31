@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import entity.User;
 import entity.UserFactory;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
