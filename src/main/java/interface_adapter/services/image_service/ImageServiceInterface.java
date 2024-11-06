@@ -1,9 +1,9 @@
-package services.image_service;
+package interface_adapter.services.image_service;
 
 import javax.swing.ImageIcon;
 
 /**
- * Image service handler interface that must be followed by image services.
+ * Image service handler interface that must be followed by image interface_adapter.services.
  */
 public interface ImageServiceInterface {
 

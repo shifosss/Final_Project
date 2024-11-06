@@ -3,12 +3,12 @@ package app;
 import app.usecase_factory.SearchRecipeUseCaseFactory;
 import database.CocktailDataAccessObject;
 import domain.entities.recipe.factory.CocktailFactory;
-import domain.entities.recipe.factory.RecipeFactory;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.search_recipe.SearchRecipeState;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
-import services.image_service.LocalImageService;
-import services.image_service.WebImageService;
+import interface_adapter.services.ServiceManager;
+import interface_adapter.services.image_service.ImageServiceInterface;
+import interface_adapter.services.image_service.LocalImageService;
+import interface_adapter.services.image_service.WebImageService;
 import view.SearchRecipeView;
 import view.ViewManager;
 
@@ -38,14 +38,16 @@ public class MainApp {
         new ViewManager(views, cardLayout, viewManagerModel);
 
         // Initializes Services.
-        final WebImageService webImageService = new WebImageService();
-        final LocalImageService localImageService = new LocalImageService();
+        final ImageServiceInterface webImageService = new WebImageService();
+        final ImageServiceInterface localImageService = new LocalImageService();
+        // Manages the interface_adapter.services.
+        final ServiceManager serviceManager = new ServiceManager(webImageService, localImageService);
 
         // SearchRecipeView initialization
         final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel();
         final CocktailDataAccessObject cocktailDataAccessObject = new CocktailDataAccessObject(new CocktailFactory());
         final SearchRecipeView searchRecipeView = SearchRecipeUseCaseFactory.create(viewManagerModel,
-                searchRecipeViewModel, cocktailDataAccessObject);
+                searchRecipeViewModel, cocktailDataAccessObject, serviceManager);
         views.add(searchRecipeView, searchRecipeView.getViewName());
 
         viewManagerModel.setState(searchRecipeView.getViewName());

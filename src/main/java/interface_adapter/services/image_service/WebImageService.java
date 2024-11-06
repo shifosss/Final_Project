@@ -1,6 +1,4 @@
-package services.image_service;
-
-import org.jetbrains.annotations.NotNull;
+package interface_adapter.services.image_service;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;

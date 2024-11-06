@@ -17,8 +17,9 @@ import java.awt.event.ActionListener;
 import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.search_recipe.SearchRecipeState;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
-import view.ui_components.RecipeScrollPanel;
-import view.ui_components.SearchPanel;
+import interface_adapter.services.ServiceManager;
+import view.ui_components.search_recipe.RecipeScrollPanel;
+import view.ui_components.search_recipe.SearchPanel;
 
 /**
  * The view when the user searches for a recipe through some text field.
@@ -34,13 +35,15 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
     private final JButton backButton;
 
     private final RecipeScrollPanel recipeScrollPanel;
-
+    private final ServiceManager serviceManager;
     private final SearchRecipeController searchRecipeController;
 
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
-                            SearchRecipeController searchRecipeController) {
+                            SearchRecipeController searchRecipeController,
+                            ServiceManager serviceManager) {
         this.searchRecipeViewModel = searchRecipeViewModel;
         this.searchRecipeController = searchRecipeController;
+        this.serviceManager = serviceManager;
 
         this.searchRecipeViewModel.addPropertyChangeListener(this);
 
@@ -51,7 +54,7 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
                 backButton, searchTextField, searchButton
         );
 
-        recipeScrollPanel = new RecipeScrollPanel();
+        recipeScrollPanel = new RecipeScrollPanel(serviceManager);
 
         searchButton.addActionListener(new ActionListener() {
             @Override

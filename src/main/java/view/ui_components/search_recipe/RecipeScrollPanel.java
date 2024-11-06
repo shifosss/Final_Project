@@ -1,16 +1,13 @@
-package view.ui_components;
+package view.ui_components.search_recipe;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import domain.entities.recipe.Recipe;
+import interface_adapter.services.ServiceManager;
 
 /**
  * Recipe Scroll Panel that shows the recipe in a scrollable grid panel.
@@ -23,8 +20,10 @@ public class RecipeScrollPanel extends JPanel {
 
     private final JPanel recipePanel;
     private final JScrollPane scrollPane;
+    private final ServiceManager serviceManager;
 
-    public RecipeScrollPanel() {
+    public RecipeScrollPanel(ServiceManager serviceManager) {
+        this.serviceManager = serviceManager;
         // Set layout for main panel
         setLayout(new BorderLayout());
 
@@ -63,9 +62,9 @@ public class RecipeScrollPanel extends JPanel {
     private List<JPanel> parseToPanel(List<Recipe> recipes) {
         final List<JPanel> panels = new ArrayList<>();
         for (Recipe recipe : recipes) {
-            panels.add(new SearchRecipePanel(
-                    recipe
-            ));
+            final SearchRecipePanel srp = new SearchRecipePanel(serviceManager);
+            srp.addRecipe(recipe);
+            panels.add(srp);
         }
         return panels;
     }
