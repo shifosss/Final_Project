@@ -1,4 +1,4 @@
-package services.image_service;
+package interface_adapter.services.image_service;
 
 import javax.swing.*;
 

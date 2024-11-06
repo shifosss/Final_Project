@@ -1,4 +1,4 @@
-package view.ui_components;
+package view.ui_components.search_recipe;
 
 import javax.swing.*;
 

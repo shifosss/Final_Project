@@ -8,6 +8,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.search_recipe.SearchRecipePresenter;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
+import interface_adapter.services.ServiceManager;
 import view.SearchRecipeView;
 
 /**
@@ -28,10 +29,11 @@ public final class SearchRecipeUseCaseFactory {
      */
     public static SearchRecipeView create(ViewManagerModel viewManagerModel,
                                           SearchRecipeViewModel searchRecipeViewModel,
-                                          SearchRecipeDataAccessInterface searchRecipeDataAccessObject) {
+                                          SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
+                                          ServiceManager serviceManager) {
         final SearchRecipeController searchRecipeController = createSearchRecipeUseCase(viewManagerModel,
                 searchRecipeViewModel, searchRecipeDataAccessObject);
-        return new SearchRecipeView(searchRecipeViewModel, searchRecipeController);
+        return new SearchRecipeView(searchRecipeViewModel, searchRecipeController, serviceManager);
     }
 
     private static SearchRecipeController createSearchRecipeUseCase(

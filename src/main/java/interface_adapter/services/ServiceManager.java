@@ -1,9 +1,9 @@
-package services;
+package interface_adapter.services;
 
-import services.image_service.ImageServiceInterface;
+import interface_adapter.services.image_service.ImageServiceInterface;
 
 /**
- * Handles services available.
+ * Handles/manages services available.
  */
 public class ServiceManager {
     private final ImageServiceInterface webImageService;
