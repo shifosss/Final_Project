@@ -24,7 +24,13 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
         final List<Recipe> recipeResults = recipeDataAccessObject.searchRecipeByKeyword(query);
         // check if the list is empty
         if (recipeResults.isEmpty()) {
-            recipePresenter.prepareFailView("Search does not match any recipes.");
+            final SearchRecipeOutputData recipeOutputData = new SearchRecipeOutputData(
+                    recipeResults,
+                    true
+            );
+            recipePresenter.prepareFailView(
+                    recipeOutputData,
+                    "Search does not match any recipes.");
         }
         else {
             final SearchRecipeOutputData recipeOutputData = new SearchRecipeOutputData(

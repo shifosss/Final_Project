@@ -1,11 +1,12 @@
 package interface_adapter.services.image_service;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import java.awt.*;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  * Web Image Service that fetches image from the web.
@@ -25,7 +26,6 @@ public class WebImageService implements ImageServiceInterface {
             // Optionally scale the image to fit the panel size
             final Image scaledImage = image.getScaledInstance(180, 150, Image.SCALE_SMOOTH);
             result = new ImageIcon(scaledImage);
-
         }
         catch (IOException exception) {
             exception.printStackTrace();

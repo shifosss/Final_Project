@@ -4,12 +4,15 @@ import domain.entities.recipe.Recipe;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Dimension;
+
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 /**
  * Recipe Panel that shows when searching for recipes.

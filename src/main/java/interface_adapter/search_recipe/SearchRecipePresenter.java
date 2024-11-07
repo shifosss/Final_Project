@@ -28,12 +28,18 @@ public class SearchRecipePresenter implements SearchRecipeOutputBoundary {
 
         this.viewManagerModel.setState(searchRecipeViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
-        System.out.println(outputData.getRecipes());
     }
 
     @Override
-    public void prepareFailView(String errorMessage) {
+    public void prepareFailView(SearchRecipeOutputData outputData, String errorMessage) {
         // TODO: Create a fail view when there are no recipe matches.
-        System.out.println(errorMessage);
+        final SearchRecipeState searchRecipeState = searchRecipeViewModel.getState();
+        searchRecipeState.setRecipes(outputData.getRecipes());
+
+        this.searchRecipeViewModel.setState(searchRecipeState);
+        this.searchRecipeViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setState(searchRecipeViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
 }

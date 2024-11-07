@@ -25,6 +25,7 @@ public final class SearchRecipeUseCaseFactory {
      * @param viewManagerModel the ViewManagerModel to be injected into the View.
      * @param searchRecipeViewModel the SearchRecipeViewModel to be injected into the View.
      * @param searchRecipeDataAccessObject the SearchRecipeDAO to be injected into the View.
+     * @param serviceManager the Service Manager that handles service requests.
      * @return the SearchRecipeView given the arguments.
      */
     public static SearchRecipeView create(ViewManagerModel viewManagerModel,

@@ -1,10 +1,13 @@
 package view.ui_components.search_recipe;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import domain.entities.recipe.Recipe;
 import interface_adapter.services.ServiceManager;

@@ -117,6 +117,7 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
     private void performSearchAction() {
         final SearchRecipeState currentState = searchRecipeViewModel.getState();
         searchRecipeController.execute(currentState.getQuery());
+        // searchRecipeController.displayRecipes(currentState.getRecipes());
         recipeScrollPanel.displayRecipes(currentState.getRecipes());
     }
 
