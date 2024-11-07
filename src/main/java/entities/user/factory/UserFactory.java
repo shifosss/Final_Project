@@ -1,6 +1,6 @@
-package domain.entities.user.factory;
+package entities.user.factory;
 
-import domain.entities.user.User;
+import entities.user.User;
 
 /**
  * Factory for creating users.

@@ -1,13 +1,17 @@
 package view.ui_components.search_recipe;
 
-import domain.entities.recipe.Recipe;
+import entities.recipe.Recipe;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.BorderLayout;
+import java.awt.Font;
 
 /**
  * Recipe Panel that shows when searching for recipes.

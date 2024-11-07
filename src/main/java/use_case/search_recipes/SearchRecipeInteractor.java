@@ -1,8 +1,8 @@
-package domain.use_case.search_recipes;
+package use_case.search_recipes;
 
 import java.util.List;
 
-import domain.entities.recipe.Recipe;
+import entities.recipe.Recipe;
 
 /**
  * The Search Recipe interactor.

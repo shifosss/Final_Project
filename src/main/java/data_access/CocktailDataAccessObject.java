@@ -1,17 +1,17 @@
-package database;
+package data_access;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import domain.entities.recipe.Ingredient;
-import domain.entities.recipe.factory.RecipeFactory;
+import entities.recipe.Ingredient;
+import entities.recipe.factory.RecipeFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import domain.entities.recipe.Recipe;
-import domain.use_case.search_recipes.SearchRecipeDataAccessInterface;
+import entities.recipe.Recipe;
+import use_case.search_recipes.SearchRecipeDataAccessInterface;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;

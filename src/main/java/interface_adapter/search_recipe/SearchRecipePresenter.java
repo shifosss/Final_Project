@@ -1,8 +1,7 @@
 package interface_adapter.search_recipe;
 
-import domain.use_case.search_recipes.SearchRecipeInputBoundary;
-import domain.use_case.search_recipes.SearchRecipeOutputBoundary;
-import domain.use_case.search_recipes.SearchRecipeOutputData;
+import use_case.search_recipes.SearchRecipeOutputBoundary;
+import use_case.search_recipes.SearchRecipeOutputData;
 import interface_adapter.ViewManagerModel;
 
 /**

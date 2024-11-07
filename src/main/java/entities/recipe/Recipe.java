@@ -1,4 +1,4 @@
-package domain.entities.recipe;
+package entities.recipe;
 
 import java.util.List;
 
