@@ -5,13 +5,12 @@ import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
 
 import javax.swing.*;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.BorderLayout;
-import java.awt.Font;
 
 /**
  * Recipe Panel that shows when searching for recipes.
@@ -21,44 +20,71 @@ public class SearchRecipePanel extends JPanel {
     private static final int V_GAP = 10;
     private static final int TOP = 5;
     private static final int BOTTOM = 5;
-    private static final int LEFT = 0;
-    private static final int RIGHT = 0;
+    private static final int LEFT = 10;
+    private static final int RIGHT = 10;
     private static final int FONT_SIZE = 14;
 
-    private JButton nameButton;
-    private JLabel imageLabel;
-    private final ServiceManager serviceManager;
+    // Colors for modern button styling
+    private static final Color BUTTON_BACKGROUND = new Color(51, 122, 183);  // Nice blue
+    private static final Color BUTTON_HOVER = new Color(40, 96, 144);        // Darker blue for hover
+    private static final Color BUTTON_BORDER = new Color(46, 109, 164);      // Border blue
+    private static final Color TEXT_COLOR = Color.WHITE;
 
+    private JLabel imageLabel;
+    private JButton nameButton;
+    private final ServiceManager serviceManager;
     private Recipe currentRecipe;
 
     public SearchRecipePanel(ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
-        // Sets Layout.
+        // Sets Layout
         setLayout(new BorderLayout(H_GAP, V_GAP));
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
-        // Initializes image label
+
+        // Initializes JComponents
         imageLabel = new JLabel();
-        // Initializes name button
-        nameButton = new JButton();
-        nameButton.setBorderPainted(false);  // Make it look like a label
-        nameButton.setContentAreaFilled(false);
-        nameButton.setFocusPainted(false);
-        nameButton.setFont(new Font("SansSerif", Font.BOLD, FONT_SIZE));
-        // Add listener to name button
-        nameButton.addMouseListener(new MouseAdapter() {
+        nameButton = createStyledButton();
+
+        // Adjust the panel size
+        setPreferredSize(new Dimension(200, 250));
+    }
+
+    private JButton createStyledButton() {
+        JButton button = new JButton();
+
+        // Basic button setup
+        button.setFocusPainted(false);  // Remove focus border
+        button.setFont(new Font("SansSerif", Font.BOLD, FONT_SIZE));
+        button.setForeground(TEXT_COLOR);
+        button.setBackground(BUTTON_BACKGROUND);
+
+        // Create rounded border with padding
+        button.setBorder(new CompoundBorder(
+                new LineBorder(BUTTON_BORDER, 1, true),  // Outer border, rounded
+                new EmptyBorder(TOP, LEFT, BOTTOM, RIGHT)  // Inner padding
+        ));
+
+        // Make sure the background is painted
+        button.setContentAreaFilled(true);
+        button.setOpaque(true);
+
+        // Add hover effect
+        button.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseEntered(MouseEvent e) {
-                nameButton.setForeground(Color.BLUE);
+                button.setBackground(BUTTON_HOVER);
                 setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
 
+            @Override
             public void mouseExited(MouseEvent e) {
-                nameButton.setForeground(Color.BLACK);
+                button.setBackground(BUTTON_BACKGROUND);
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         });
-        // Adjust the panel size
-        setPreferredSize(new Dimension(200, 250));
+
+        return button;
     }
 
     /**
@@ -78,9 +104,8 @@ public class SearchRecipePanel extends JPanel {
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         add(imageLabel, BorderLayout.CENTER);
 
-        // Recipe name label at the bottom
+        // Recipe name button at the bottom
         nameButton.setText(recipeName);
-        nameButton.setHorizontalAlignment(JButton.CENTER);
         nameButton.addActionListener(e -> showRecipeDetails());
         add(nameButton, BorderLayout.SOUTH);
     }
