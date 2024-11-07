@@ -31,7 +31,6 @@ public class SearchRecipePresenter implements SearchRecipeOutputBoundary {
 
     @Override
     public void prepareFailView(SearchRecipeOutputData outputData, String errorMessage) {
-        // TODO: Create a fail view when there are no recipe matches.
         final SearchRecipeState searchRecipeState = searchRecipeViewModel.getState();
         searchRecipeState.setRecipes(outputData.getRecipes());
 

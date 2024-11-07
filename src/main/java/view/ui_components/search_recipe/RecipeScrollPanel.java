@@ -1,13 +1,10 @@
 package view.ui_components.search_recipe;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 
 import entities.recipe.Recipe;
 import interface_adapter.services.ServiceManager;
@@ -43,7 +40,7 @@ public class RecipeScrollPanel extends JPanel {
         // Set scroll pane background
         scrollPane.setBackground(Color.WHITE);
         scrollPane.getViewport().setBackground(Color.WHITE);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());  // Remove border
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
         // Add scroll pane to the main panel
         add(scrollPane, BorderLayout.CENTER);
@@ -61,7 +58,8 @@ public class RecipeScrollPanel extends JPanel {
      */
     public void displayRecipes(List<Recipe> recipes) {
         recipePanel.removeAll();
-        recipePanel.setLayout(new GridLayout(ROW, COL, H_GAP, V_GAP));  // Reset to grid layout
+        // Reset to grid layout
+        recipePanel.setLayout(new GridLayout(ROW, COL, H_GAP, V_GAP));
 
         if (recipes == null || recipes.isEmpty()) {
             showEmptyState();

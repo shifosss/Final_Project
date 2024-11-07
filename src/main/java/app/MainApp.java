@@ -1,14 +1,17 @@
 package app;
 
+import app.usecase_factory.RecipeDetailUseCaseFactory;
 import app.usecase_factory.SearchRecipeUseCaseFactory;
 import data_access.CocktailDataAccessObject;
 import entities.recipe.factory.CocktailFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.recipe_detail.RecipeDetailViewModel;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
 import interface_adapter.services.image_service.LocalImageService;
 import interface_adapter.services.image_service.WebImageService;
+import view.RecipeDetailView;
 import view.SearchRecipeView;
 import view.ViewManager;
 
@@ -43,13 +46,32 @@ public class MainApp {
         // Manages the interface_adapter.services.
         final ServiceManager serviceManager = new ServiceManager(webImageService, localImageService);
 
-        // SearchRecipeView initialization
-        final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel();
+        // api/database initialization
         final CocktailDataAccessObject cocktailDataAccessObject = new CocktailDataAccessObject(new CocktailFactory());
+
+        // View Model initialization
+        final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel();
+        final RecipeDetailViewModel recipeDetailViewModel = new RecipeDetailViewModel();
+
+        // HomePageView initialization
+        /*
+        final HomeViewModel homeViewModel = new HomeView();
+        // TODO: Check what API/DAO we can inject into the home view
+        final HomeView homeView = HomeUseCaseFactory.create(viewManagerModel,
+                homeViewModel, serviceManager);
+        views.add(homeView, homeView.getViewName());
+        */
+        // SearchRecipeView initialization
         final SearchRecipeView searchRecipeView = SearchRecipeUseCaseFactory.create(viewManagerModel,
                 searchRecipeViewModel, cocktailDataAccessObject, serviceManager);
         views.add(searchRecipeView, searchRecipeView.getViewName());
 
+        // RecipeDetailView initialization
+        final RecipeDetailView recipeDetailView = RecipeDetailUseCaseFactory.create(viewManagerModel,
+                recipeDetailViewModel, cocktailDataAccessObject, serviceManager);
+        views.add(recipeDetailView, recipeDetailView.getViewName());
+
+        // Handles what view model to be shown first
         viewManagerModel.setState(searchRecipeView.getViewName());
         viewManagerModel.firePropertyChanged();
 

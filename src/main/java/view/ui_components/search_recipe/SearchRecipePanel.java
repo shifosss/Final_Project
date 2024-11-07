@@ -3,7 +3,7 @@ package view.ui_components.search_recipe;
 import entities.recipe.Recipe;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
-import view.ui_components.view_recipe.RecipeDetailPanel;
+import view.ui_components.recipe_detail.RecipeDetailPanel;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -55,22 +55,23 @@ public class SearchRecipePanel extends JPanel {
         JButton button = new JButton();
 
         // Basic button setup
-        button.setFocusPainted(false);  // Remove focus border
+        // Remove focus border
+        button.setFocusPainted(false);
         button.setFont(new Font("SansSerif", Font.BOLD, FONT_SIZE));
         button.setForeground(TEXT_COLOR);
         button.setBackground(BUTTON_BACKGROUND);
 
         // Create rounded border with padding
         button.setBorder(new CompoundBorder(
-                new LineBorder(BUTTON_BORDER, 1, true),  // Outer border, rounded
-                new EmptyBorder(TOP, LEFT, BOTTOM, RIGHT)  // Inner padding
+                new LineBorder(BUTTON_BORDER, 1, true),
+                new EmptyBorder(TOP, LEFT, BOTTOM, RIGHT)
         ));
 
         // Make sure the background is painted
         button.setContentAreaFilled(true);
         button.setOpaque(true);
 
-        // Add hover effect
+        // Add hover effect for decor
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {

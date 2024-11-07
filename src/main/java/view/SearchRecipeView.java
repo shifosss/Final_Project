@@ -1,12 +1,8 @@
 package view;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.BoxLayout;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -24,7 +20,8 @@ import view.ui_components.search_recipe.SearchPanel;
 /**
  * The view when the user searches for a recipe through some text field.
  */
-public class SearchRecipeView extends JPanel implements ActionListener, PropertyChangeListener {
+public class SearchRecipeView extends JPanel implements
+        PageView, ActionListener, PropertyChangeListener {
     private final String viewName = "search recipe";
     private final SearchRecipeViewModel searchRecipeViewModel;
 
@@ -51,7 +48,7 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
         backButton = new JButton("<");
 
         // Create RecipeScrollPanel first
-        recipeScrollPanel = new RecipeScrollPanel(serviceManager);
+        recipeScrollPanel = new RecipeScrollPanel(this.serviceManager);
 
         // Create SearchPanel with all four parameters
         final SearchPanel searchBar = new SearchPanel(
@@ -112,8 +109,15 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        // TODO: Make it so that when the user query does not match any recipe
+        // We pop up a JOptionPane to the user.
         final SearchRecipeState state = (SearchRecipeState) evt.getNewValue();
         setFields(state);
+    }
+
+    @Override
+    public String getViewName() {
+        return viewName;
     }
 
     private void performSearchAction() {
@@ -124,10 +128,6 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
     }
 
     private void setFields(SearchRecipeState state) {
-        searchTextField.setText(state.getQuery());
-    }
-
-    public String getViewName() {
-        return viewName;
+        // searchTextField.setText(state.getQuery());
     }
 }

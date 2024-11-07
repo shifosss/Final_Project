@@ -12,7 +12,8 @@ public class SearchPanel extends JPanel {
     private final JButton searchButton;
     private final RecipeScrollPanel recipeScrollPanel;
 
-    public SearchPanel(JButton backButton, JTextField searchField, JButton searchButton, RecipeScrollPanel recipeScrollPanel) {
+    public SearchPanel(JButton backButton, JTextField searchField,
+                       JButton searchButton, RecipeScrollPanel recipeScrollPanel) {
         this.backButton = backButton;
         this.searchField = searchField;
         this.searchButton = searchButton;

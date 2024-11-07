@@ -1,10 +1,9 @@
-package view.ui_components.search_recipe;
+package view.ui_components.recipe_detail;
 
 import entities.recipe.Recipe;
 import entities.recipe.Ingredient;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
@@ -127,7 +126,8 @@ public class RecipeDetailPanel extends JPanel {
     }
 
     private JPanel createStepPanel(int stepNumber, String instruction) {
-        JPanel panel = new JPanel(new BorderLayout(15, 0));  // Increased gap for better spacing
+        // Increased gap for better spacing
+        JPanel panel = new JPanel(new BorderLayout(15, 0));
         panel.setBackground(STEP_BG);
         panel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(222, 226, 230), 1, true),
@@ -150,11 +150,12 @@ public class RecipeDetailPanel extends JPanel {
         textPanel.setBackground(STEP_BG);
 
         // Multi-line label for instruction text
-        JLabel instructionLabel = new JLabel("<html><div style='width: " +
-                (PANEL_WIDTH - 120) + "px'>" + instruction + "</div></html>");
+        JLabel instructionLabel = new JLabel("<html><div style='width: "
+                + (PANEL_WIDTH - 120) + "px'>" + instruction + "</div></html>");
         instructionLabel.setFont(new Font("SansSerif", Font.PLAIN, CONTENT_FONT_SIZE));
         instructionLabel.setForeground(TEXT_COLOR);
-        instructionLabel.setVerticalAlignment(JLabel.TOP);  // Align text to top
+        // Align text to top
+        instructionLabel.setVerticalAlignment(JLabel.TOP);
 
         textPanel.add(instructionLabel, BorderLayout.CENTER);
 

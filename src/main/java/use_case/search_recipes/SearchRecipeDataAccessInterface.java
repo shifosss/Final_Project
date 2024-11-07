@@ -14,6 +14,5 @@ public interface SearchRecipeDataAccessInterface {
      * @return a list of recipe.
      */
     List<Recipe> searchRecipeByKeyword(String keyword);
-
-    // TODO: Add more methods here.
+    // TODO: Add more methods here that this dao might need when interacting with the api.
 }
