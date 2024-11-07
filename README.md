@@ -6,7 +6,7 @@ User Story 1:
 Users are able to sign up , log into, log out or change the password of their own account using the Lab5 interface.
 
 User Story 2:
-Once logged in, user will choose between cocktail/meal database.
+Once logged in, user will choose between cocktail/meal data_access.
 Once chosen, user will be able to search for specific things based on full names/filters
 
 User Story 3:

@@ -1,15 +1,11 @@
 package view.ui_components.search_recipe;
 
-import domain.entities.recipe.Recipe;
+import entities.recipe.Recipe;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 
 /**
  * Recipe Panel that shows when searching for recipes.

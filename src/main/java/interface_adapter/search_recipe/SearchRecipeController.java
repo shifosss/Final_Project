@@ -1,7 +1,7 @@
 package interface_adapter.search_recipe;
 
-import domain.use_case.search_recipes.SearchRecipeInputBoundary;
-import domain.use_case.search_recipes.SearchRecipeInputData;
+import use_case.search_recipes.SearchRecipeInputBoundary;
+import use_case.search_recipes.SearchRecipeInputData;
 
 /**
  * The controller for the search recipe use case.

@@ -1,9 +1,9 @@
 package app.usecase_factory;
 
-import domain.use_case.search_recipes.SearchRecipeDataAccessInterface;
-import domain.use_case.search_recipes.SearchRecipeInputBoundary;
-import domain.use_case.search_recipes.SearchRecipeInteractor;
-import domain.use_case.search_recipes.SearchRecipeOutputBoundary;
+import use_case.search_recipes.SearchRecipeDataAccessInterface;
+import use_case.search_recipes.SearchRecipeInputBoundary;
+import use_case.search_recipes.SearchRecipeInteractor;
+import use_case.search_recipes.SearchRecipeOutputBoundary;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.search_recipe.SearchRecipePresenter;

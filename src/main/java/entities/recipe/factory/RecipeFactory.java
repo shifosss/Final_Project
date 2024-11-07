@@ -1,9 +1,9 @@
-package domain.entities.recipe.factory;
+package entities.recipe.factory;
 
 import java.util.List;
 
-import domain.entities.recipe.Ingredient;
-import domain.entities.recipe.Recipe;
+import entities.recipe.Ingredient;
+import entities.recipe.Recipe;
 
 /**
  * Recipe Factory interface.

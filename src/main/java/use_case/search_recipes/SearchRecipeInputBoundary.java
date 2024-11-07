@@ -1,4 +1,4 @@
-package domain.use_case.search_recipes;
+package use_case.search_recipes;
 
 /**
  * Input Boundary for actions which are related to searching for a recipe.

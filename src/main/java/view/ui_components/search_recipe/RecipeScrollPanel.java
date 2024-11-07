@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.swing.*;
 
-import domain.entities.recipe.Recipe;
+import entities.recipe.Recipe;
 import interface_adapter.services.ServiceManager;
 
 /**

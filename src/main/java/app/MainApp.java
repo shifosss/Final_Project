@@ -1,8 +1,8 @@
 package app;
 
 import app.usecase_factory.SearchRecipeUseCaseFactory;
-import database.CocktailDataAccessObject;
-import domain.entities.recipe.factory.CocktailFactory;
+import data_access.CocktailDataAccessObject;
+import entities.recipe.factory.CocktailFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
