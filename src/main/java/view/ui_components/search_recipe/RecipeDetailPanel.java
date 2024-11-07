@@ -1,7 +1,7 @@
 package view.ui_components.search_recipe;
 
-import domain.entities.recipe.Ingredient;
-import domain.entities.recipe.Recipe;
+import entities.recipe.Ingredient;
+import entities.recipe.Recipe;
 
 import javax.swing.*;
 import java.awt.*;
