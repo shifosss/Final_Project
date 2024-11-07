@@ -50,11 +50,13 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
         searchButton = new JButton("Search");
         backButton = new JButton("<");
 
-        final SearchPanel searchBar = new SearchPanel(
-                backButton, searchTextField, searchButton
-        );
-
+        // Create RecipeScrollPanel first
         recipeScrollPanel = new RecipeScrollPanel(serviceManager);
+
+        // Create SearchPanel with all four parameters
+        final SearchPanel searchBar = new SearchPanel(
+                backButton, searchTextField, searchButton, recipeScrollPanel
+        );
 
         searchButton.addActionListener(new ActionListener() {
             @Override
