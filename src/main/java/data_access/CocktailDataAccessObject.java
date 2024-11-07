@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.recipe.CocktailRecipe;
 import entities.recipe.Ingredient;
 import entities.recipe.factory.RecipeFactory;
 import org.json.JSONArray;
@@ -48,6 +49,19 @@ public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface
         }
 
         return recipes;
+    }
+
+    @Override
+    public Recipe searchRandomRecipe(String keyword) {
+        final JSONObject responseBody = makeApiRequest(String.format("random.php", API_URL, keyword));
+        final JSONArray cocktails = getCocktails(responseBody);
+        final JSONObject raw = cocktails.getJSONObject(0);
+        final String name = getRecipeName(raw);
+        final int id = getRecipeId(raw);
+        final String instruction = getInstruction(raw);
+        final List<Ingredient> ingredients = getIngredients(raw);
+        final String imageLink = getImageLink(raw);
+        return cocktailFactory.create(name, id, instruction, ingredients, imageLink);
     }
 
     // getCocktails and getIngredientByIdentifier might return null.

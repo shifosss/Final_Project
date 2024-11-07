@@ -15,5 +15,6 @@ public interface SearchRecipeDataAccessInterface {
      */
     List<Recipe> searchRecipeByKeyword(String keyword);
 
+    Recipe searchRandomRecipe(String keyword);
     // TODO: Add more methods here.
 }
