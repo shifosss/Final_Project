@@ -9,7 +9,7 @@ User Story 2:
 Once logged in, user will choose between cocktail/meal data_access.
 Once chosen, user will be able to search for specific things based on full names/filters (FINISHED)
 
-User Story 3:
+User Story 3 (FINISHED):
 On the front page, there will be pictures of several recommended recipes, and users can click on the picture and it will lead them to its recipe.
 
 User Story 4 (FINISHED):

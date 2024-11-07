@@ -45,7 +45,7 @@ public class MainApp {
 
         // SearchRecipeView initialization
         final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel();
-        final CocktailDataAccessObject cocktailDataAccessObject = new CocktailDataAccessObject(new CocktailFactory());
+        final CocktailDataAccessObject cocktailDataAccessObject = new CocktailDataAccessObject();
         final SearchRecipeView searchRecipeView = SearchRecipeUseCaseFactory.create(viewManagerModel,
                 searchRecipeViewModel, cocktailDataAccessObject, serviceManager);
         views.add(searchRecipeView, searchRecipeView.getViewName());

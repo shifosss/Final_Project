@@ -6,6 +6,7 @@ import java.util.List;
 
 import entities.recipe.CocktailRecipe;
 import entities.recipe.Ingredient;
+import entities.recipe.factory.CocktailFactory;
 import entities.recipe.factory.RecipeFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,8 +27,8 @@ public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface
     private static final int END = 15;
     private final RecipeFactory cocktailFactory;
 
-    public CocktailDataAccessObject(RecipeFactory cocktailFactory) {
-        this.cocktailFactory = cocktailFactory;
+    public CocktailDataAccessObject() {
+        this.cocktailFactory = new CocktailFactory();
     }
 
     @Override
@@ -52,8 +53,8 @@ public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface
     }
 
     @Override
-    public Recipe searchRandomRecipe(String keyword) {
-        final JSONObject responseBody = makeApiRequest(String.format("random.php", API_URL, keyword));
+    public Recipe searchRandomRecipe() {
+        final JSONObject responseBody = makeApiRequest(String.format("%s/random.php", API_URL));
         final JSONArray cocktails = getCocktails(responseBody);
         final JSONObject raw = cocktails.getJSONObject(0);
         final String name = getRecipeName(raw);
