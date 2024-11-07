@@ -2,7 +2,7 @@ package interface_adapter.search_recipe;
 
 import java.util.List;
 
-import domain.entities.recipe.Recipe;
+import entities.recipe.Recipe;
 
 /**
  * The state information representing the searched recipe.

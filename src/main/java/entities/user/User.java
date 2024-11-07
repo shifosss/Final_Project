@@ -1,4 +1,4 @@
-package domain.entities.user;
+package entities.user;
 
 /**
  * Representation of user.

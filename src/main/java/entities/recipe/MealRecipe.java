@@ -1,20 +1,20 @@
-package domain.entities.recipe;
+package entities.recipe;
 
 import java.util.List;
 
 /**
- * Cocktails Recipe.
+ * Meals Recipe.
  */
-public class CocktailRecipe implements Recipe {
+public class MealRecipe implements Recipe {
     private final String name;
     private final int id;
     private final String instruction;
     private final List<Ingredient> ingredients;
     private final String imageLink;
 
-    public CocktailRecipe(String name, int id,
-                          String instruction, List<Ingredient> ingredients,
-                          String imageLink) {
+    public MealRecipe(String name, int id,
+                      String instruction, List<Ingredient> ingredients,
+                      String imageLink) {
         this.name = name;
         this.id = id;
         this.instruction = instruction;
@@ -51,4 +51,5 @@ public class CocktailRecipe implements Recipe {
     public String getImageLink() {
         return imageLink;
     }
+
 }

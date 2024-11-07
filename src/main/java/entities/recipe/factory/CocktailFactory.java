@@ -1,10 +1,10 @@
-package domain.entities.recipe.factory;
+package entities.recipe.factory;
 
 import java.util.List;
 
-import domain.entities.recipe.CocktailRecipe;
-import domain.entities.recipe.Ingredient;
-import domain.entities.recipe.Recipe;
+import entities.recipe.CocktailRecipe;
+import entities.recipe.Ingredient;
+import entities.recipe.Recipe;
 
 /**
  * Creates cocktail recipes.

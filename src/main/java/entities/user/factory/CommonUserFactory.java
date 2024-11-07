@@ -1,7 +1,7 @@
-package domain.entities.user.factory;
+package entities.user.factory;
 
-import domain.entities.user.CommonUser;
-import domain.entities.user.User;
+import entities.user.CommonUser;
+import entities.user.User;
 
 /**
  * Factory for creating CommonUser objects.

@@ -1,4 +1,4 @@
-package domain.use_case.search_recipes;
+package use_case.search_recipes;
 
 /**
  * The Input data for searching recipe use case.
