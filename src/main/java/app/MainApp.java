@@ -11,6 +11,8 @@ import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
 import interface_adapter.services.image_service.LocalImageService;
 import interface_adapter.services.image_service.WebImageService;
+import interface_adapter.services.video_service.VideoServiceInterface;
+import interface_adapter.services.video_service.WebVideoService;
 import view.RecipeDetailView;
 import view.SearchRecipeView;
 import view.ViewManager;
@@ -43,8 +45,11 @@ public class MainApp {
         // Initializes Services.
         final ImageServiceInterface webImageService = new WebImageService();
         final ImageServiceInterface localImageService = new LocalImageService();
+        final VideoServiceInterface webVideoService = new WebVideoService();
         // Manages the interface_adapter.services.
-        final ServiceManager serviceManager = new ServiceManager(webImageService, localImageService);
+        final ServiceManager serviceManager = new ServiceManager(
+                webImageService, localImageService,
+                webVideoService);
 
         // api/database initialization
         final CocktailDataAccessObject cocktailDataAccessObject = new CocktailDataAccessObject(new CocktailFactory());

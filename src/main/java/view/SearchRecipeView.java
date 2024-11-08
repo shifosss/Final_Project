@@ -26,7 +26,6 @@ public class SearchRecipeView extends JPanel implements
     private final SearchRecipeViewModel searchRecipeViewModel;
 
     private final JTextField searchTextField = new JTextField(15);
-    private final JLabel resultLabel = new JLabel();
 
     private final JButton searchButton;
     private final JButton backButton;
@@ -47,7 +46,7 @@ public class SearchRecipeView extends JPanel implements
         searchButton = new JButton("Search");
         backButton = new JButton("<");
 
-        // Create RecipeScrollPanel first
+        // Create RecipeScrollPanel firsts
         recipeScrollPanel = new RecipeScrollPanel(this.serviceManager);
 
         // Create SearchPanel with all four parameters

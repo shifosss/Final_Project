@@ -11,8 +11,8 @@ public class SearchRecipePresenter implements SearchRecipeOutputBoundary {
     private final SearchRecipeViewModel searchRecipeViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public SearchRecipePresenter(SearchRecipeViewModel searchRecipeViewModel,
-                                      ViewManagerModel viewManagerModel) {
+    public SearchRecipePresenter(ViewManagerModel viewManagerModel,
+                                 SearchRecipeViewModel searchRecipeViewModel) {
         this.searchRecipeViewModel = searchRecipeViewModel;
         this.viewManagerModel = viewManagerModel;
     }

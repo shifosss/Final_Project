@@ -19,13 +19,12 @@ public class SearchPanel extends JPanel {
         this.searchButton = searchButton;
         this.recipeScrollPanel = recipeScrollPanel;
 
-        // Layout setup
-        setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        setLayout(new BorderLayout());
 
         // Add components
-        add(backButton);
-        add(searchField);
-        add(searchButton);
+        add(backButton, BorderLayout.WEST);
+        add(searchField, BorderLayout.CENTER);
+        add(searchButton, BorderLayout.EAST);
 
         // Configure back button
         setupBackButton();

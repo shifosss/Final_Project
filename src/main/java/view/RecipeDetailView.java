@@ -1,12 +1,14 @@
 package view;
 
+import entities.recipe.Recipe;
 import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.recipe_detail.RecipeDetailState;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
-import interface_adapter.search_recipe.SearchRecipeState;
 import interface_adapter.services.ServiceManager;
+import view.ui_components.recipe_detail.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -19,9 +21,18 @@ public class RecipeDetailView extends JPanel implements
         PageView, ActionListener, PropertyChangeListener {
     private final String view_name = "recipe detail";
 
+    private final JButton backButton = new JButton("<");
+    private final JButton bookmarkButton = new JButton("Bookmark!");
+
+    private final JLabel recipeTitle = new JLabel("Recipe Title");
+
     private final RecipeDetailViewModel recipeDetailViewModel;
     private final ServiceManager serviceManager;
     private final RecipeDetailController recipeDetailController;
+
+    private final Recipe recipe;
+
+    private JComponent videoComponent;
 
     public RecipeDetailView(RecipeDetailViewModel recipeDetailViewModel,
                             RecipeDetailController recipeDetailController,
@@ -29,6 +40,46 @@ public class RecipeDetailView extends JPanel implements
         this.recipeDetailViewModel = recipeDetailViewModel;
         this.recipeDetailController = recipeDetailController;
         this.serviceManager = serviceManager;
+
+        RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
+        recipe = recipeDetailState.getRecipe();
+
+        // videoComponent = serviceManager.getWebVideoService().fetchVideo(recipe.getVideoLink);
+
+        this.recipeDetailViewModel.addPropertyChangeListener(this);
+
+        final NavigationActionPanel navigationActionPanel = new NavigationActionPanel(
+                backButton, bookmarkButton
+        );
+        final RecipeTitlePanel recipeTitlePanel = new RecipeTitlePanel(
+                recipe
+        );
+        final VideoPanel videoPanel = new VideoPanel(
+                new JLabel("Video")
+        );
+        final IngredientPanel ingredientPanel = new IngredientPanel(
+                recipe
+        );
+        final InstructionPanel instructionPanel = new InstructionPanel(
+                recipe
+        );
+
+        // Set main layout
+        setLayout(new BorderLayout());
+
+        // Top section
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.add(navigationActionPanel, BorderLayout.NORTH);
+        topPanel.add(recipeTitlePanel, BorderLayout.CENTER);
+        add(topPanel, BorderLayout.NORTH);
+
+        // Center section
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.add(videoPanel);
+        centerPanel.add(ingredientPanel);
+        centerPanel.add(instructionPanel);
+        add(centerPanel, BorderLayout.CENTER);
     }
 
     @Override

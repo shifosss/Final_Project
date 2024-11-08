@@ -1,5 +1,6 @@
 package app.usecase_factory;
 
+import interface_adapter.recipe_detail.RecipeDetailViewModel;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeInputBoundary;
 import use_case.search_recipes.SearchRecipeInteractor;
@@ -43,7 +44,8 @@ public final class SearchRecipeUseCaseFactory {
             SearchRecipeDataAccessInterface searchRecipeDataAccessObject) {
 
         final SearchRecipeOutputBoundary searchRecipeOutputBoundary = new SearchRecipePresenter(
-                searchRecipeViewModel, viewManagerModel);
+                viewManagerModel,
+                searchRecipeViewModel);
         final SearchRecipeInputBoundary searchRecipeInteractor = new SearchRecipeInteractor(
                 searchRecipeDataAccessObject, searchRecipeOutputBoundary);
 
