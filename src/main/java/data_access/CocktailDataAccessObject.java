@@ -36,6 +36,53 @@ public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface
         // http://thecocktaildb.com/api/json/v1/1/search.php?s=margarita
         final List<Recipe> recipes = new ArrayList<>();
         final JSONObject responseBody = makeApiRequest(String.format("%s/search.php?s=%s", API_URL, keyword));
+        return getRecipes(recipes, responseBody);
+    }
+
+    @Override
+    public Recipe searchRandomRecipe() {
+        final JSONObject responseBody = makeApiRequest(String.format("%s/random.php", API_URL));
+        final JSONArray cocktails = getCocktails(responseBody);
+        final JSONObject raw = cocktails.getJSONObject(0);
+        final String name = getRecipeName(raw);
+        final int id = getRecipeId(raw);
+        final String instruction = getInstruction(raw);
+        final List<Ingredient> ingredients = getIngredients(raw);
+        final String imageLink = getImageLink(raw);
+        return cocktailFactory.create(name, id, instruction, ingredients, imageLink);
+    }
+
+    /**
+     * @param ingredient
+     * @return recipes
+     */
+    @Override
+    public List<Recipe> exploreRecipeByIngredients(String ingredient) {
+        final List<Recipe> recipes = new ArrayList<>();
+        final JSONObject responseBody = makeApiRequest(String.format("%s/search.php?i=%s", API_URL, ingredient));
+        return getRecipes(recipes, responseBody);
+    }
+
+    @Override
+    public List<Ingredient> getIngredientsList() {
+        final List<Ingredient> ingredients = new ArrayList<>();
+        final JSONObject responseBody = makeApiRequest(String.format("%s/list.php?i=list", API_URL));
+        final JSONArray ingredientsList = getListOfIngredients(responseBody);
+
+        for (int i = 0; i < ingredientsList.length(); i++) {
+            final JSONObject raw = ingredientsList.getJSONObject(i);
+            final String name = getIngredientByIdentifier(raw, "strIngredient1");
+            ingredients.add(new Ingredient(name, "-1"));
+        }
+
+        return ingredients;
+    }
+
+    private JSONArray getListOfIngredients(JSONObject responseBody) {
+        return responseBody.optJSONArray("drinks", new JSONArray());
+    }
+
+    private List<Recipe> getRecipes(List<Recipe> recipes, JSONObject responseBody) {
         final JSONArray cocktails = getCocktails(responseBody);
 
         for (int i = 0; i < cocktails.length(); i++) {
@@ -50,19 +97,6 @@ public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface
         }
 
         return recipes;
-    }
-
-    @Override
-    public Recipe searchRandomRecipe() {
-        final JSONObject responseBody = makeApiRequest(String.format("%s/random.php", API_URL));
-        final JSONArray cocktails = getCocktails(responseBody);
-        final JSONObject raw = cocktails.getJSONObject(0);
-        final String name = getRecipeName(raw);
-        final int id = getRecipeId(raw);
-        final String instruction = getInstruction(raw);
-        final List<Ingredient> ingredients = getIngredients(raw);
-        final String imageLink = getImageLink(raw);
-        return cocktailFactory.create(name, id, instruction, ingredients, imageLink);
     }
 
     // getCocktails and getIngredientByIdentifier might return null.

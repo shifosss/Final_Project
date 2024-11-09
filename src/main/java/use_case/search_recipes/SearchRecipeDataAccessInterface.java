@@ -2,6 +2,7 @@ package use_case.search_recipes;
 
 import java.util.List;
 
+import entities.recipe.Ingredient;
 import entities.recipe.Recipe;
 
 /**
@@ -16,5 +17,10 @@ public interface SearchRecipeDataAccessInterface {
     List<Recipe> searchRecipeByKeyword(String keyword);
 
     Recipe searchRandomRecipe();
+
+    List<Recipe> exploreRecipeByIngredients(String ingredient);
+
+    List<Ingredient> getIngredientsList();
+
     // TODO: Add more methods here.
 }

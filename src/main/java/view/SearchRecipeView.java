@@ -1,18 +1,11 @@
 package view;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.BoxLayout;
-
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.search_recipe.SearchRecipeState;
@@ -20,6 +13,7 @@ import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
 import view.ui_components.search_recipe.RecipeScrollPanel;
 import view.ui_components.search_recipe.SearchPanel;
+import view.ui_components.search_recipe.IngredientsPanel;
 
 /**
  * The view when the user searches for a recipe through some text field.
@@ -27,16 +21,19 @@ import view.ui_components.search_recipe.SearchPanel;
 public class SearchRecipeView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "search recipe";
     private final SearchRecipeViewModel searchRecipeViewModel;
+    private final SearchRecipeController searchRecipeController;
+    private final ServiceManager serviceManager;
 
-    private final JTextField searchTextField = new JTextField(15);
-    private final JLabel resultLabel = new JLabel();
-
+    // UI Components
+    private final JTextField searchTextField;
     private final JButton searchButton;
     private final JButton backButton;
-
+    private final JButton exploreIngredientsButton;
     private final RecipeScrollPanel recipeScrollPanel;
-    private final ServiceManager serviceManager;
-    private final SearchRecipeController searchRecipeController;
+    private final IngredientsPanel ingredientsPanel;
+    private final CardLayout contentLayout;
+    private final JPanel contentPanel;
+    private final SearchPanel searchBar;
 
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
                             SearchRecipeController searchRecipeController,
@@ -44,65 +41,112 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
         this.searchRecipeViewModel = searchRecipeViewModel;
         this.searchRecipeController = searchRecipeController;
         this.serviceManager = serviceManager;
-
         this.searchRecipeViewModel.addPropertyChangeListener(this);
 
+        // Initialize components
+        searchTextField = new JTextField(15);
         searchButton = new JButton("Search");
         backButton = new JButton("<");
+        exploreIngredientsButton = new JButton("Explore by Ingredients");
 
-        // Create RecipeScrollPanel first
+        // Set up content panel with CardLayout
+        contentLayout = new CardLayout();
+        contentPanel = new JPanel(contentLayout);
+
+        // Create panels
         recipeScrollPanel = new RecipeScrollPanel(serviceManager);
+        ingredientsPanel = new IngredientsPanel(serviceManager, recipeScrollPanel);
 
-        // Create SearchPanel with all four parameters
-        final SearchPanel searchBar = new SearchPanel(
-                backButton, searchTextField, searchButton, recipeScrollPanel
+        // Create search bar
+        searchBar = new SearchPanel(
+                backButton,
+                searchTextField,
+                searchButton,
+                exploreIngredientsButton,
+                recipeScrollPanel
         );
 
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                if (event.getSource().equals(searchButton)) {
-                    performSearchAction();
-                }
+        // Set up content panel with CardLayout
+        contentPanel.add(recipeScrollPanel, "recipes");
+        contentPanel.add(ingredientsPanel, "ingredients");
+
+        // Set up main layout
+        setLayout(new BorderLayout());
+        add(searchBar, BorderLayout.NORTH);
+        add(contentPanel, BorderLayout.CENTER);
+
+        // Add action listeners
+        setupActionListeners();
+        setupSearchTextField();
+    }
+
+    private void setupActionListeners() {
+        // Search button action
+        searchButton.addActionListener(e -> {
+            if (e.getSource().equals(searchButton)) {
+                performSearchAction();
             }
         });
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        // Explore button action
+        exploreIngredientsButton.addActionListener(e -> {
+            if (contentPanel.isAncestorOf(recipeScrollPanel)) {
+                // Switch to ingredients view
+                contentLayout.show(contentPanel, "ingredients");
+                exploreIngredientsButton.setText("Back to Search");
+                searchBar.setSearchEnabled(false);
+            } else {
+                // Switch back to search view
+                contentLayout.show(contentPanel, "recipes");
+                exploreIngredientsButton.setText("Explore by Ingredients");
+                searchBar.setSearchEnabled(true);
+                recipeScrollPanel.clearRecipes();
+            }
+        });
+    }
 
-        searchTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                if (event.getSource().equals(searchTextField)) {
-                    performSearchAction();
-                }
+    private void setupSearchTextField() {
+        // Enter key in search field
+        searchTextField.addActionListener(e -> {
+            if (e.getSource().equals(searchTextField)) {
+                performSearchAction();
             }
         });
 
-        searchTextField.getDocument().addDocumentListener(new DocumentListener() {
-            private void documentListenerHelper() {
-                final SearchRecipeState currentState = searchRecipeViewModel.getState();
+        // Text change listener
+        searchTextField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            private void updateState() {
+                SearchRecipeState currentState = searchRecipeViewModel.getState();
                 currentState.setQuery(searchTextField.getText());
                 searchRecipeViewModel.setState(currentState);
             }
 
             @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                updateState();
             }
 
             @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                updateState();
             }
 
             @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                updateState();
             }
         });
+    }
 
-        this.add(searchBar);
-        this.add(recipeScrollPanel);
+    private void performSearchAction() {
+        SearchRecipeState currentState = searchRecipeViewModel.getState();
+        searchRecipeController.execute(currentState.getQuery());
+
+        // Show recipes panel when searching
+        contentLayout.show(contentPanel, "recipes");
+        exploreIngredientsButton.setText("Explore by Ingredients");
+
+        recipeScrollPanel.displayRecipes(currentState.getRecipes());
     }
 
     @Override
@@ -112,14 +156,8 @@ public class SearchRecipeView extends JPanel implements ActionListener, Property
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final SearchRecipeState state = (SearchRecipeState) evt.getNewValue();
+        SearchRecipeState state = (SearchRecipeState) evt.getNewValue();
         setFields(state);
-    }
-
-    private void performSearchAction() {
-        final SearchRecipeState currentState = searchRecipeViewModel.getState();
-        searchRecipeController.execute(currentState.getQuery());
-        recipeScrollPanel.displayRecipes(currentState.getRecipes());
     }
 
     private void setFields(SearchRecipeState state) {

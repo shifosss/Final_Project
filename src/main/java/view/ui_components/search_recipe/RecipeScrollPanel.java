@@ -100,7 +100,7 @@ public class RecipeScrollPanel extends JPanel {
         recommendationsPanel.setBackground(Color.WHITE);
 
         // Recommendations title
-        JLabel recommendationsTitle = new JLabel("Daily Recommendations");
+        JLabel recommendationsTitle = new JLabel("Recommendations");
         recommendationsTitle.setFont(new Font("SansSerif", Font.BOLD, 24));
         recommendationsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         recommendationsPanel.add(recommendationsTitle);
