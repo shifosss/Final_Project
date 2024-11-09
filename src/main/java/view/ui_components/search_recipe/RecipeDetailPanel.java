@@ -36,48 +36,19 @@ public class RecipeDetailPanel extends JPanel {
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBackground(BACKGROUND_COLOR);
+        contentPanel.setBorder(null); // Remove any default border
 
-        // Title
-        JLabel titleLabel = new JLabel(recipe.getName());
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, TITLE_FONT_SIZE));
-        titleLabel.setForeground(HEADER_COLOR);
-        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        contentPanel.add(titleLabel);
-        contentPanel.add(Box.createVerticalStrut(20));
+        // Title section
+        addTitle(contentPanel, recipe.getName());
 
-        // Image
-        ImageIcon image = new ImageIcon(recipe.getImageLink());
-        JLabel imageLabel = new JLabel(image);
-        imageLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        contentPanel.add(imageLabel);
-        contentPanel.add(Box.createVerticalStrut(20));
+        // Image section
+        addImage(contentPanel, recipe.getImageLink());
 
-        // Ingredients Section
-        JLabel ingredientsHeader = new JLabel("Ingredients");
-        ingredientsHeader.setFont(new Font("SansSerif", Font.BOLD, HEADER_FONT_SIZE));
-        ingredientsHeader.setForeground(HEADER_COLOR);
-        ingredientsHeader.setAlignmentX(Component.LEFT_ALIGNMENT);
-        contentPanel.add(ingredientsHeader);
-        contentPanel.add(Box.createVerticalStrut(10));
+        // Ingredients section with proper alignment
+        addIngredients(contentPanel, recipe.getIngredients());
 
-        // Create ingredients panel with modern styling
-        JPanel ingredientsPanel = createIngredientsPanel(recipe.getIngredients());
-        ingredientsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        contentPanel.add(ingredientsPanel);
-        contentPanel.add(Box.createVerticalStrut(20));
-
-        // Instructions Section
-        JLabel instructionsHeader = new JLabel("Instructions");
-        instructionsHeader.setFont(new Font("SansSerif", Font.BOLD, HEADER_FONT_SIZE));
-        instructionsHeader.setForeground(HEADER_COLOR);
-        instructionsHeader.setAlignmentX(Component.LEFT_ALIGNMENT);
-        contentPanel.add(instructionsHeader);
-        contentPanel.add(Box.createVerticalStrut(10));
-
-        // Instructions with steps
-        JPanel instructionsPanel = createInstructionsPanel(recipe.getInstruction());
-        instructionsPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        contentPanel.add(instructionsPanel);
+        // Instructions section with proper alignment
+        addInstructions(contentPanel, recipe.getInstruction());
 
         // Add the content panel to a scroll pane
         JScrollPane scrollPane = new JScrollPane(contentPanel);
@@ -88,113 +59,140 @@ public class RecipeDetailPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    private JPanel createIngredientsPanel(List<Ingredient> ingredients) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(BACKGROUND_COLOR);
+    private void addTitle(JPanel contentPanel, String title) {
+        JLabel titleLabel = new JLabel(title);
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, TITLE_FONT_SIZE));
+        titleLabel.setForeground(HEADER_COLOR);
+        titleLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(titleLabel);
+        contentPanel.add(Box.createVerticalStrut(20));
+    }
 
+    private void addImage(JPanel contentPanel, String imageLink) {
+        ImageIcon image = new ImageIcon(imageLink);
+        JLabel imageLabel = new JLabel(image);
+        imageLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(imageLabel);
+        contentPanel.add(Box.createVerticalStrut(20));
+    }
+
+    private void addIngredients(JPanel contentPanel, List<Ingredient> ingredients) {
+        // Ingredients header
+        JLabel ingredientsHeader = new JLabel("Ingredients");
+        ingredientsHeader.setFont(new Font("SansSerif", Font.BOLD, HEADER_FONT_SIZE));
+        ingredientsHeader.setForeground(HEADER_COLOR);
+        ingredientsHeader.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(ingredientsHeader);
+        contentPanel.add(Box.createVerticalStrut(10));
+
+        // Create container for ingredients with zero insets
+        JPanel ingredientsContainer = new JPanel();
+        ingredientsContainer.setLayout(new BoxLayout(ingredientsContainer, BoxLayout.Y_AXIS));
+        ingredientsContainer.setBackground(BACKGROUND_COLOR);
+        ingredientsContainer.setAlignmentX(Component.LEFT_ALIGNMENT);
+        ingredientsContainer.setBorder(null);
+
+        int ingredientNumber = 1;
         for (Ingredient ingredient : ingredients) {
             if (ingredient.getName() != null && !ingredient.getName().trim().isEmpty()) {
-                JPanel ingredientPanel = createIngredientItemPanel(ingredient);
-                panel.add(ingredientPanel);
-                panel.add(Box.createVerticalStrut(5));
+                // Create ingredient item with zero left margin
+                JPanel ingredientPanel = new JPanel(new BorderLayout(10, 0));
+                ingredientPanel.setBackground(INGREDIENT_BG);
+                ingredientPanel.setBorder(BorderFactory.createEmptyBorder(8, 0, 8, 12));
+                ingredientPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+                // Add number label
+                JLabel numberLabel = new JLabel(String.format("%d.", ingredientNumber));
+                numberLabel.setFont(new Font("SansSerif", Font.BOLD, STEP_NUMBER_SIZE));
+                numberLabel.setForeground(STEP_NUMBER_COLOR);
+                numberLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+
+                // Create ingredient text
+                String measureText = ingredient.getMeasure().trim().isEmpty() ?
+                        ingredient.getName() :
+                        ingredient.getMeasure() + " " + ingredient.getName();
+
+                JLabel ingredientLabel = new JLabel(measureText);
+                ingredientLabel.setFont(new Font("SansSerif", Font.PLAIN, CONTENT_FONT_SIZE));
+                ingredientLabel.setForeground(TEXT_COLOR);
+
+                // Add number and text to panel
+                JPanel numberContainer = new JPanel(new BorderLayout());
+                numberContainer.setBackground(INGREDIENT_BG);
+                numberContainer.add(numberLabel, BorderLayout.WEST);
+
+                ingredientPanel.add(numberContainer, BorderLayout.WEST);
+                ingredientPanel.add(ingredientLabel, BorderLayout.CENTER);
+                ingredientPanel.setMaximumSize(new Dimension(PANEL_WIDTH - 2 * PADDING, 40));
+
+                ingredientsContainer.add(ingredientPanel);
+                if (ingredientNumber < ingredients.size()) {
+                    ingredientsContainer.add(Box.createVerticalStrut(5));
+                }
+
+                ingredientNumber++;
             }
         }
 
-        return panel;
+        contentPanel.add(ingredientsContainer);
+        contentPanel.add(Box.createVerticalStrut(20));
     }
 
-    private JPanel createIngredientItemPanel(Ingredient ingredient) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setBackground(INGREDIENT_BG);
-        panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(INGREDIENT_BG, 1),
-                BorderFactory.createEmptyBorder(8, 12, 8, 12)
-        ));
+    private void addInstructions(JPanel contentPanel, String instructions) {
+        // Instructions header
+        JLabel instructionsHeader = new JLabel("Instructions");
+        instructionsHeader.setFont(new Font("SansSerif", Font.BOLD, HEADER_FONT_SIZE));
+        instructionsHeader.setForeground(HEADER_COLOR);
+        instructionsHeader.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPanel.add(instructionsHeader);
+        contentPanel.add(Box.createVerticalStrut(10));
 
-        String measureText = ingredient.getMeasure().trim().isEmpty() ?
-                ingredient.getName() :
-                ingredient.getMeasure() + " " + ingredient.getName();
+        // Create container for instructions with zero insets
+        JPanel instructionsContainer = new JPanel();
+        instructionsContainer.setLayout(new BoxLayout(instructionsContainer, BoxLayout.Y_AXIS));
+        instructionsContainer.setBackground(BACKGROUND_COLOR);
+        instructionsContainer.setAlignmentX(Component.LEFT_ALIGNMENT);
+        instructionsContainer.setBorder(null);
 
-        JLabel ingredientLabel = new JLabel(measureText);
-        ingredientLabel.setFont(new Font("SansSerif", Font.PLAIN, CONTENT_FONT_SIZE));
-        ingredientLabel.setForeground(TEXT_COLOR);
-
-        panel.add(ingredientLabel, BorderLayout.WEST);
-        panel.setMaximumSize(new Dimension(PANEL_WIDTH - 40, 40));
-        return panel;
-    }
-
-    private JPanel createStepPanel(int stepNumber, String instruction) {
-        JPanel panel = new JPanel(new BorderLayout(15, 0));  // Increased gap for better spacing
-        panel.setBackground(STEP_BG);
-        panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(222, 226, 230), 1, true),
-                BorderFactory.createEmptyBorder(12, 15, 12, 15)
-        ));
-
-        // Create left panel for step number with FlowLayout for better alignment
-        JPanel numberPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-        numberPanel.setBackground(STEP_BG);
-
-        // Step number with fixed width
-        JLabel numberLabel = new JLabel(String.format("%d.", stepNumber));
-        numberLabel.setFont(new Font("SansSerif", Font.BOLD, STEP_NUMBER_SIZE));
-        numberLabel.setForeground(STEP_NUMBER_COLOR);
-        numberLabel.setPreferredSize(new Dimension(30, numberLabel.getPreferredSize().height));
-        numberPanel.add(numberLabel);
-
-        // Instruction text panel
-        JPanel textPanel = new JPanel(new BorderLayout());
-        textPanel.setBackground(STEP_BG);
-
-        // Multi-line label for instruction text
-        JLabel instructionLabel = new JLabel("<html><div style='width: " +
-                (PANEL_WIDTH - 120) + "px'>" + instruction + "</div></html>");
-        instructionLabel.setFont(new Font("SansSerif", Font.PLAIN, CONTENT_FONT_SIZE));
-        instructionLabel.setForeground(TEXT_COLOR);
-        instructionLabel.setVerticalAlignment(JLabel.TOP);  // Align text to top
-
-        textPanel.add(instructionLabel, BorderLayout.CENTER);
-
-        // Add components to main panel
-        panel.add(numberPanel, BorderLayout.WEST);
-        panel.add(textPanel, BorderLayout.CENTER);
-
-        // Let the panel calculate its preferred height based on content
-        panel.setMaximumSize(new Dimension(PANEL_WIDTH - 40, panel.getPreferredSize().height));
-
-        return panel;
-    }
-
-    private JPanel createInstructionsPanel(String instructions) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(BACKGROUND_COLOR);
-
-        // Split instructions by period and clean up
         String[] steps = instructions.split("\\.");
         steps = Arrays.stream(steps)
                 .map(String::trim)
                 .filter(step -> !step.isEmpty())
                 .toArray(String[]::new);
 
-        // Create panel for each step
         for (int i = 0; i < steps.length; i++) {
             if (!steps[i].isEmpty()) {
-                JPanel stepPanel = createStepPanel(i + 1, steps[i]);
-                panel.add(stepPanel);
-                // Add space between steps, smaller space if it's the last step
+                // Create step panel with zero left margin
+                JPanel stepPanel = new JPanel(new BorderLayout(10, 0));
+                stepPanel.setBackground(STEP_BG);
+                stepPanel.setBorder(BorderFactory.createEmptyBorder(12, 0, 12, 12));
+                stepPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+                // Step number
+                JLabel numberLabel = new JLabel(String.format("%d.", i + 1));
+                numberLabel.setFont(new Font("SansSerif", Font.BOLD, STEP_NUMBER_SIZE));
+                numberLabel.setForeground(STEP_NUMBER_COLOR);
+                numberLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+
+                // Step text
+                JLabel instructionLabel = new JLabel("<html><div style='width: " +
+                        (PANEL_WIDTH - 80) + "px'>" + steps[i] + "</div></html>");
+                instructionLabel.setFont(new Font("SansSerif", Font.PLAIN, CONTENT_FONT_SIZE));
+                instructionLabel.setForeground(TEXT_COLOR);
+
+                stepPanel.add(numberLabel, BorderLayout.WEST);
+                stepPanel.add(instructionLabel, BorderLayout.CENTER);
+                stepPanel.setMaximumSize(new Dimension(PANEL_WIDTH - 2 * PADDING,
+                        stepPanel.getPreferredSize().height));
+
+                instructionsContainer.add(stepPanel);
                 if (i < steps.length - 1) {
-                    panel.add(Box.createVerticalStrut(10));
+                    instructionsContainer.add(Box.createVerticalStrut(10));
                 }
             }
         }
 
-        // Add some padding at the bottom of all steps
-        panel.add(Box.createVerticalStrut(20));
-
-        return panel;
+        contentPanel.add(instructionsContainer);
+        contentPanel.add(Box.createVerticalStrut(20));
     }
 }
