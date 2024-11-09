@@ -33,7 +33,7 @@ public final class SearchRecipeUseCaseFactory {
                                           ServiceManager serviceManager) {
         final SearchRecipeController searchRecipeController = createSearchRecipeUseCase(viewManagerModel,
                 searchRecipeViewModel, searchRecipeDataAccessObject);
-        return new SearchRecipeView(searchRecipeViewModel, searchRecipeController, serviceManager);
+        return new SearchRecipeView(searchRecipeViewModel, searchRecipeController, serviceManager, viewManagerModel);
     }
 
     private static SearchRecipeController createSearchRecipeUseCase(

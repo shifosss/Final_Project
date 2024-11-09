@@ -10,9 +10,6 @@ import entities.recipe.Recipe;
 import interface_adapter.services.ServiceManager;
 import data_access.CocktailDataAccessObject;
 
-/**
- * Recipe Scroll Panel that shows the recipe in a scrollable grid panel.
- */
 public class RecipeScrollPanel extends JPanel {
     private static final int ROW = 0;
     private static final int COL = 2;
@@ -24,32 +21,27 @@ public class RecipeScrollPanel extends JPanel {
     private final JScrollPane scrollPane;
     private final ServiceManager serviceManager;
     private final CocktailDataAccessObject cocktailDataAccessObject;
+    private boolean isExploreMode = false;  // New flag to track mode
 
     public RecipeScrollPanel(ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
         this.cocktailDataAccessObject = new CocktailDataAccessObject();
-        // Set layout for main panel
+
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
-        // Initialize the grid panel for recipes with a grid layout
         recipePanel = new JPanel(new GridLayout(ROW, COL, H_GAP, V_GAP));
         recipePanel.setBackground(Color.WHITE);
 
-        // Wrap recipe panel in a scroll pane
         scrollPane = new JScrollPane(recipePanel,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        // Set scroll pane background
         scrollPane.setBackground(Color.WHITE);
         scrollPane.getViewport().setBackground(Color.WHITE);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());  // Remove border
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
-        // Add scroll pane to the main panel
         add(scrollPane, BorderLayout.CENTER);
-
-        // Set panel properties
         scrollPane.setPreferredSize(new Dimension(600, 400));
 
         // Add initial empty state
@@ -58,26 +50,58 @@ public class RecipeScrollPanel extends JPanel {
 
     public void displayRecipes(List<Recipe> recipes) {
         recipePanel.removeAll();
-        recipePanel.setLayout(new GridLayout(ROW, COL, H_GAP, V_GAP));  // Reset to grid layout
+        recipePanel.setLayout(new GridLayout(0, COL, H_GAP, V_GAP));  // Reset to grid layout
 
         if (recipes == null || recipes.isEmpty()) {
-            showEmptyState();
+            if (!isExploreMode) {
+                showEmptyState();
+            } else {
+                // Show "No results found" message for explore mode
+                showNoResultsMessage();
+            }
         } else {
             final List<JPanel> recipePanels = parseToPanel(recipes);
-            // Add each recipe panel to the grid panel
             for (JPanel recipe : recipePanels) {
                 recipePanel.add(recipe);
             }
         }
 
-        // Refresh the panel
         recipePanel.revalidate();
         recipePanel.repaint();
     }
 
+    private void showNoResultsMessage() {
+        recipePanel.setLayout(new BoxLayout(recipePanel, BoxLayout.Y_AXIS));
+
+        JPanel messagePanel = new JPanel(new GridBagLayout());
+        messagePanel.setBackground(Color.WHITE);
+        JLabel messageLabel = new JLabel("No cocktails found with this ingredient");
+        messageLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
+        messageLabel.setForeground(new Color(108, 117, 125));
+        messagePanel.add(messageLabel);
+
+        recipePanel.add(Box.createVerticalGlue());
+        recipePanel.add(messagePanel);
+        recipePanel.add(Box.createVerticalGlue());
+    }
+
     public void clearRecipes() {
-        recipePanel.removeAll();
-        showEmptyState();
+        if (!isExploreMode) {
+            recipePanel.removeAll();
+            showEmptyState();
+            recipePanel.revalidate();
+            recipePanel.repaint();
+        }
+    }
+
+    public void setExploreMode(boolean exploreMode) {
+        this.isExploreMode = exploreMode;
+        if (exploreMode) {
+            recipePanel.removeAll();
+            recipePanel.setLayout(new GridLayout(0, COL, H_GAP, V_GAP));
+        } else {
+            clearRecipes();
+        }
         recipePanel.revalidate();
         recipePanel.repaint();
     }
