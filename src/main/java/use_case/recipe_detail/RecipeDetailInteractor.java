@@ -18,28 +18,12 @@ public class RecipeDetailInteractor implements RecipeDetailInputBoundary {
 
     @Override
     public void execute(RecipeDetailInputData recipeDetailInputData) {
-        final int id = recipeDetailInputData.getId();
-
-        final Recipe recipe = recipeDetailDataAccessObject.getRecipeById(id);
-
-        if (recipe == null) {
-            final RecipeDetailOutputData recipeDetailOutputData = new RecipeDetailOutputData(
-                    recipe,
-                    true
-            );
-            recipeDetailPresenter.prepareFailView(
-                    recipeDetailOutputData,
-                    "Recipe id not found");
-        }
-        else {
-            // then recipe exists
-            final RecipeDetailOutputData recipeDetailOutputData = new RecipeDetailOutputData(
-                    recipe,
-                    false
-            );
-            recipeDetailPresenter.prepareSuccessView(
-                    recipeDetailOutputData
-            );
-        }
+        // TODO: Double check this after dao is finished.
     }
+
+    @Override
+    public void switchToSearchView() {
+        recipeDetailPresenter.switchToSearchRecipeView();
+    }
+
 }

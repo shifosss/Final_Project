@@ -10,4 +10,9 @@ public interface RecipeDetailInputBoundary {
      * @param recipeDetailInputData the view recipe detail input data.
      */
     void execute(RecipeDetailInputData recipeDetailInputData);
+
+    /**
+     * Switches to the search view.
+     */
+    void switchToSearchView();
 }

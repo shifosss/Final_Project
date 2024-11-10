@@ -14,7 +14,7 @@ public class MealFactory implements RecipeFactory {
     @Override
     public Recipe create(String name, int id,
                          String instruction, List<Ingredient> ingredients,
-                         String imageLink) {
-        return new CocktailRecipe(name, id, instruction, ingredients, imageLink);
+                         String imageLink, String videoLink) {
+        return new CocktailRecipe(name, id, instruction, ingredients, imageLink, videoLink);
     }
 }

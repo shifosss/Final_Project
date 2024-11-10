@@ -72,6 +72,10 @@ public class CocktailDataAccessObject implements
         return responseBody.optJSONArray("drinks", new JSONArray());
     }
 
+    private String getVideoLink(JSONObject raw) {
+        return raw.optString("strVideo", "");
+    }
+
     // below, we are assuming that each raw recipe jsonobject has the attributes.
     private Recipe createRecipe(JSONObject raw) {
         final String name = getRecipeName(raw);
@@ -79,9 +83,11 @@ public class CocktailDataAccessObject implements
         final String instruction = getInstruction(raw);
         final List<Ingredient> ingredients = getIngredients(raw);
         final String imageLink = getImageLink(raw);
+        final String videoLink = getVideoLink(raw);
 
-        return cocktailFactory.create(name, id, instruction, ingredients, imageLink);
+        return cocktailFactory.create(name, id, instruction, ingredients, imageLink, videoLink);
     }
+
     private String getRecipeName(JSONObject raw) {
         return raw.getString("strDrink");
     }

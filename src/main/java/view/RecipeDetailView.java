@@ -24,15 +24,15 @@ public class RecipeDetailView extends JPanel implements
     private final JButton backButton = new JButton("<");
     private final JButton bookmarkButton = new JButton("Bookmark!");
 
-    private final JLabel recipeTitle = new JLabel("Recipe Title");
+    private final JScrollPane scrollPane;
+    private final RecipeTitlePanel recipeTitlePanel;
+    private final IngredientPanel ingredientPanel;
+    private final InstructionPanel instructionPanel;
+    private final VideoPanel videoPanel;
 
     private final RecipeDetailViewModel recipeDetailViewModel;
     private final ServiceManager serviceManager;
     private final RecipeDetailController recipeDetailController;
-
-    private final Recipe recipe;
-
-    private JComponent videoComponent;
 
     public RecipeDetailView(RecipeDetailViewModel recipeDetailViewModel,
                             RecipeDetailController recipeDetailController,
@@ -41,45 +41,48 @@ public class RecipeDetailView extends JPanel implements
         this.recipeDetailController = recipeDetailController;
         this.serviceManager = serviceManager;
 
-        RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
-        recipe = recipeDetailState.getRecipe();
-
-        // videoComponent = serviceManager.getWebVideoService().fetchVideo(recipe.getVideoLink);
-
         this.recipeDetailViewModel.addPropertyChangeListener(this);
 
         final NavigationActionPanel navigationActionPanel = new NavigationActionPanel(
                 backButton, bookmarkButton
         );
-        final RecipeTitlePanel recipeTitlePanel = new RecipeTitlePanel(
-                recipe
+        recipeTitlePanel = new RecipeTitlePanel(
         );
-        final VideoPanel videoPanel = new VideoPanel(
-                new JLabel("Video")
+        videoPanel = new VideoPanel(
+                serviceManager
         );
-        final IngredientPanel ingredientPanel = new IngredientPanel(
-                recipe
+
+        ingredientPanel = new IngredientPanel(
         );
-        final InstructionPanel instructionPanel = new InstructionPanel(
-                recipe
+
+        instructionPanel = new InstructionPanel(
         );
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                recipeDetailController.switchToSearchView();
+            }
+        });
 
         // Set main layout
         setLayout(new BorderLayout());
 
         // Top section
-        JPanel topPanel = new JPanel(new BorderLayout());
+        final JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.add(navigationActionPanel, BorderLayout.NORTH);
-        topPanel.add(recipeTitlePanel, BorderLayout.CENTER);
         add(topPanel, BorderLayout.NORTH);
 
         // Center section
-        JPanel centerPanel = new JPanel();
+        final JPanel centerPanel = new JPanel();
+        scrollPane = new JScrollPane(centerPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.add(recipeTitlePanel);
         centerPanel.add(videoPanel);
         centerPanel.add(ingredientPanel);
         centerPanel.add(instructionPanel);
-        add(centerPanel, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     @Override
@@ -94,6 +97,15 @@ public class RecipeDetailView extends JPanel implements
     }
 
     private void setFields(RecipeDetailState state) {
+        // Updates the Recipe detail view.
+        final Recipe recipe = state.getRecipe();
+        // sets the recipe title
+        recipeTitlePanel.updateComponents(recipe);
+        videoPanel.updateComponents(recipe);
+        ingredientPanel.updateComponents(recipe);
+        instructionPanel.updateComponents(recipe);
+        // TODO: Update the scroll panel so that the scroll bar is always at the top
+        //  (so the viewing always starts at the top)
     }
 
     @Override

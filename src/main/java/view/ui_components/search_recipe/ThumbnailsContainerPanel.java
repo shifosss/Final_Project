@@ -7,23 +7,30 @@ import java.util.List;
 import javax.swing.*;
 
 import entities.recipe.Recipe;
+import interface_adapter.search_recipe.SearchRecipeController;
+import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
 
 /**
  * Recipe Scroll Panel that shows the recipe in a scrollable grid panel.
  */
-public class RecipeScrollPanel extends JPanel {
+public class ThumbnailsContainerPanel extends JPanel {
     private static final int ROW = 0;
     private static final int COL = 2;
     private static final int H_GAP = 10;
     private static final int V_GAP = 10;
 
     private final JPanel recipePanel;
-    private final JScrollPane scrollPane;
+    private final SearchRecipeController searchRecipeController;
+    private final SearchRecipeViewModel searchRecipeViewModel;
     private final ServiceManager serviceManager;
 
-    public RecipeScrollPanel(ServiceManager serviceManager) {
+    public ThumbnailsContainerPanel(SearchRecipeViewModel searchRecipeViewModel,
+                                    SearchRecipeController searchRecipeController,
+                                    ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
+        this.searchRecipeController = searchRecipeController;
+        this.searchRecipeViewModel = searchRecipeViewModel;
         // Set layout for main panel
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
@@ -33,7 +40,7 @@ public class RecipeScrollPanel extends JPanel {
         recipePanel.setBackground(Color.WHITE);
 
         // Wrap recipe panel in a scroll pane
-        scrollPane = new JScrollPane(recipePanel,
+        final JScrollPane scrollPane = new JScrollPane(recipePanel,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -63,7 +70,8 @@ public class RecipeScrollPanel extends JPanel {
 
         if (recipes == null || recipes.isEmpty()) {
             showEmptyState();
-        } else {
+        }
+        else {
             final List<JPanel> recipePanels = parseToPanel(recipes);
             // Add each recipe panel to the grid panel
             for (JPanel recipe : recipePanels) {
@@ -77,7 +85,7 @@ public class RecipeScrollPanel extends JPanel {
     }
 
     /**
-     * Clears all recipes and returns to empty state
+     * Clears the recipes.
      */
     public void clearRecipes() {
         recipePanel.removeAll();
@@ -86,17 +94,20 @@ public class RecipeScrollPanel extends JPanel {
         recipePanel.repaint();
     }
 
+    // TODO: Update this so that whenever the back button. We execute the back button use case.
     private void showEmptyState() {
         // Change layout to BorderLayout for center alignment
         recipePanel.setLayout(new BorderLayout());
 
         // Create a panel for centered content
-        JPanel emptyStatePanel = new JPanel(new GridBagLayout());  // Use GridBagLayout for perfect centering
+        // Use GridBagLayout for perfect centering
+        JPanel emptyStatePanel = new JPanel(new GridBagLayout());
         emptyStatePanel.setBackground(Color.WHITE);
 
         // Create and configure the message label
         JLabel messageLabel = new JLabel("Search for recipes!");
-        messageLabel.setFont(new Font("SansSerif", Font.BOLD, 24));  // Increased font size
+        // Increased font size
+        messageLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         messageLabel.setForeground(new Color(108, 117, 125));
 
         // Add label to the empty state panel
@@ -109,7 +120,9 @@ public class RecipeScrollPanel extends JPanel {
     private List<JPanel> parseToPanel(List<Recipe> recipes) {
         final List<JPanel> panels = new ArrayList<>();
         for (Recipe recipe : recipes) {
-            final SearchRecipePanel srp = new SearchRecipePanel(serviceManager);
+            final SearchThumbnailPanel srp = new SearchThumbnailPanel(
+                    searchRecipeViewModel, searchRecipeController,
+                    serviceManager);
             srp.addRecipe(recipe);
             panels.add(srp);
         }

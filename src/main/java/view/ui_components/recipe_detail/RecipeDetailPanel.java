@@ -25,6 +25,8 @@ public class RecipeDetailPanel extends JPanel {
     private static final Color STEP_NUMBER_COLOR = new Color(51, 122, 183);  // Blue for step numbers
     private static final Color STEP_BG = new Color(255, 255, 255);  // White background for steps
 
+    // TODO: Transform this by dividing the sections into separate cases.
+    // TODO: For example, do instructions, ingredients components separately, then remove this.
     public RecipeDetailPanel(Recipe recipe) {
         super(new BorderLayout());
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));

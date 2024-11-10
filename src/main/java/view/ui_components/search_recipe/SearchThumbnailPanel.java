@@ -1,6 +1,10 @@
 package view.ui_components.search_recipe;
 
 import entities.recipe.Recipe;
+import interface_adapter.recipe_detail.RecipeDetailState;
+import interface_adapter.search_recipe.SearchRecipeController;
+import interface_adapter.search_recipe.SearchRecipeState;
+import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
 import view.ui_components.recipe_detail.RecipeDetailPanel;
@@ -10,13 +14,15 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
  * Recipe Panel that shows when searching for recipes.
  */
-public class SearchRecipePanel extends JPanel {
+public class SearchThumbnailPanel extends JPanel {
     private static final int H_GAP = 10;
     private static final int V_GAP = 10;
     private static final int TOP = 5;
@@ -33,11 +39,18 @@ public class SearchRecipePanel extends JPanel {
 
     private JLabel imageLabel;
     private JButton nameButton;
+
+    private final SearchRecipeController searchRecipeController;
+    private final SearchRecipeViewModel searchRecipeViewModel;
     private final ServiceManager serviceManager;
     private Recipe currentRecipe;
 
-    public SearchRecipePanel(ServiceManager serviceManager) {
+    public SearchThumbnailPanel(SearchRecipeViewModel searchRecipeViewModel,
+                                SearchRecipeController searchRecipeController,
+                                ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
+        this.searchRecipeController = searchRecipeController;
+        this.searchRecipeViewModel = searchRecipeViewModel;
         // Sets Layout
         setLayout(new BorderLayout(H_GAP, V_GAP));
         setBackground(Color.WHITE);
@@ -108,7 +121,13 @@ public class SearchRecipePanel extends JPanel {
 
         // Recipe name button at the bottom
         nameButton.setText(recipeName);
-        nameButton.addActionListener(e -> showRecipeDetails());
+        nameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchRecipeController.switchToRecipeView(recipe.getId());
+                // showRecipeDetails();
+            }
+        });
         add(nameButton, BorderLayout.SOUTH);
     }
 

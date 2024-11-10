@@ -58,22 +58,19 @@ public class MainApp {
         final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel();
         final RecipeDetailViewModel recipeDetailViewModel = new RecipeDetailViewModel();
 
-        // HomePageView initialization
-        /*
-        final HomeViewModel homeViewModel = new HomeView();
-        // TODO: Check what API/DAO we can inject into the home view
-        final HomeView homeView = HomeUseCaseFactory.create(viewManagerModel,
-                homeViewModel, serviceManager);
-        views.add(homeView, homeView.getViewName());
-        */
         // SearchRecipeView initialization
+        // TODO: Add HomeViewModel into this for; (Back Button)
+        // TODO: Add RecipeDetailViewModel into this for; (Recipe Detail Button)
         final SearchRecipeView searchRecipeView = SearchRecipeUseCaseFactory.create(viewManagerModel,
-                searchRecipeViewModel, cocktailDataAccessObject, serviceManager);
+                searchRecipeViewModel, recipeDetailViewModel,
+                cocktailDataAccessObject, serviceManager);
         views.add(searchRecipeView, searchRecipeView.getViewName());
 
         // RecipeDetailView initialization
+        // TODO: Add SearchRecipeViewModel for; (Back Button)
         final RecipeDetailView recipeDetailView = RecipeDetailUseCaseFactory.create(viewManagerModel,
-                recipeDetailViewModel, cocktailDataAccessObject, serviceManager);
+                recipeDetailViewModel, searchRecipeViewModel,
+                cocktailDataAccessObject, serviceManager);
         views.add(recipeDetailView, recipeDetailView.getViewName());
 
         // Handles what view model to be shown first

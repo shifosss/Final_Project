@@ -1,6 +1,7 @@
 package interface_adapter.recipe_detail;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.search_recipe.SearchRecipeViewModel;
 import use_case.recipe_detail.RecipeDetailOutputBoundary;
 import use_case.recipe_detail.RecipeDetailOutputData;
 
@@ -9,11 +10,14 @@ import use_case.recipe_detail.RecipeDetailOutputData;
  */
 public class RecipeDetailPresenter implements RecipeDetailOutputBoundary {
     private final RecipeDetailViewModel recipeDetailViewModel;
+    private final SearchRecipeViewModel searchRecipeViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public RecipeDetailPresenter(RecipeDetailViewModel recipeDetailViewModel,
+                                 SearchRecipeViewModel searchRecipeViewModel,
                                  ViewManagerModel viewManagerModel) {
         this.recipeDetailViewModel = recipeDetailViewModel;
+        this.searchRecipeViewModel = searchRecipeViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
@@ -41,5 +45,11 @@ public class RecipeDetailPresenter implements RecipeDetailOutputBoundary {
 
         this.viewManagerModel.setState(recipeDetailViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToSearchRecipeView() {
+        viewManagerModel.setState(searchRecipeViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

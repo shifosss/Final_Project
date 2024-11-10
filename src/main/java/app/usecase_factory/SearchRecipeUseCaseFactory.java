@@ -25,27 +25,30 @@ public final class SearchRecipeUseCaseFactory {
      * Creates the Search Recipe View.
      * @param viewManagerModel the ViewManagerModel to be injected into the View.
      * @param searchRecipeViewModel the SearchRecipeViewModel to be injected into the View.
+     * @param recipeDetailViewModel the RecipeDetailViewModel to be injected into the View.
      * @param searchRecipeDataAccessObject the SearchRecipeDAO to be injected into the View.
      * @param serviceManager the Service Manager that handles service requests.
      * @return the SearchRecipeView given the arguments.
      */
     public static SearchRecipeView create(ViewManagerModel viewManagerModel,
                                           SearchRecipeViewModel searchRecipeViewModel,
+                                          RecipeDetailViewModel recipeDetailViewModel,
                                           SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
                                           ServiceManager serviceManager) {
         final SearchRecipeController searchRecipeController = createSearchRecipeUseCase(viewManagerModel,
-                searchRecipeViewModel, searchRecipeDataAccessObject);
+                searchRecipeViewModel, recipeDetailViewModel,
+                searchRecipeDataAccessObject);
         return new SearchRecipeView(searchRecipeViewModel, searchRecipeController, serviceManager);
     }
 
     private static SearchRecipeController createSearchRecipeUseCase(
             ViewManagerModel viewManagerModel,
             SearchRecipeViewModel searchRecipeViewModel,
+            RecipeDetailViewModel recipeDetailViewModel,
             SearchRecipeDataAccessInterface searchRecipeDataAccessObject) {
 
-        final SearchRecipeOutputBoundary searchRecipeOutputBoundary = new SearchRecipePresenter(
-                viewManagerModel,
-                searchRecipeViewModel);
+        final SearchRecipeOutputBoundary searchRecipeOutputBoundary = new SearchRecipePresenter(viewManagerModel,
+                searchRecipeViewModel, recipeDetailViewModel);
         final SearchRecipeInputBoundary searchRecipeInteractor = new SearchRecipeInteractor(
                 searchRecipeDataAccessObject, searchRecipeOutputBoundary);
 

@@ -22,4 +22,11 @@ public class RecipeDetailController {
         final RecipeDetailInputData recipeDetailInputData = new RecipeDetailInputData(id);
         recipeDetailInteractor.execute(recipeDetailInputData);
     }
+
+    /**
+     * Switches to the search view.
+     */
+    public void switchToSearchView() {
+        recipeDetailInteractor.switchToSearchView();
+    }
 }

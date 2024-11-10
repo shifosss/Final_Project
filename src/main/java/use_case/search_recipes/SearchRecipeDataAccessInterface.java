@@ -14,5 +14,11 @@ public interface SearchRecipeDataAccessInterface {
      * @return a list of recipe.
      */
     List<Recipe> searchRecipeByKeyword(String keyword);
-    // TODO: Add more methods here that this dao might need when interacting with the api.
+
+    /**
+     * Returns a recipe given the id input.
+     * @param id id associated with recipe.
+     * @return the recipe.
+     */
+    Recipe getRecipeById(int id);
 }
