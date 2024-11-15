@@ -1,6 +1,6 @@
 package use_case.search_recipes;
 
-import use_case.recipe_detail.RecipeDetailInputData;
+import use_case.view_recipe.ViewRecipeInputData;
 
 /**
  * Input Boundary for actions which are related to searching for a recipe.
@@ -21,5 +21,5 @@ public interface SearchRecipeInputBoundary {
      * Switches to the recipe detail view.
      * @param recipeDetailInputData the recipe detail input data.
      */
-    void switchToRecipeDetailView(RecipeDetailInputData recipeDetailInputData);
+    void switchToRecipeDetailView(ViewRecipeInputData recipeDetailInputData);
 }

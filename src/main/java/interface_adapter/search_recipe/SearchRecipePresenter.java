@@ -2,7 +2,7 @@ package interface_adapter.search_recipe;
 
 import interface_adapter.recipe_detail.RecipeDetailState;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
-import use_case.recipe_detail.RecipeDetailOutputData;
+import use_case.view_recipe.ViewRecipeOutputData;
 import use_case.search_recipes.SearchRecipeOutputBoundary;
 import use_case.search_recipes.SearchRecipeOutputData;
 import interface_adapter.ViewManagerModel;
@@ -37,7 +37,7 @@ public class SearchRecipePresenter implements SearchRecipeOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(RecipeDetailOutputData outputData) {
+    public void prepareSuccessView(ViewRecipeOutputData outputData) {
         final RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
         recipeDetailState.setRecipe(outputData.getRecipe());
 
@@ -61,7 +61,7 @@ public class SearchRecipePresenter implements SearchRecipeOutputBoundary {
     }
 
     @Override
-    public void prepareFailView(RecipeDetailOutputData outputData, String errorMessage) {
+    public void prepareFailView(ViewRecipeOutputData outputData, String errorMessage) {
         // TODO: Implement prepare fail view for viewing recipe detail use case.
     }
 

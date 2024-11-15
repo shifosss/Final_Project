@@ -1,6 +1,6 @@
 package use_case.search_recipes;
 
-import use_case.recipe_detail.RecipeDetailOutputData;
+import use_case.view_recipe.ViewRecipeOutputData;
 
 /**
  * The output boundary for the Search Recipe use case.
@@ -16,7 +16,7 @@ public interface SearchRecipeOutputBoundary {
      * Prepares the success view for viewing Recipe Detail Use Case.
      * @param outputData the output data
      */
-    void prepareSuccessView(RecipeDetailOutputData outputData);
+    void prepareSuccessView(ViewRecipeOutputData outputData);
 
     /**
      * Prepares the failure view for the Search Recipe Use Case.
@@ -30,7 +30,7 @@ public interface SearchRecipeOutputBoundary {
      * @param outputData the output data.
      * @param errorMessage the explanation of the failure
      */
-    void prepareFailView(RecipeDetailOutputData outputData, String errorMessage);
+    void prepareFailView(ViewRecipeOutputData outputData, String errorMessage);
 
     /**
      * Switches to the home page view.

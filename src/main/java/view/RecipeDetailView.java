@@ -58,12 +58,21 @@ public class RecipeDetailView extends JPanel implements
         instructionPanel = new InstructionPanel(
         );
 
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        final ActionListener switchToSearchListener = event -> {
+            if (event.getSource().equals(backButton)) {
                 recipeDetailController.switchToSearchView();
             }
-        });
+        };
+
+        final ActionListener bookMarkListener = event -> {
+            if (event.getSource().equals(bookmarkButton)) {
+                final RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
+                recipeDetailController.bookmarkRecipe(recipeDetailState.getRecipe());
+            }
+        };
+
+        backButton.addActionListener(switchToSearchListener);
+        bookmarkButton.addActionListener(bookMarkListener);
 
         // Set main layout
         setLayout(new BorderLayout());

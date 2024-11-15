@@ -1,6 +1,6 @@
 package interface_adapter.search_recipe;
 
-import use_case.recipe_detail.RecipeDetailInputData;
+import use_case.view_recipe.ViewRecipeInputData;
 import use_case.search_recipes.SearchRecipeInputBoundary;
 import use_case.search_recipes.SearchRecipeInputData;
 
@@ -37,7 +37,7 @@ public class SearchRecipeController {
      * @param recipeId id of recipe.
      */
     public void switchToRecipeView(int recipeId) {
-        final RecipeDetailInputData recipeDetailInputData = new RecipeDetailInputData(recipeId);
+        final ViewRecipeInputData recipeDetailInputData = new ViewRecipeInputData(recipeId);
         searchRecipeUseCaseInteractor.switchToRecipeDetailView(recipeDetailInputData);
     }
 }

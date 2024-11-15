@@ -6,13 +6,12 @@ import java.util.List;
 
 import entities.recipe.Ingredient;
 import entities.recipe.factory.RecipeFactory;
-import netscape.javascript.JSObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import entities.recipe.Recipe;
-import use_case.recipe_detail.RecipeDetailDataAccessInterface;
+import use_case.view_recipe.ViewRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -23,7 +22,7 @@ import okhttp3.Response;
  */
 public class CocktailDataAccessObject implements
         SearchRecipeDataAccessInterface,
-        RecipeDetailDataAccessInterface {
+        ViewRecipeDataAccessInterface {
     private static final String API_URL = "http://thecocktaildb.com/api/json/v1/1";
     private static final int START = 1;
     private static final int END = 15;
@@ -54,7 +53,7 @@ public class CocktailDataAccessObject implements
         // http://thecocktaildb.com/api/json/v1/1/lookup.php?i=11007
         final JSONObject responseBody = makeApiRequest(String.format("%s/lookup.php?i=%d", API_URL, id));
         final JSONArray cocktails = getCocktails(responseBody);
-        // we will assume that there each id are distinct
+        // we will assume that each id are distinct
         if (cocktails.length() == 1) {
             final JSONObject raw = cocktails.getJSONObject(0);
             result = createRecipe(raw);

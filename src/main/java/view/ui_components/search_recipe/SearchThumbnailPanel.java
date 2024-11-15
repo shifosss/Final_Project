@@ -65,7 +65,7 @@ public class SearchThumbnailPanel extends JPanel {
     }
 
     private JButton createStyledButton() {
-        JButton button = new JButton();
+        final JButton button = new JButton();
 
         // Basic button setup
         // Remove focus border
@@ -114,6 +114,15 @@ public class SearchThumbnailPanel extends JPanel {
         final ImageServiceInterface imageService = serviceManager.getWebImageService();
         final ImageIcon recipeImage = imageService.fetchImage(imageLink);
 
+        final ActionListener recipeDetailListener = event -> {
+            if (event.getSource().equals(nameButton)) {
+                // TODO: tbh we could've just passed the recipe itself here but oh well.
+                //  but it would make the DAO empty D:
+                searchRecipeController.switchToRecipeView(recipe.getId());
+                // showRecipeDetails();
+            }
+        };
+
         // Image label at the top
         imageLabel.setIcon(recipeImage);
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -121,22 +130,7 @@ public class SearchThumbnailPanel extends JPanel {
 
         // Recipe name button at the bottom
         nameButton.setText(recipeName);
-        nameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                searchRecipeController.switchToRecipeView(recipe.getId());
-                // showRecipeDetails();
-            }
-        });
+        nameButton.addActionListener(recipeDetailListener);
         add(nameButton, BorderLayout.SOUTH);
-    }
-
-    private void showRecipeDetails() {
-        JFrame detailFrame = new JFrame("Recipe Details");
-        RecipeDetailPanel detailPanel = new RecipeDetailPanel(currentRecipe);
-        detailFrame.add(detailPanel);
-        detailFrame.pack();
-        detailFrame.setLocationRelativeTo(this);
-        detailFrame.setVisible(true);
     }
 }

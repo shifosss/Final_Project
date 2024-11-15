@@ -3,8 +3,8 @@ package use_case.search_recipes;
 import java.util.List;
 
 import entities.recipe.Recipe;
-import use_case.recipe_detail.RecipeDetailInputData;
-import use_case.recipe_detail.RecipeDetailOutputData;
+import use_case.view_recipe.ViewRecipeInputData;
+import use_case.view_recipe.ViewRecipeOutputData;
 
 /**
  * The Search Recipe interactor.
@@ -50,20 +50,20 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
     }
 
     @Override
-    public void switchToRecipeDetailView(RecipeDetailInputData recipeDetailInputData) {
+    public void switchToRecipeDetailView(ViewRecipeInputData recipeDetailInputData) {
         final int recipeId = recipeDetailInputData.getId();
 
         final Recipe recipe = recipeDataAccessObject.getRecipeById(recipeId);
 
         if (recipe == null) {
-            final RecipeDetailOutputData recipeDetailOutputData = new RecipeDetailOutputData(
+            final ViewRecipeOutputData recipeDetailOutputData = new ViewRecipeOutputData(
                     recipe,
                     true
             );
             recipePresenter.prepareFailView(recipeDetailOutputData, "Recipe not found.");
         }
         else {
-            final RecipeDetailOutputData recipeDetailOutputData = new RecipeDetailOutputData(
+            final ViewRecipeOutputData recipeDetailOutputData = new ViewRecipeOutputData(
                     recipe,
                     false
             );

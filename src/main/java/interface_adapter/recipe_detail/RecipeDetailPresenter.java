@@ -2,13 +2,13 @@ package interface_adapter.recipe_detail;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
-import use_case.recipe_detail.RecipeDetailOutputBoundary;
-import use_case.recipe_detail.RecipeDetailOutputData;
+import use_case.view_recipe.ViewRecipeOutputBoundary;
+import use_case.view_recipe.ViewRecipeOutputData;
 
 /**
  * Presenter for the recipe detail.
  */
-public class RecipeDetailPresenter implements RecipeDetailOutputBoundary {
+public class RecipeDetailPresenter implements ViewRecipeOutputBoundary {
     private final RecipeDetailViewModel recipeDetailViewModel;
     private final SearchRecipeViewModel searchRecipeViewModel;
     private final ViewManagerModel viewManagerModel;
@@ -22,7 +22,7 @@ public class RecipeDetailPresenter implements RecipeDetailOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(RecipeDetailOutputData outputData) {
+    public void prepareSuccessView(ViewRecipeOutputData outputData) {
         final RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
         recipeDetailState.setRecipe(outputData.getRecipe());
 
@@ -36,7 +36,7 @@ public class RecipeDetailPresenter implements RecipeDetailOutputBoundary {
     }
 
     @Override
-    public void prepareFailView(RecipeDetailOutputData outputData, String errorMessage) {
+    public void prepareFailView(ViewRecipeOutputData outputData, String errorMessage) {
         final RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
         recipeDetailState.setRecipe(outputData.getRecipe());
 

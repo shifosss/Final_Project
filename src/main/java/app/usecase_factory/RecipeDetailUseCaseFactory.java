@@ -6,12 +6,11 @@ import interface_adapter.recipe_detail.RecipeDetailPresenter;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
-import use_case.recipe_detail.RecipeDetailDataAccessInterface;
-import use_case.recipe_detail.RecipeDetailInputBoundary;
-import use_case.recipe_detail.RecipeDetailInteractor;
-import use_case.recipe_detail.RecipeDetailOutputBoundary;
+import use_case.view_recipe.ViewRecipeDataAccessInterface;
+import use_case.view_recipe.ViewRecipeInputBoundary;
+import use_case.view_recipe.ViewRecipeInteractor;
+import use_case.view_recipe.ViewRecipeOutputBoundary;
 import view.RecipeDetailView;
-import view.SearchRecipeView;
 
 /**
  * Responsible for creating recipe detail view.
@@ -32,7 +31,7 @@ public final class RecipeDetailUseCaseFactory {
     public static RecipeDetailView create(ViewManagerModel viewManagerModel,
                                           RecipeDetailViewModel recipeDetailViewModel,
                                           SearchRecipeViewModel searchRecipeViewModel,
-                                          RecipeDetailDataAccessInterface recipeDetailDataAccessObject,
+                                          ViewRecipeDataAccessInterface recipeDetailDataAccessObject,
                                           ServiceManager serviceManager) {
         final RecipeDetailController recipeDetailController = createRecipeDetailUseCase(viewManagerModel,
                 recipeDetailViewModel, searchRecipeViewModel,
@@ -44,12 +43,12 @@ public final class RecipeDetailUseCaseFactory {
             ViewManagerModel viewManagerModel,
             RecipeDetailViewModel recipeDetailViewModel,
             SearchRecipeViewModel searchRecipeViewModel,
-            RecipeDetailDataAccessInterface recipeDetailDataAccessObject) {
-        final RecipeDetailOutputBoundary recipeDetailOutputBoundary = new RecipeDetailPresenter(
+            ViewRecipeDataAccessInterface recipeDetailDataAccessObject) {
+        final ViewRecipeOutputBoundary recipeDetailOutputBoundary = new RecipeDetailPresenter(
                 recipeDetailViewModel, searchRecipeViewModel,
                 viewManagerModel
         );
-        final RecipeDetailInputBoundary recipeDetailInteractor = new RecipeDetailInteractor(
+        final ViewRecipeInputBoundary recipeDetailInteractor = new ViewRecipeInteractor(
                 recipeDetailDataAccessObject, recipeDetailOutputBoundary
         );
         return new RecipeDetailController(recipeDetailInteractor);

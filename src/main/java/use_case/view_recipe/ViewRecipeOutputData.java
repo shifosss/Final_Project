@@ -1,15 +1,15 @@
-package use_case.recipe_detail;
+package use_case.view_recipe;
 
 import entities.recipe.Recipe;
 
 /**
  * Recipe detail output data that contains information after execution.
  */
-public class RecipeDetailOutputData {
+public class ViewRecipeOutputData {
     private final Recipe recipe;
     private final boolean useCaseFailed;
 
-    public RecipeDetailOutputData(Recipe recipe, boolean useCaseFailed) {
+    public ViewRecipeOutputData(Recipe recipe, boolean useCaseFailed) {
         this.recipe = recipe;
         this.useCaseFailed = useCaseFailed;
     }
