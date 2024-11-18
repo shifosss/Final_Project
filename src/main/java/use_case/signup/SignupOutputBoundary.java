@@ -11,7 +11,7 @@ public interface SignupOutputBoundary {
      * Prepares the fail view when the signup fails(ie: username already exists).
      * @param data the output data.
      */
-    void prepareFailView(SignupOutputData data);
+    void prepareFailView(String errorMessage);
 
     /**
      * Switches to the login view.

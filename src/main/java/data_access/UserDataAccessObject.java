@@ -1,4 +1,131 @@
 package data_access;
 
-public class UserDataAccessObject {
+
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+
+import entities.user.User;
+import entities.user.factory.UserFactory;
+import exceptions.UserNotFound;
+import org.bson.Document;
+import use_case.login.LoginDataAccessInterface;
+import use_case.signup.SignupDataAccessInterface;
+
+import java.util.List;
+
+/**
+ * The Data Access Object for users.
+ */
+public class UserDataAccessObject implements LoginDataAccessInterface, SignupDataAccessInterface {
+    private static final String ACCESS_USERNAME = "appUser";
+    private static final String ACCESS_PASSWORD = "myPassword123";
+    private static final String CONNECTION_URL = String.format("mongodb+srv://%s:%s@cluster0.dvuik.mongodb.net/",
+            ACCESS_USERNAME, ACCESS_PASSWORD)
+            + "?retryWrites=true&w=majority&appName=Cluster0";
+
+    private static final String RECIPE_DATABASE_NAME = "recipe_app_db";
+    private static final String USERS_COLLECTION_NAME = "users";
+    private static final String RECIPES_COLLECTION_NAME = "recipes";
+
+    private final UserFactory userFactory;
+
+    private String currentUser = "";
+
+    public UserDataAccessObject(UserFactory userFactory) {
+        this.userFactory = userFactory;
+    }
+
+    @Override
+    public boolean existsByName(String username) {
+        try (MongoClient mongoClient = MongoClients.create(CONNECTION_URL)) {
+            final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
+            System.out.println("SUCCESSFULLY CONNECTED TO: " + database.getName());
+            final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);
+
+            final Document foundUser = usersCollection.find(Filters.eq("username", username)).first();
+
+            return foundUser != null;
+        }
+    }
+
+    @Override
+    public User getUser(String username) {
+        try (MongoClient mongoClient = MongoClients.create(CONNECTION_URL)) {
+            if (!existsByName(username)) {
+                throw new UserNotFound(username);
+            }
+
+            final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
+            final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);
+
+            final Document foundUser = usersCollection.find(Filters.eq("username", username)).first();
+
+            if (foundUser != null) {
+                final String foundUsername = foundUser.getString("username");
+                final String foundPassword = foundUser.getString("password");
+
+                return userFactory.create(foundUsername, foundPassword);
+            }
+            else {
+                // TODO: idk what error is appropriate here so.
+                throw new UserNotFound(username);
+            }
+        }
+        catch (UserNotFound exception) {
+            System.out.println("FAILED TO FIND USER: " + exception.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public void setCurrentUser(String username) {
+        this.currentUser = username;
+    }
+
+    @Override
+    public String getCurrentUser() {
+        return currentUser;
+    }
+
+    @Override
+    public List<String> getIngredientsToAvoid(String username) {
+        try (MongoClient mongoClient = MongoClients.create(CONNECTION_URL)) {
+            final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
+            final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);
+            final Document foundUser = usersCollection.find(Filters.eq("username", username)).first();
+
+            return foundUser.getList("ingredientsToAvoid", String.class, List.of());
+        }
+    }
+
+    @Override
+    public void signUp(User user) {
+        final String username = user.getName();
+        final String password = user.getPassword();
+
+        if (existsByName(username)) {
+            return;
+        }
+
+        try (MongoClient mongoClient = MongoClients.create(CONNECTION_URL)) {
+            final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
+            System.out.println("SUCCESSFULLY CONNECTED TO: " + database.getName());
+            final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);
+
+            // Create a document
+            final Document newUser = new Document("username", username)
+                    .append("password", password)
+                    .append("bookmarkedRecipeIds", List.of())
+                    .append("createdRecipes", List.of())
+                    .append("ingredientsToAvoid", List.of(1, 2, 3));
+
+            // Insert the document into the collection
+            usersCollection.insertOne(newUser);
+
+            System.out.println("New user added!");
+        }
+    }
 }

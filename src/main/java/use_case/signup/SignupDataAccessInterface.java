@@ -17,5 +17,5 @@ public interface SignupDataAccessInterface {
      * @param username the username.
      * @return true if the username already exists. Otherwise, return false.
      */
-    boolean existsByUsername(String username);
+    boolean existsByName(String username);
 }

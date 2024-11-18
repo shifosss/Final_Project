@@ -19,11 +19,11 @@ public class LoginPresenter implements LoginOutputBoundary {
     private final HomePageViewModel homePageViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public LoginPresenter(LoginViewModel loginViewModel,
+    public LoginPresenter(ViewManagerModel viewManagerModel,
                           SignupViewModel signupViewModel,
+                          LoginViewModel loginViewModel,
                           PreferenceViewModel preferenceViewModel,
-                          HomePageViewModel homePageViewModel,
-                          ViewManagerModel viewManagerModel) {
+                          HomePageViewModel homePageViewModel) {
         this.loginViewModel = loginViewModel;
         this.preferenceViewModel = preferenceViewModel;
         this.signupViewModel = signupViewModel;
@@ -71,7 +71,7 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     @Override
     public void switchToSignupView() {
-        viewManagerModel.setState(viewManagerModel.getViewName());
+        viewManagerModel.setState(signupViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
