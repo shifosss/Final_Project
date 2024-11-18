@@ -1,9 +1,6 @@
 package app;
 
-import app.usecase_factory.LoginUseCaseFactory;
-import app.usecase_factory.RecipeDetailUseCaseFactory;
-import app.usecase_factory.SearchRecipeUseCaseFactory;
-import app.usecase_factory.SignupUseCaseFactory;
+import app.usecase_factory.*;
 import data_access.CocktailDataAccessObject;
 import data_access.UserDataAccessObject;
 import entities.recipe.factory.CocktailFactory;
@@ -25,6 +22,7 @@ import interface_adapter.signup.SignupViewModel;
 import view.RecipeDetailView;
 import view.SearchRecipeView;
 import view.ViewManager;
+import view.ViewPlaceholder.HomeView;
 import view.ViewPlaceholder.LoginView;
 import view.ViewPlaceholder.SignupView;
 
@@ -87,20 +85,23 @@ public class MainApp {
         // SearchRecipeView initialization
         // TODO: Add HomeViewModel into this for; (Back Button)
         // TODO: Add RecipeDetailViewModel into this for; (Recipe Detail Button)
+        final HomeView homeView = HomeUseCaseFactory.create(viewManagerModel,
+                homePageViewModel, searchRecipeViewModel, recipeDetailViewModel,
+                cocktailDataAccessObject, cocktailDataAccessObject, serviceManager);
+        views.add(homeView, homePageViewModel.getViewName());
+
         final SearchRecipeView searchRecipeView = SearchRecipeUseCaseFactory.create(viewManagerModel,
-                searchRecipeViewModel, recipeDetailViewModel,
-                cocktailDataAccessObject, serviceManager);
+                searchRecipeViewModel, recipeDetailViewModel, homePageViewModel,
+                cocktailDataAccessObject, cocktailDataAccessObject, serviceManager);
         views.add(searchRecipeView, searchRecipeView.getViewName());
 
-        // RecipeDetailView initialization
-        // TODO: Add SearchRecipeViewModel for; (Back Button)
         final RecipeDetailView recipeDetailView = RecipeDetailUseCaseFactory.create(viewManagerModel,
                 recipeDetailViewModel, searchRecipeViewModel,
                 cocktailDataAccessObject, serviceManager);
         views.add(recipeDetailView, recipeDetailView.getViewName());
 
         // Handles what view model to be shown first
-        viewManagerModel.setState(signupViewModel.getViewName());
+        viewManagerModel.setState(signupView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         application.pack();

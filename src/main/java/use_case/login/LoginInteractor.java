@@ -31,19 +31,25 @@ public class LoginInteractor implements LoginInputBoundary {
             }
             else {
                 final User user = userDataAccessObject.getUser(username);
-                userDataAccessObject.setCurrentUser(user.getName());
-
-                final List<String> ingredientsToAvoid = userDataAccessObject.getIngredientsToAvoid(username);
-                final LoginOutputData outputData = new LoginOutputData(
-                        username,
-                        ingredientsToAvoid,
-                        false);
-                if (ingredientsToAvoid.isEmpty()) {
-                    loginPresenter.preparePreferenceView(outputData);
+                if (user == null) {
+                    loginPresenter.prepareFailView(username + ": User not found.");
                 }
                 else {
-                    loginPresenter.prepareSuccessView(outputData);
+                    userDataAccessObject.setCurrentUser(user.getName());
+
+                    final List<Integer> ingredientsToAvoid = userDataAccessObject.getIngredientsToAvoid(username);
+                    final LoginOutputData outputData = new LoginOutputData(
+                            username,
+                            ingredientsToAvoid,
+                            false);
+                    if (ingredientsToAvoid.isEmpty()) {
+                        loginPresenter.preparePreferenceView(outputData);
+                    }
+                    else {
+                        loginPresenter.prepareSuccessView(outputData);
+                    }
                 }
+
             }
         }
     }

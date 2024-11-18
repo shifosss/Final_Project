@@ -10,6 +10,7 @@ import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.search_recipe.SearchRecipeState;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
@@ -22,7 +23,6 @@ import view.ui_components.search_recipe.SearchHeaderPanel;
  */
 public class SearchRecipeView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
     private final String viewName = "search recipe";
-    private final SearchRecipeViewModel searchRecipeViewModel;
 
     private final JTextField searchTextField = new JTextField(15);
 
@@ -30,14 +30,19 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
     private final JButton backButton;
 
     private final ThumbnailsContainerPanel thumbnailContainerPanel;
+
+    private final SearchRecipeViewModel searchRecipeViewModel;
     private final ServiceManager serviceManager;
     private final SearchRecipeController searchRecipeController;
+    private final RecipeDetailController recipeDetailController;
 
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
                             SearchRecipeController searchRecipeController,
+                            RecipeDetailController recipeDetailController,
                             ServiceManager serviceManager) {
         this.searchRecipeViewModel = searchRecipeViewModel;
         this.searchRecipeController = searchRecipeController;
+        this.recipeDetailController = recipeDetailController;
         this.serviceManager = serviceManager;
 
         this.searchRecipeViewModel.addPropertyChangeListener(this);
@@ -47,8 +52,8 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
 
         // Create RecipeScrollPanel firsts
         thumbnailContainerPanel = new ThumbnailsContainerPanel(
-                searchRecipeViewModel, searchRecipeController,
-                this.serviceManager);
+                searchRecipeViewModel, searchRecipeController, recipeDetailController,
+                serviceManager);
 
         // Create SearchPanel with all four parameters
         final SearchHeaderPanel searchBar = new SearchHeaderPanel(
@@ -56,19 +61,16 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
         );
 
         final ActionListener switchToHomeViewListener = event -> {
-            // TODO: Implement the home view model for this to work.
-            //  For now, this is okay but not really, Uncomment below once implemented.
             if (event.getSource().equals(backButton)) {
-                // searchRecipeController.switchToHomeView();
-                searchTextField.setText("");
-                thumbnailContainerPanel.clearRecipes();
+                final SearchRecipeState state = searchRecipeViewModel.getState();
+                searchRecipeController.switchToHomeView(state.getQuery());
             }
         };
 
         final ActionListener searchRecipeListener = event -> {
             if (event.getSource().equals(searchButton) || event.getSource().equals(searchTextField)) {
                 final SearchRecipeState currentState = searchRecipeViewModel.getState();
-                searchRecipeController.execute(currentState.getQuery());
+                searchRecipeController.execute(currentState.getQuery(), currentState.getRecipes());
             }
         };
 
@@ -78,7 +80,13 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         searchTextField.addActionListener(searchRecipeListener);
+        addSearchTextFieldListener();
 
+        this.add(searchBar);
+        this.add(thumbnailContainerPanel);
+    }
+
+    private void addSearchTextFieldListener() {
         searchTextField.getDocument().addDocumentListener(new DocumentListener() {
             private void documentListenerHelper() {
                 final SearchRecipeState currentState = searchRecipeViewModel.getState();
@@ -101,14 +109,10 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
                 documentListenerHelper();
             }
         });
-
-        this.add(searchBar);
-        this.add(thumbnailContainerPanel);
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        System.out.println("Click " + event.getActionCommand());
     }
 
     @Override

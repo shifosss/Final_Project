@@ -1,6 +1,7 @@
 package view.ui_components.search_recipe;
 
 import entities.recipe.Recipe;
+import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.recipe_detail.RecipeDetailState;
 import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.search_recipe.SearchRecipeState;
@@ -42,14 +43,16 @@ public class SearchThumbnailPanel extends JPanel {
 
     private final SearchRecipeController searchRecipeController;
     private final SearchRecipeViewModel searchRecipeViewModel;
+    private final RecipeDetailController recipeDetailController;
     private final ServiceManager serviceManager;
-    private Recipe currentRecipe;
 
     public SearchThumbnailPanel(SearchRecipeViewModel searchRecipeViewModel,
                                 SearchRecipeController searchRecipeController,
+                                RecipeDetailController recipeDetailController,
                                 ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
         this.searchRecipeController = searchRecipeController;
+        this.recipeDetailController = recipeDetailController;
         this.searchRecipeViewModel = searchRecipeViewModel;
         // Sets Layout
         setLayout(new BorderLayout(H_GAP, V_GAP));
@@ -107,7 +110,6 @@ public class SearchThumbnailPanel extends JPanel {
      * @param recipe Recipe entity that holds the recipe information.
      */
     public void addRecipe(Recipe recipe) {
-        this.currentRecipe = recipe;
         final String recipeName = recipe.getName();
         final String imageLink = recipe.getImageLink();
 
@@ -116,10 +118,7 @@ public class SearchThumbnailPanel extends JPanel {
 
         final ActionListener recipeDetailListener = event -> {
             if (event.getSource().equals(nameButton)) {
-                // TODO: tbh we could've just passed the recipe itself here but oh well.
-                //  but it would make the DAO empty D:
                 searchRecipeController.switchToRecipeView(recipe.getId());
-                // showRecipeDetails();
             }
         };
 

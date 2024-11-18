@@ -80,7 +80,8 @@ public class LoginView extends JPanel implements PageView, ActionListener, Prope
 
             private void documentListenerHelper() {
                 final LoginState currentState = loginViewModel.getState();
-                currentState.setPassword(usernameTextField.getText());
+                // TODO: Unfortunately, getText is deprecated
+                currentState.setUsername(usernameTextField.getText());
                 loginViewModel.setState(currentState);
             }
 
@@ -107,7 +108,7 @@ public class LoginView extends JPanel implements PageView, ActionListener, Prope
             private void documentListenerHelper() {
                 final LoginState currentState = loginViewModel.getState();
                 // TODO: getText is deprecated, find the new method for this.
-                currentState.setUsername(passwordTextField.getText());
+                currentState.setPassword(passwordTextField.getText());
                 loginViewModel.setState(currentState);
             }
 

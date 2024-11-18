@@ -8,7 +8,8 @@ import java.util.List;
  */
 public class HomePageState {
     private String username = "";
-    private List<String> ingredientsToAvoidId = new ArrayList<>();
+    private String query;
+    private List<Integer> ingredientsToAvoidId = new ArrayList<>();
 
     public void setUsername(String username) {
         this.username = username;
@@ -18,11 +19,19 @@ public class HomePageState {
         return username;
     }
 
-    public void setIngredientsToAvoidId(List<String> ingredientsToAvoidId) {
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setIngredientsToAvoidId(List<Integer> ingredientsToAvoidId) {
         this.ingredientsToAvoidId = ingredientsToAvoidId;
     }
 
-    public List<String> getIngredientsToAvoidId() {
+    public List<Integer> getIngredientsToAvoidId() {
         return ingredientsToAvoidId;
     }
 }

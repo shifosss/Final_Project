@@ -7,10 +7,10 @@ import java.util.List;
  */
 public class LoginOutputData {
     private String username;
-    private List<String> ingredientsToAvoidId;
+    private List<Integer> ingredientsToAvoidId;
     private boolean useCaseFailed;
 
-    public LoginOutputData(String username, List<String> ingredientsToAvoidId, boolean useCaseFailed) {
+    public LoginOutputData(String username, List<Integer> ingredientsToAvoidId, boolean useCaseFailed) {
         this.username = username;
         this.ingredientsToAvoidId = ingredientsToAvoidId;
         this.useCaseFailed = useCaseFailed;
@@ -20,7 +20,7 @@ public class LoginOutputData {
         return username;
     }
 
-    public List<String> getIngredientsToAvoidId() {
+    public List<Integer> getIngredientsToAvoidId() {
         return ingredientsToAvoidId;
     }
 

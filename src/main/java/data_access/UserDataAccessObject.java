@@ -42,7 +42,6 @@ public class UserDataAccessObject implements LoginDataAccessInterface, SignupDat
     public boolean existsByName(String username) {
         try (MongoClient mongoClient = MongoClients.create(CONNECTION_URL)) {
             final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
-            System.out.println("SUCCESSFULLY CONNECTED TO: " + database.getName());
             final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);
 
             final Document foundUser = usersCollection.find(Filters.eq("username", username)).first();
@@ -70,7 +69,6 @@ public class UserDataAccessObject implements LoginDataAccessInterface, SignupDat
                 return userFactory.create(foundUsername, foundPassword);
             }
             else {
-                // TODO: idk what error is appropriate here so.
                 throw new UserNotFound(username);
             }
         }
@@ -91,13 +89,13 @@ public class UserDataAccessObject implements LoginDataAccessInterface, SignupDat
     }
 
     @Override
-    public List<String> getIngredientsToAvoid(String username) {
+    public List<Integer> getIngredientsToAvoid(String username) {
         try (MongoClient mongoClient = MongoClients.create(CONNECTION_URL)) {
             final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
             final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);
             final Document foundUser = usersCollection.find(Filters.eq("username", username)).first();
 
-            return foundUser.getList("ingredientsToAvoid", String.class, List.of());
+            return foundUser.getList("ingredientsToAvoid", Integer.class, List.of());
         }
     }
 
@@ -106,13 +104,15 @@ public class UserDataAccessObject implements LoginDataAccessInterface, SignupDat
         final String username = user.getName();
         final String password = user.getPassword();
 
+        if (!validatePassword(password) || !validateUsername(username)) {
+            return;
+        }
         if (existsByName(username)) {
             return;
         }
-
         try (MongoClient mongoClient = MongoClients.create(CONNECTION_URL)) {
             final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
-            System.out.println("SUCCESSFULLY CONNECTED TO: " + database.getName());
+
             final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);
 
             // Create a document
@@ -124,8 +124,16 @@ public class UserDataAccessObject implements LoginDataAccessInterface, SignupDat
 
             // Insert the document into the collection
             usersCollection.insertOne(newUser);
-
-            System.out.println("New user added!");
         }
+    }
+
+    // TODO: Implement these methods to ensure that inputs are valid.
+    //  such that: empty strings are not accepted. Change the filler codes below
+    private boolean validateUsername(String username) {
+        return username.length() >= 3;
+    }
+
+    private boolean validatePassword(String password) {
+        return password.length() >= 6;
     }
 }

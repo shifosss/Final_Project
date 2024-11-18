@@ -124,14 +124,15 @@ public class CocktailDataAccessObject implements
                 .url(String.format(apiUrl))
                 .build();
         try {
-            final Response response = client.newCall(request).execute();
-            final JSONObject responseBody = new JSONObject(response.body().string());
+            try (Response response = client.newCall(request).execute()) {
+                final JSONObject responseBody = new JSONObject(response.body().string());
 
-            if (response.isSuccessful()) {
-                return responseBody;
-            }
-            else {
-                throw new IOException("Unexpected code " + response);
+                if (response.isSuccessful()) {
+                    return responseBody;
+                }
+                else {
+                    throw new IOException("Unexpected code " + response);
+                }
             }
 
         }

@@ -96,7 +96,6 @@ public class RecipeDetailView extends JPanel implements
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        System.out.println("Click " + event.getActionCommand());
     }
 
     @Override

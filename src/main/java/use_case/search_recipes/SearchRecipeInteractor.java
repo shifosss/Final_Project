@@ -3,7 +3,9 @@ package use_case.search_recipes;
 import java.util.List;
 
 import entities.recipe.Recipe;
+import interface_adapter.search_recipe.SearchRecipePresenter;
 import use_case.view_recipe.ViewRecipeInputData;
+import use_case.view_recipe.ViewRecipeOutputBoundary;
 import use_case.view_recipe.ViewRecipeOutputData;
 
 /**
@@ -11,12 +13,14 @@ import use_case.view_recipe.ViewRecipeOutputData;
  */
 public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
     private final SearchRecipeDataAccessInterface recipeDataAccessObject;
-    private final SearchRecipeOutputBoundary recipePresenter;
+    private final SearchRecipePresenter recipePresenter;
 
     public SearchRecipeInteractor(SearchRecipeDataAccessInterface recipeDataAccessObject,
                                   SearchRecipeOutputBoundary recipePresenter) {
         this.recipeDataAccessObject = recipeDataAccessObject;
-        this.recipePresenter = recipePresenter;
+        // TODO: is this casting allowed?? i mean interactor is not interface adapter specific so....
+        // my point being that interactor uses a presenter which implements two use cases output boundary.
+        this.recipePresenter = (SearchRecipePresenter) recipePresenter;
     }
 
     @Override
@@ -27,6 +31,7 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
         // check if the list is empty
         if (recipeResults.isEmpty()) {
             final SearchRecipeOutputData recipeOutputData = new SearchRecipeOutputData(
+                    query,
                     recipeResults,
                     true
             );
@@ -36,6 +41,7 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
         }
         else {
             final SearchRecipeOutputData recipeOutputData = new SearchRecipeOutputData(
+                    query,
                     recipeResults,
                     false
             );
@@ -45,8 +51,13 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
     }
 
     @Override
-    public void switchToHomeView() {
-        recipePresenter.switchToHomePageView();
+    public void switchToHomeView(SearchRecipeInputData searchRecipeInputData) {
+
+        final SearchRecipeOutputData recipeOutputData = new SearchRecipeOutputData(
+                searchRecipeInputData.getSearchQuery(),
+                searchRecipeInputData.getRecipes(),
+                false);
+        recipePresenter.switchToHomePageView(recipeOutputData);
     }
 
     @Override

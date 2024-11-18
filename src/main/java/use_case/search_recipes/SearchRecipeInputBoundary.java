@@ -14,8 +14,9 @@ public interface SearchRecipeInputBoundary {
 
     /**
      * Switches to the home page view.
+     * @param searchRecipeInputData the search recipe input data.
      */
-    void switchToHomeView();
+    void switchToHomeView(SearchRecipeInputData searchRecipeInputData);
 
     /**
      * Switches to the recipe detail view.

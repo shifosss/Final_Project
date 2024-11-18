@@ -9,9 +9,11 @@ import entities.recipe.Recipe;
  */
 public class SearchRecipeOutputData {
     private final List<Recipe> recipes;
+    private final String query;
     private final boolean useCaseFailed;
 
-    public SearchRecipeOutputData(List<Recipe> recipes, boolean useCaseFailed) {
+    public SearchRecipeOutputData(String query, List<Recipe> recipes, boolean useCaseFailed) {
+        this.query = query;
         this.recipes = recipes;
         this.useCaseFailed = useCaseFailed;
     }
@@ -22,5 +24,9 @@ public class SearchRecipeOutputData {
 
     public boolean isUseCaseFailed() {
         return useCaseFailed;
+    }
+
+    public String getQuery() {
+        return query;
     }
 }

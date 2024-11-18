@@ -1,7 +1,11 @@
 package interface_adapter.search_recipe;
 
+import interface_adapter.home_page.HomePageState;
+import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailState;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
+import use_case.search_recipes.SearchRecipeInputBoundary;
+import use_case.view_recipe.ViewRecipeOutputBoundary;
 import use_case.view_recipe.ViewRecipeOutputData;
 import use_case.search_recipes.SearchRecipeOutputBoundary;
 import use_case.search_recipes.SearchRecipeOutputData;
@@ -10,18 +14,20 @@ import interface_adapter.ViewManagerModel;
 /**
  * The presenter for the search recipe use case.
  */
-public class SearchRecipePresenter implements SearchRecipeOutputBoundary {
+public class SearchRecipePresenter implements SearchRecipeOutputBoundary, ViewRecipeOutputBoundary {
     private final SearchRecipeViewModel searchRecipeViewModel;
     private final RecipeDetailViewModel recipeDetailViewModel;
-    // TODO: Add the Home Page View Model here
+    private final HomePageViewModel homePageViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public SearchRecipePresenter(ViewManagerModel viewManagerModel,
                                  SearchRecipeViewModel searchRecipeViewModel,
-                                 RecipeDetailViewModel recipeDetailViewModel) {
+                                 RecipeDetailViewModel recipeDetailViewModel,
+                                 HomePageViewModel homePageViewModel) {
         this.searchRecipeViewModel = searchRecipeViewModel;
         this.viewManagerModel = viewManagerModel;
         this.recipeDetailViewModel = recipeDetailViewModel;
+        this.homePageViewModel = homePageViewModel;
     }
 
     @Override
@@ -66,9 +72,20 @@ public class SearchRecipePresenter implements SearchRecipeOutputBoundary {
     }
 
     @Override
-    public void switchToHomePageView() {
-        // TODO: Implement the home page view model.
-        // this.viewManagerModel.setState(homePageViewModel.getViewName());
+    public void switchToSearchRecipeView() {
+        this.viewManagerModel.setState(searchRecipeViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToHomePageView(SearchRecipeOutputData outputData) {
+        final HomePageState homePageState = homePageViewModel.getState();
+        homePageState.setQuery(outputData.getQuery());
+
+        this.homePageViewModel.setState(homePageState);
+        this.homePageViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setState(homePageViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 }
