@@ -26,8 +26,16 @@ public class RecipeDetailPanel extends JPanel {
     private static final Color STEP_NUMBER_COLOR = new Color(51, 122, 183);  // Blue for step numbers
     private static final Color STEP_BG = new Color(255, 255, 255);  // White background for steps
 
-    public RecipeDetailPanel(Recipe recipe) {
+    // New fields for navigation
+    private Recipe currentRecipe;
+    private RecipeScrollPanel scrollPanel;
+    private JButton nextButton;
+
+    public RecipeDetailPanel(Recipe recipe, RecipeScrollPanel scrollPanel) {
         super(new BorderLayout());
+        this.currentRecipe = recipe;
+        this.scrollPanel = scrollPanel;
+
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
         setBackground(BACKGROUND_COLOR);
@@ -50,6 +58,9 @@ public class RecipeDetailPanel extends JPanel {
         // Instructions section with proper alignment
         addInstructions(contentPanel, recipe.getInstruction());
 
+        // Add navigation panel
+        addNavigationPanel(contentPanel);
+
         // Add the content panel to a scroll pane
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -57,6 +68,33 @@ public class RecipeDetailPanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.getViewport().setBackground(BACKGROUND_COLOR);
         add(scrollPane, BorderLayout.CENTER);
+    }
+
+    private void addNavigationPanel(JPanel contentPanel) {
+        JPanel navigationPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        navigationPanel.setBackground(BACKGROUND_COLOR);
+        navigationPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        nextButton = new JButton("Next Recipe →");
+        nextButton.setFont(new Font("SansSerif", Font.BOLD, CONTENT_FONT_SIZE));
+        nextButton.setForeground(HEADER_COLOR);
+        nextButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        // Style the button
+        nextButton.setBackground(new Color(240, 240, 240));
+        nextButton.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(200, 200, 200)),
+                BorderFactory.createEmptyBorder(8, 15, 8, 15)
+        ));
+
+        nextButton.addActionListener(e -> showNextRecipe());
+
+        navigationPanel.add(nextButton);
+        contentPanel.add(navigationPanel);
+        contentPanel.add(Box.createVerticalStrut(20));
+
+        // Initially check if next recipe exists
+        updateNextButtonState();
     }
 
     private void addTitle(JPanel contentPanel, String title) {
@@ -194,5 +232,55 @@ public class RecipeDetailPanel extends JPanel {
 
         contentPanel.add(instructionsContainer);
         contentPanel.add(Box.createVerticalStrut(20));
+    }
+
+    private void showNextRecipe() {
+        Recipe nextRecipe = scrollPanel.getNextRecipe(currentRecipe);
+        if (nextRecipe != null) {
+            // Update the current panel with the next recipe
+            this.currentRecipe = nextRecipe;
+
+            // Remove all components and re-add with new recipe
+            this.removeAll();
+
+            // Create main content panel with vertical layout
+            JPanel contentPanel = new JPanel();
+            contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+            contentPanel.setBackground(BACKGROUND_COLOR);
+            contentPanel.setBorder(null);
+
+            // Re-add all components with new recipe data
+            addTitle(contentPanel, nextRecipe.getName());
+            addImage(contentPanel, nextRecipe.getImageLink());
+            addIngredients(contentPanel, nextRecipe.getIngredients());
+            addInstructions(contentPanel, nextRecipe.getInstruction());
+            addNavigationPanel(contentPanel);
+
+            // Add the content panel to a scroll pane
+            JScrollPane scrollPane = new JScrollPane(contentPanel);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scrollPane.setBorder(null);
+            scrollPane.getViewport().setBackground(BACKGROUND_COLOR);
+
+            add(scrollPane, BorderLayout.CENTER);
+
+            // Update UI
+            revalidate();
+            repaint();
+
+            // Reset scroll position to top
+            SwingUtilities.invokeLater(() -> {
+                scrollPane.getVerticalScrollBar().setValue(0);
+            });
+        }
+
+        updateNextButtonState();
+    }
+
+    private void updateNextButtonState() {
+        Recipe nextRecipe = scrollPanel.getNextRecipe(currentRecipe);
+        nextButton.setEnabled(nextRecipe != null);
+        nextButton.setToolTipText(nextRecipe == null ? "No more recipes" : "View next recipe");
     }
 }

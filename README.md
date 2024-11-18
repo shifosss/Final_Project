@@ -2,22 +2,22 @@
 ## (Recipe Lookup)
 ### CSC207
 
-User Story 1:
+User Story 1 (Finished by George & Miguel):
 Users are able to sign up , log into, log out or change the password of their own account using the Lab5 interface.
 
-User Story 2:
+User Story 2 (Finished by George & Miguel):
 Once logged in, user will choose between cocktail/meal data_access and go to the homepage of either one. 
 
-User Story 3 (FINISHED 11.6):
+User Story 3 (FINISHED 11.6 by Alex & Rolland):
 On the front page, there will be pictures of several recommended recipes, and users can click on the picture and it will lead them to its recipe.
 
-User Story 4 (FINISHED 11.6):
+User Story 4 (FINISHED 11.6 by Alex & Rolland & Miguel):
 After they type in the full name and click the search button, they will be provided with all the recipe that fits the name.
 
-User Story 5:
+User Story 5 (TBC by Alex & Rolland):
 After they type in the ingredient and click the search button, they will be provided with all the recipe that has the ingredient.
 
-User Story 6 (FINISHED - TBC/next button):
+User Story 6 (FINISHED - TBC/next button by Alex & Rolland & Miguel):
 When a user is learning our recipe, they have an option to either oo back to the homepage and even switch to another options in the previous page (if any).
 
 User Story 7:

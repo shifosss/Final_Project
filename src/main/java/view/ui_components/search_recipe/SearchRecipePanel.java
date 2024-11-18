@@ -112,7 +112,22 @@ public class SearchRecipePanel extends JPanel {
 
     private void showRecipeDetails() {
         JFrame detailFrame = new JFrame("Recipe Details");
-        RecipeDetailPanel detailPanel = new RecipeDetailPanel(currentRecipe);
+
+        // Get the RecipeScrollPanel parent
+        Container parent = this.getParent();
+        while (parent != null && !(parent instanceof RecipeScrollPanel)) {
+            parent = parent.getParent();
+        }
+
+        if (parent == null) {
+            System.err.println("Error: Could not find RecipeScrollPanel parent");
+            return;
+        }
+
+        // Create detail panel with both required parameters
+        RecipeDetailPanel detailPanel = new RecipeDetailPanel(currentRecipe,
+                (RecipeScrollPanel) parent);
+
         detailFrame.add(detailPanel);
         detailFrame.pack();
         detailFrame.setLocationRelativeTo(this);

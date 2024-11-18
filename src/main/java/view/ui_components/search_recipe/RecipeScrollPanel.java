@@ -23,6 +23,9 @@ public class RecipeScrollPanel extends JPanel {
     private final CocktailDataAccessObject cocktailDataAccessObject;
     private boolean isExploreMode = false;  // New flag to track mode
 
+    private List<Recipe> currentRecipes = new ArrayList<>();
+    private int currentRecipeIndex = -1;
+
     public RecipeScrollPanel(ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
         this.cocktailDataAccessObject = new CocktailDataAccessObject();
@@ -49,6 +52,7 @@ public class RecipeScrollPanel extends JPanel {
     }
 
     public void displayRecipes(List<Recipe> recipes) {
+        this.currentRecipes = recipes; // Store the current recipes
         recipePanel.removeAll();
         recipePanel.setLayout(new GridLayout(0, COL, H_GAP, V_GAP));  // Reset to grid layout
 
@@ -161,6 +165,27 @@ public class RecipeScrollPanel extends JPanel {
         recipePanel.add(Box.createRigidArea(new Dimension(0, 20)));
         recipePanel.add(searchPanel);
         recipePanel.add(Box.createVerticalGlue());
+    }
+
+    public Recipe getNextRecipe(Recipe currentRecipe) {
+        if (currentRecipes == null || currentRecipes.isEmpty()) {
+            return null;
+        }
+
+        // Find current recipe index
+        currentRecipeIndex = -1;
+        for (int i = 0; i < currentRecipes.size(); i++) {
+            if (currentRecipes.get(i).getId() == currentRecipe.getId()) {
+                currentRecipeIndex = i;
+                break;
+            }
+        }
+
+        // Return next recipe if available
+        if (currentRecipeIndex >= 0 && currentRecipeIndex < currentRecipes.size() - 1) {
+            return currentRecipes.get(currentRecipeIndex + 1);
+        }
+        return null;
     }
 
     private List<JPanel> parseToPanel(List<Recipe> recipes) {
