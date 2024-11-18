@@ -18,6 +18,7 @@ import java.beans.PropertyChangeListener;
  * Login view.
  */
 public class LoginView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
+    private final String viewName = "log in";
     private final JTextField usernameTextField = new JTextField(20);
     private final JPasswordField passwordTextField = new JPasswordField(20);
     private final JButton loginButton = new JButton("Login");
@@ -72,7 +73,7 @@ public class LoginView extends JPanel implements PageView, ActionListener, Prope
 
     @Override
     public String getViewName() {
-        return "log in";
+        return viewName;
     }
 
     private void addUsernameListener() {
