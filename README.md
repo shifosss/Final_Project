@@ -17,7 +17,7 @@ After they type in the full name and click the search button, they will be provi
 User Story 5 (TBC by Alex & Rolland):
 After they type in the ingredient and click the search button, they will be provided with all the recipe that has the ingredient.
 
-User Story 6 (FINISHED - TBC/next button by Alex & Rolland & Miguel):
+User Story 6 (FINISHED - TBC/next button， everything else FINISHED by Alex & Rolland & Miguel):
 When a user is learning our recipe, they have an option to either oo back to the homepage and even switch to another options in the previous page (if any).
 
 User Story 7:
