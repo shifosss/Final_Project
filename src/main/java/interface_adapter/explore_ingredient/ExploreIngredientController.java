@@ -4,7 +4,7 @@ import use_case.explore_ingredient.ExploreIngredientInputBoundary;
 import use_case.explore_ingredient.ExploreIngredientInputData;
 
 /**
- * The controller for the search recipe use case.
+ * The controller for the explore ingredient use case.
  */
 public class ExploreIngredientController {
 
