@@ -4,18 +4,31 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Use a unified groupId, artifactId, and version -->
     <groupId>org.example</groupId>
-    <artifactId>recipe-lookup</artifactId>
+    <artifactId>combined-project</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <dependencies>
+    <!-- Combined properties -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-compiler-plugin.source>21</maven-compiler-plugin.source>
+        <maven-compiler-plugin.target>21</maven-compiler-plugin.target>
+        <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
+        <mongodb-driver-sync.version>5.0.0</mongodb-driver-sync.version>
+        <mongodb-crypt.version>1.8.0</mongodb-crypt.version>
+        <logback-classic.version>1.2.13</logback-classic.version>
+        <exec-maven-plugin.version>3.1.1</exec-maven-plugin.version>
+    </properties>
 
+    <!-- Combined dependencies -->
+    <dependencies>
+        <!-- Dependencies from recipe-lookup -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20231013</version>
         </dependency>
-
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
@@ -27,7 +40,6 @@
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -41,27 +53,46 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Dependencies from java-quick-start -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>${mongodb-driver-sync.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-crypt</artifactId>
+            <version>${mongodb-crypt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-classic.version}</version>
+        </dependency>
     </dependencies>
 
-
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    <!-- Combined build plugins -->
     <build>
         <plugins>
-            <!-- maven surefire -->
+            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.0</version>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <argLine>-XX:+EnableDynamicAgentLoading</argLine>
+                    <source>${maven-compiler-plugin.source}</source>
+                    <target>${maven-compiler-plugin.target}</target>
+                </configuration>
+            </plugin>
+            <!-- Exec Plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${exec-maven-plugin.version}</version>
+                <configuration>
+                    <cleanupDaemonThreads>false</cleanupDaemonThreads>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>
