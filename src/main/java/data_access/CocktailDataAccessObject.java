@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import entities.recipe.Recipe;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
+import use_case.explore_ingredient.ExploreIngredientDataAccessInterface;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -21,7 +22,7 @@ import okhttp3.Response;
 /**
  * The Data Access Object for recipe api.
  */
-public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface {
+public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface, ExploreIngredientDataAccessInterface {
     private static final String API_URL = "http://thecocktaildb.com/api/json/v1/1/";
     private static final int START = 1;
     private static final int END = 15;
