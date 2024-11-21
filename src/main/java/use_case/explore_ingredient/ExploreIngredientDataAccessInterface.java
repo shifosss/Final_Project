@@ -14,7 +14,7 @@ public interface ExploreIngredientDataAccessInterface {
      * @param ingredient user query.
      * @return a list of recipe.
      */
-    List<Recipe> exploreRecipeByIngredients(String ingredient);
+    List<Ingredient> exploreRecipeByIngredients(String ingredient);
 
     List<Ingredient> getIngredientsList();
 }
