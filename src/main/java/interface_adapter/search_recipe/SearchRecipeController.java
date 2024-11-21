@@ -46,4 +46,8 @@ public class SearchRecipeController {
         final ViewRecipeInputData recipeDetailInputData = new ViewRecipeInputData(recipeId);
         searchRecipeUseCaseInteractor.switchToRecipeDetailView(recipeDetailInputData);
     }
+
+    public void switchToSearchRecipeView() {
+
+    }
 }

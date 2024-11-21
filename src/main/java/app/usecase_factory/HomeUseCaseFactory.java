@@ -39,13 +39,13 @@ public final class HomeUseCaseFactory {
      * @return the home view.
      */
     public static HomeView create(ViewManagerModel viewManagerModel,
-                                  HomePageViewModel homePageViewModel,
+                                  interface_adapter.home_page.HomePageViewModel homePageViewModel,
                                   SearchRecipeViewModel searchRecipeViewModel,
                                   RecipeDetailViewModel recipeDetailViewModel,
                                   SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
                                   ViewRecipeDataAccessInterface viewRecipeDataAccessObject,
                                   ServiceManager serviceManager) {
-        final HomePageController homePageController = createHomePageUseCase(viewManagerModel,
+        final interface_adapter.home_page.HomePageController homePageController = createHomePageUseCase(viewManagerModel,
                 searchRecipeViewModel, recipeDetailViewModel, homePageViewModel,
                 viewRecipeDataAccessObject);
         final SearchRecipeController searchRecipeController = createSearchRecipeUseCase(viewManagerModel,
@@ -55,7 +55,7 @@ public final class HomeUseCaseFactory {
                 viewManagerModel, searchRecipeViewModel, recipeDetailViewModel, viewRecipeDataAccessObject
         );
         return new HomeView(homePageViewModel,
-                homePageController, searchRecipeController, recipeDetailController,
+                homePageController, recipeDetailController,
                 serviceManager);
     }
 

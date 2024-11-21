@@ -6,7 +6,6 @@ import data_access.UserDataAccessObject;
 import entities.recipe.factory.CocktailFactory;
 import entities.user.factory.CommonUserFactory;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.preference.PreferenceViewModel;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
@@ -66,7 +65,7 @@ public class MainApp {
         // View Model initialization
         final SignupViewModel signupViewModel = new SignupViewModel();
         final LoginViewModel loginViewModel = new LoginViewModel();
-        final HomePageViewModel homePageViewModel = new HomePageViewModel();
+        final interface_adapter.home_page.HomePageViewModel homePageViewModel = new interface_adapter.home_page.HomePageViewModel();
         final PreferenceViewModel preferenceViewModel = new PreferenceViewModel();
         final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel();
         final RecipeDetailViewModel recipeDetailViewModel = new RecipeDetailViewModel();

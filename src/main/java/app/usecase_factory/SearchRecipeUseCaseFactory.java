@@ -1,6 +1,5 @@
 package app.usecase_factory;
 
-import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.recipe_detail.RecipeDetailPresenter;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
@@ -42,7 +41,7 @@ public final class SearchRecipeUseCaseFactory {
     public static SearchRecipeView create(ViewManagerModel viewManagerModel,
                                           SearchRecipeViewModel searchRecipeViewModel,
                                           RecipeDetailViewModel recipeDetailViewModel,
-                                          HomePageViewModel homePageViewModel,
+                                          interface_adapter.home_page.HomePageViewModel homePageViewModel,
                                           SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
                                           ViewRecipeDataAccessInterface viewRecipeDataAccessObject,
                                           ServiceManager serviceManager) {
@@ -75,7 +74,7 @@ public final class SearchRecipeUseCaseFactory {
             ViewManagerModel viewManagerModel,
             SearchRecipeViewModel searchRecipeViewModel,
             RecipeDetailViewModel recipeDetailViewModel,
-            HomePageViewModel homepageViewModel,
+            interface_adapter.home_page.HomePageViewModel homepageViewModel,
             SearchRecipeDataAccessInterface searchRecipeDataAccessObject) {
 
         final SearchRecipeOutputBoundary searchRecipeOutputBoundary = new SearchRecipePresenter(viewManagerModel,
