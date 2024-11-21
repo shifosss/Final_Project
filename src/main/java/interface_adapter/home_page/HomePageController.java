@@ -15,7 +15,7 @@ public class HomePageController {
 
     public void switchToRecipeView(int id) {
         final ViewRecipeInputData inputData = new ViewRecipeInputData(id);
-        recipeDetailController.switchToRecipe(inputData);
+        recipeDetailController.execute(inputData);
     }
 
     /**

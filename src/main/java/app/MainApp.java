@@ -82,8 +82,6 @@ public class MainApp {
         views.add(loginView, loginView.getViewName());
 
         // SearchRecipeView initialization
-        // TODO: Add HomeViewModel into this for; (Back Button)
-        // TODO: Add RecipeDetailViewModel into this for; (Recipe Detail Button)
         final HomeView homeView = HomeUseCaseFactory.create(viewManagerModel,
                 homePageViewModel, searchRecipeViewModel, recipeDetailViewModel,
                 cocktailDataAccessObject, cocktailDataAccessObject, serviceManager);

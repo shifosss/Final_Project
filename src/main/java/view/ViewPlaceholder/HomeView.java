@@ -101,6 +101,7 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
     }
 
     private void updateRandomRecipePanel(List<Recipe> randomRecipes) {
+        recommendedRecipesPanel.removeAll();
         // Add random recipes
         for (int i = 0; i < 3; i++) {
             Recipe randomRecipe = randomRecipes.get(i);
