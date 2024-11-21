@@ -1,13 +1,35 @@
 package interface_adapter.explore_ingredient;
 
 import interface_adapter.ViewModel;
+import interface_adapter.search_recipe.SearchRecipeState;
 
-/**
- * The View Model for the Explore Ingredient View.
- */
-public class ExploreIngredientViewModel extends ViewModel<ExploreIngredientState> {
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+public class ExploreIngredientViewModel extends ViewModel {
+    private ExploreIngredientState state = new ExploreIngredientState();
+
+    private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+
     public ExploreIngredientViewModel() {
         super("explore ingredient");
-        setState(new ExploreIngredientState());
+        setState(new SearchRecipeState());
+    }
+
+    public void firePropertyChanged() {
+        support.firePropertyChange("state", null, this.state);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+
+    public ExploreIngredientState getState() {
+        return state;
+    }
+
+    public void setState(ExploreIngredientState state) {
+        this.state = state;
+        firePropertyChanged();
     }
 }
