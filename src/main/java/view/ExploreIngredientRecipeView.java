@@ -18,7 +18,7 @@ import interface_adapter.services.ServiceManager;
 import view.ui_components.explore_ingredient.RecipeScrollPanel;
 
 public class ExploreIngredientRecipeView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String viewName = "explore ingredient";  // Matches ViewModel's view name
+    private final String viewName = "explore ingredient";
     private final ExploreIngredientViewModel exploreViewModel;
     private final ExploreIngredientController exploreController;
     private final ServiceManager serviceManager;
@@ -81,13 +81,32 @@ public class ExploreIngredientRecipeView extends JPanel implements ActionListene
 
         // Setup action listeners
         setupActionListeners();
+
+        // Load initial ingredients
+        exploreController.loadIngredients();
     }
 
     private void setupActionListeners() {
         backButton.addActionListener(e -> {
-            // Navigate back to main menu
+            // Clear the current state before going back
+            gridPanel.removeAll();
             viewManagerModel.setState("main menu");
             viewManagerModel.firePropertyChanged();
+        });
+
+        // Add listener to reload ingredients when this view becomes visible
+        addAncestorListener(new javax.swing.event.AncestorListener() {
+            @Override
+            public void ancestorAdded(javax.swing.event.AncestorEvent event) {
+                // Reload ingredients when view becomes visible
+                exploreController.loadIngredients();
+            }
+
+            @Override
+            public void ancestorRemoved(javax.swing.event.AncestorEvent event) {}
+
+            @Override
+            public void ancestorMoved(javax.swing.event.AncestorEvent event) {}
         });
     }
 
