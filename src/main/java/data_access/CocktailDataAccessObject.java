@@ -6,6 +6,7 @@ import java.util.List;
 
 import entities.recipe.CocktailRecipe;
 import entities.recipe.Ingredient;
+import entities.recipe.SimpleRecipe;
 import entities.recipe.factory.CocktailFactory;
 import entities.recipe.factory.RecipeFactory;
 import org.json.JSONArray;
@@ -58,10 +59,24 @@ public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface
      * @return recipes
      */
     @Override
-    public List<Recipe> exploreRecipeByIngredients(String ingredient) {
-        final List<Recipe> recipes = new ArrayList<>();
+    public List<SimpleRecipe> exploreRecipeByIngredients(String ingredient) {
+        final List<SimpleRecipe> recipes = new ArrayList<>();
         final JSONObject responseBody = makeApiRequest(String.format("%s/filter.php?i=%s", API_URL, ingredient));
-        return getRecipes(recipes, responseBody);
+        return getSimpleRecipes(recipes, responseBody);
+    }
+
+    private List<SimpleRecipe> getSimpleRecipes(List<SimpleRecipe> recipes, JSONObject responseBody) {
+        final JSONArray cocktails = getCocktails(responseBody);
+
+        for (int i = 0; i < cocktails.length(); i++) {
+            final JSONObject raw = cocktails.getJSONObject(i);
+            final String name = raw.optString("strDrink", "");
+            final int id = Integer.parseInt(raw.optString("idDrink", "0"));
+            final String imageLink = raw.optString("strDrinkThumb", "");
+            recipes.add(new SimpleRecipe(name, id, imageLink));
+        }
+
+        return recipes;
     }
 
     @Override

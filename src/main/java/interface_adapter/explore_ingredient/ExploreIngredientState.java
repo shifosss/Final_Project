@@ -1,15 +1,11 @@
 package interface_adapter.explore_ingredient;
 
 import java.util.List;
-
-import entities.recipe.Recipe;
+import entities.recipe.SimpleRecipe;
 import entities.recipe.Ingredient;
 
-/**
- * The state information representing the explored ingredient.
- */
 public class ExploreIngredientState {
-    private List<Recipe> recipes;
+    private List<SimpleRecipe> recipes;
     private List<Ingredient> ingredients;
     private String query;
 
@@ -19,8 +15,7 @@ public class ExploreIngredientState {
         this.ingredients = copy.ingredients;
     }
 
-    public ExploreIngredientState() {
-    }
+    public ExploreIngredientState() {}
 
     public void setQuery(String query) {
         this.query = query;
@@ -30,11 +25,11 @@ public class ExploreIngredientState {
         return query;
     }
 
-    public void setRecipes(List<Recipe> recipes) {
+    public void setRecipes(List<SimpleRecipe> recipes) {
         this.recipes = recipes;
     }
 
-    public List<Recipe> getRecipes() {
+    public List<SimpleRecipe> getRecipes() {
         return recipes;
     }
 

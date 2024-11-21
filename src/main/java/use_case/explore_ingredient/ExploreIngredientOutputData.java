@@ -3,6 +3,7 @@ package use_case.explore_ingredient;
 import java.util.List;
 import entities.recipe.Recipe;
 import entities.recipe.Ingredient;
+import entities.recipe.SimpleRecipe;
 
 public class ExploreIngredientOutputData {
     private final List<?> data;  // Can be either List<Recipe> or List<Ingredient>
@@ -18,6 +19,11 @@ public class ExploreIngredientOutputData {
     @SuppressWarnings("unchecked")
     public List<Recipe> getRecipes() {
         return isIngredientList ? null : (List<Recipe>) data;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<SimpleRecipe> getSimpleRecipes() {
+        return isIngredientList? (List<SimpleRecipe>) data : null;
     }
 
     @SuppressWarnings("unchecked")

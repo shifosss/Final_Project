@@ -15,7 +15,11 @@ import interface_adapter.explore_ingredient.ExploreIngredientController;
 import interface_adapter.explore_ingredient.ExploreIngredientViewModel;
 import interface_adapter.explore_ingredient.ExploreIngredientState;
 import interface_adapter.services.ServiceManager;
-import view.ui_components.explore_ingredient.RecipeScrollPanel;
+import view.ui_components.explore_ingredient.SimpleRecipePanel;
+import view.ui_components.explore_ingredient.SimpleRecipeScrollPanel;
+
+// COMMENT OUT FOR DETAILED VIEW ONLY: import view.ui_components.explore_ingredient.SimpleRecipeScrollPanel;
+// UNCOMMENT FOR DETAILED VIEW: import view.ui_components.explore_ingredient.RecipeScrollPanel;
 
 public class ExploreIngredientRecipeView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "explore ingredient";
@@ -23,11 +27,15 @@ public class ExploreIngredientRecipeView extends JPanel implements ActionListene
     private final ExploreIngredientController exploreController;
     private final ServiceManager serviceManager;
     private final ViewManagerModel viewManagerModel;
+    private SimpleRecipeScrollPanel simpleRecipePanel;
 
     // UI Components
     private final JButton backButton;
-    private final RecipeScrollPanel recipeScrollPanel;
+    // COMMENT OUT FOR DETAILED VIEW ONLY: private final SimpleRecipeScrollPanel simpleRecipePanel;
+    // UNCOMMENT FOR DETAILED VIEW: private final RecipeScrollPanel detailRecipePanel;
     private final JPanel gridPanel;
+    private final JPanel contentPanel;
+
     private static final Color BACKGROUND_COLOR = new Color(248, 249, 250);
     private static final int GRID_COLUMNS = 3;
 
@@ -45,81 +53,62 @@ public class ExploreIngredientRecipeView extends JPanel implements ActionListene
 
         // Initialize components
         backButton = new JButton("<");
-        recipeScrollPanel = new RecipeScrollPanel(serviceManager);
 
-        // Set up main layout
+        // COMMENT OUT FOR DETAILED VIEW ONLY:
+        simpleRecipePanel = new SimpleRecipeScrollPanel(serviceManager);
+
+        // UNCOMMENT FOR DETAILED VIEW:
+        /*
+        detailRecipePanel = new RecipeScrollPanel(serviceManager);
+        */
+
+        // Content panel for recipes
+        contentPanel = new JPanel(new BorderLayout());
+
+        // COMMENT OUT FOR DETAILED VIEW ONLY:
+        contentPanel.add(simpleRecipePanel, BorderLayout.CENTER);
+
+        // UNCOMMENT FOR DETAILED VIEW:
+        /*
+        contentPanel.add(detailRecipePanel, BorderLayout.CENTER);
+        */
+
+        // Grid panel for ingredients
+        gridPanel = new JPanel(new GridLayout(0, GRID_COLUMNS, 10, 10));
+        gridPanel.setBackground(BACKGROUND_COLOR);
+
+        setupLayout();
+        setupActionListeners();
+        exploreController.loadIngredients();
+    }
+
+    private void setupLayout() {
         setLayout(new BorderLayout());
         setBackground(BACKGROUND_COLOR);
 
-        // Create header panel with back button
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(BACKGROUND_COLOR);
         headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        headerPanel.add(backButton, BorderLayout.WEST);
+
         JLabel titleLabel = new JLabel("Explore by Ingredients");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
-
-        headerPanel.add(backButton, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
 
-        // Create grid panel for ingredients
-        gridPanel = new JPanel(new GridLayout(0, GRID_COLUMNS, 10, 10));
-        gridPanel.setBackground(BACKGROUND_COLOR);
-        gridPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        JScrollPane ingredientScroll = new JScrollPane(gridPanel);
+        ingredientScroll.setBorder(null);
 
-        // Create scrollable panel for ingredients
-        JScrollPane scrollPane = new JScrollPane(gridPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setBorder(null);
-        scrollPane.getViewport().setBackground(BACKGROUND_COLOR);
-
-        // Add components to main panel
         add(headerPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-
-        // Setup action listeners
-        setupActionListeners();
-
-        // Load initial ingredients
-        exploreController.loadIngredients();
+        add(ingredientScroll, BorderLayout.CENTER);
     }
 
     private void setupActionListeners() {
         backButton.addActionListener(e -> {
-            // Clear the current state before going back
-            gridPanel.removeAll();
             viewManagerModel.setState("main menu");
             viewManagerModel.firePropertyChanged();
         });
-
-        // Add listener to reload ingredients when this view becomes visible
-        addAncestorListener(new javax.swing.event.AncestorListener() {
-            @Override
-            public void ancestorAdded(javax.swing.event.AncestorEvent event) {
-                // Reload ingredients when view becomes visible
-                exploreController.loadIngredients();
-            }
-
-            @Override
-            public void ancestorRemoved(javax.swing.event.AncestorEvent event) {}
-
-            @Override
-            public void ancestorMoved(javax.swing.event.AncestorEvent event) {}
-        });
-    }
-
-    private void displayIngredients(List<Ingredient> ingredients) {
-        gridPanel.removeAll();
-        for (Ingredient ingredient : ingredients) {
-            if (!ingredient.getName().isEmpty()) {
-                JButton ingredientButton = createIngredientButton(ingredient);
-                gridPanel.add(ingredientButton);
-            }
-        }
-        gridPanel.revalidate();
-        gridPanel.repaint();
     }
 
     private JButton createIngredientButton(Ingredient ingredient) {
@@ -133,27 +122,23 @@ public class ExploreIngredientRecipeView extends JPanel implements ActionListene
         ));
 
         button.addActionListener(e -> {
-            // Use the existing execute method from the controller
+            removeAll();
+            setLayout(new BorderLayout());
+
+            JPanel headerPanel = new JPanel(new BorderLayout());
+            headerPanel.setBackground(BACKGROUND_COLOR);
+            headerPanel.add(backButton, BorderLayout.WEST);
+
+            add(headerPanel, BorderLayout.NORTH);
+            add(contentPanel, BorderLayout.CENTER);
+
+            revalidate();
+            repaint();
+
             exploreController.execute(ingredient.getName());
         });
 
-        // Hover effect
-        button.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(245, 245, 245));
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(255, 255, 255));
-            }
-        });
-
         return button;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        System.out.println("Click " + event.getActionCommand());
     }
 
     @Override
@@ -165,22 +150,30 @@ public class ExploreIngredientRecipeView extends JPanel implements ActionListene
         }
 
         if (state.getRecipes() != null) {
-            recipeScrollPanel.displayRecipes(state.getRecipes());
-            removeAll();
-            setLayout(new BorderLayout());
+            // COMMENT OUT FOR DETAILED VIEW ONLY:
+            simpleRecipePanel.displayRecipes(state.getRecipes());
 
-            // Add back button at the top
-            JPanel headerPanel = new JPanel(new BorderLayout());
-            headerPanel.setBackground(BACKGROUND_COLOR);
-            headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            headerPanel.add(backButton, BorderLayout.WEST);
-
-            add(headerPanel, BorderLayout.NORTH);
-            add(recipeScrollPanel, BorderLayout.CENTER);
-
-            revalidate();
-            repaint();
+            // UNCOMMENT FOR DETAILED VIEW:
+            /*
+            detailRecipePanel.displayRecipes(state.getRecipes());
+            */
         }
+    }
+
+    private void displayIngredients(List<Ingredient> ingredients) {
+        gridPanel.removeAll();
+        for (Ingredient ingredient : ingredients) {
+            if (!ingredient.getName().isEmpty()) {
+                gridPanel.add(createIngredientButton(ingredient));
+            }
+        }
+        gridPanel.revalidate();
+        gridPanel.repaint();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        System.out.println("Click " + event.getActionCommand());
     }
 
     public String getViewName() {

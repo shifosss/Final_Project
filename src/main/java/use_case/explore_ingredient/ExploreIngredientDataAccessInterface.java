@@ -1,21 +1,21 @@
 package use_case.explore_ingredient;
 
 import java.util.List;
-
+import entities.recipe.SimpleRecipe;
 import entities.recipe.Ingredient;
-import entities.recipe.Recipe;
 
 public interface ExploreIngredientDataAccessInterface {
     /**
-     * Searches for recipes that contain the specified ingredient.
-     * @param ingredient ingredient name to search for
-     * @return a list of recipes containing the ingredient
+     * Gets a simplified list of recipes containing the specified ingredient.
+     * Returns only name, id, and image for better performance.
+     * @param ingredient ingredient to search for
+     * @return list of simplified recipes
      */
-    List<Recipe> exploreRecipeByIngredients(String ingredient);
+    List<SimpleRecipe> exploreRecipeByIngredients(String ingredient);
 
     /**
-     * Gets the list of all available ingredients.
-     * @return a list of all ingredients
+     * Gets the list of available ingredients.
+     * @return list of ingredients
      */
     List<Ingredient> getIngredientsList();
 }
