@@ -15,5 +15,10 @@ public interface SearchRecipeDataAccessInterface {
      */
     List<Recipe> searchRecipeByKeyword(String keyword);
 
-    Recipe searchRandomRecipe();
+    /**
+     * Returns a recipe given the id input.
+     * @param id id associated with recipe.
+     * @return the recipe.
+     */
+    Recipe getRecipeById(int id);
 }

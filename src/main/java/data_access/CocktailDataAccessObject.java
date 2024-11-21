@@ -4,18 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.recipe.CocktailRecipe;
 import entities.recipe.Ingredient;
-import entities.recipe.SimpleRecipe;
-import entities.recipe.factory.CocktailFactory;
 import entities.recipe.factory.RecipeFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import entities.recipe.Recipe;
+import use_case.view_recipe.ViewRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
-import use_case.explore_ingredient.ExploreIngredientDataAccessInterface;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -23,14 +20,16 @@ import okhttp3.Response;
 /**
  * The Data Access Object for recipe api.
  */
-public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface, ExploreIngredientDataAccessInterface {
-    private static final String API_URL = "http://thecocktaildb.com/api/json/v1/1/";
+public class CocktailDataAccessObject implements
+        SearchRecipeDataAccessInterface,
+        ViewRecipeDataAccessInterface {
+    private static final String API_URL = "http://thecocktaildb.com/api/json/v1/1";
     private static final int START = 1;
     private static final int END = 15;
     private final RecipeFactory cocktailFactory;
 
-    public CocktailDataAccessObject() {
-        this.cocktailFactory = new CocktailFactory();
+    public CocktailDataAccessObject(RecipeFactory cocktailFactory) {
+        this.cocktailFactory = cocktailFactory;
     }
 
     @Override
@@ -38,81 +37,28 @@ public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface
         // http://thecocktaildb.com/api/json/v1/1/search.php?s=margarita
         final List<Recipe> recipes = new ArrayList<>();
         final JSONObject responseBody = makeApiRequest(String.format("%s/search.php?s=%s", API_URL, keyword));
-        return getRecipes(recipes, responseBody);
-    }
-
-    @Override
-    public Recipe searchRandomRecipe() {
-        final JSONObject responseBody = makeApiRequest(String.format("%s/random.php", API_URL));
-        final JSONArray cocktails = getCocktails(responseBody);
-        final JSONObject raw = cocktails.getJSONObject(0);
-        final String name = getRecipeName(raw);
-        final int id = getRecipeId(raw);
-        final String instruction = getInstruction(raw);
-        final List<Ingredient> ingredients = getIngredients(raw);
-        final String imageLink = getImageLink(raw);
-        return cocktailFactory.create(name, id, instruction, ingredients, imageLink);
-    }
-
-    /**
-     * @param ingredient
-     * @return recipes
-     */
-    @Override
-    public List<SimpleRecipe> exploreRecipeByIngredients(String ingredient) {
-        final List<SimpleRecipe> recipes = new ArrayList<>();
-        final JSONObject responseBody = makeApiRequest(String.format("%s/filter.php?i=%s", API_URL, ingredient));
-        return getSimpleRecipes(recipes, responseBody);
-    }
-
-    private List<SimpleRecipe> getSimpleRecipes(List<SimpleRecipe> recipes, JSONObject responseBody) {
         final JSONArray cocktails = getCocktails(responseBody);
 
         for (int i = 0; i < cocktails.length(); i++) {
             final JSONObject raw = cocktails.getJSONObject(i);
-            final String name = raw.optString("strDrink", "");
-            final int id = Integer.parseInt(raw.optString("idDrink", "0"));
-            final String imageLink = raw.optString("strDrinkThumb", "");
-            recipes.add(new SimpleRecipe(name, id, imageLink));
+            recipes.add(createRecipe(raw));
         }
 
         return recipes;
     }
 
     @Override
-    public List<Ingredient> getIngredientsList() {
-        final List<Ingredient> ingredients = new ArrayList<>();
-        final JSONObject responseBody = makeApiRequest(String.format("%s/list.php?i=list", API_URL));
-        final JSONArray ingredientsList = getListOfIngredients(responseBody);
-
-        for (int i = 0; i < ingredientsList.length(); i++) {
-            final JSONObject raw = ingredientsList.getJSONObject(i);
-            final String name = getIngredientByIdentifier(raw, "strIngredient1");
-            ingredients.add(new Ingredient(name, "-1"));
-        }
-
-        return ingredients;
-    }
-
-    private JSONArray getListOfIngredients(JSONObject responseBody) {
-        return responseBody.optJSONArray("drinks", new JSONArray());
-    }
-
-    private List<Recipe> getRecipes(List<Recipe> recipes, JSONObject responseBody) {
+    public Recipe getRecipeById(int id) {
+        Recipe result = null;
+        // http://thecocktaildb.com/api/json/v1/1/lookup.php?i=11007
+        final JSONObject responseBody = makeApiRequest(String.format("%s/lookup.php?i=%d", API_URL, id));
         final JSONArray cocktails = getCocktails(responseBody);
-
-        for (int i = 0; i < cocktails.length(); i++) {
-            final JSONObject raw = cocktails.getJSONObject(i);
-            final String name = getRecipeName(raw);
-            final int id = getRecipeId(raw);
-            final String instruction = getInstruction(raw);
-            final List<Ingredient> ingredients = getIngredients(raw);
-            final String imageLink = getImageLink(raw);
-
-            recipes.add(cocktailFactory.create(name, id, instruction, ingredients, imageLink));
+        // we will assume that each id are distinct
+        if (cocktails.length() == 1) {
+            final JSONObject raw = cocktails.getJSONObject(0);
+            result = createRecipe(raw);
         }
-
-        return recipes;
+        return result;
     }
 
     // getCocktails and getIngredientByIdentifier might return null.
@@ -125,7 +71,22 @@ public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface
         return responseBody.optJSONArray("drinks", new JSONArray());
     }
 
+    private String getVideoLink(JSONObject raw) {
+        return raw.optString("strVideo", "");
+    }
+
     // below, we are assuming that each raw recipe jsonobject has the attributes.
+    private Recipe createRecipe(JSONObject raw) {
+        final String name = getRecipeName(raw);
+        final int id = getRecipeId(raw);
+        final String instruction = getInstruction(raw);
+        final List<Ingredient> ingredients = getIngredients(raw);
+        final String imageLink = getImageLink(raw);
+        final String videoLink = getVideoLink(raw);
+
+        return cocktailFactory.create(name, id, instruction, ingredients, imageLink, videoLink);
+    }
+
     private String getRecipeName(JSONObject raw) {
         return raw.getString("strDrink");
     }
@@ -163,14 +124,15 @@ public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface
                 .url(String.format(apiUrl))
                 .build();
         try {
-            final Response response = client.newCall(request).execute();
-            final JSONObject responseBody = new JSONObject(response.body().string());
+            try (Response response = client.newCall(request).execute()) {
+                final JSONObject responseBody = new JSONObject(response.body().string());
 
-            if (response.isSuccessful()) {
-                return responseBody;
-            }
-            else {
-                throw new IOException("Unexpected code " + response);
+                if (response.isSuccessful()) {
+                    return responseBody;
+                }
+                else {
+                    throw new IOException("Unexpected code " + response);
+                }
             }
 
         }
