@@ -35,6 +35,7 @@ public class LoginPresenter implements LoginOutputBoundary {
     public void prepareSuccessView(LoginOutputData loginOutputData) {
         final HomePageState homePageState = homePageViewModel.getState();
         homePageState.setUsername(loginOutputData.getUsername());
+        homePageState.setRandomRecipes(loginOutputData.getRandomRecipes());
         homePageState.setIngredientsToAvoidId(loginOutputData.getIngredientsToAvoidId());
 
         homePageViewModel.setState(homePageState);

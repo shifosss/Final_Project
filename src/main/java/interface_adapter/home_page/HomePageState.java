@@ -1,5 +1,7 @@
 package interface_adapter.home_page;
 
+import entities.recipe.Recipe;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,8 @@ import java.util.List;
  */
 public class HomePageState {
     private String username = "";
-    private String query;
+    private String query = "";
+    private List<Recipe> randomRecipe = new ArrayList<>();
     private List<Integer> ingredientsToAvoidId = new ArrayList<>();
 
     public void setUsername(String username) {
@@ -33,5 +36,13 @@ public class HomePageState {
 
     public List<Integer> getIngredientsToAvoidId() {
         return ingredientsToAvoidId;
+    }
+
+    public void setRandomRecipes(List<Recipe> randomRecipes) {
+        this.randomRecipe = randomRecipes;
+    }
+
+    public List<Recipe> getRandomRecipe() {
+        return randomRecipe;
     }
 }

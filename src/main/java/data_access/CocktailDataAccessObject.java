@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import entities.recipe.Recipe;
+import use_case.random_recipes.RandomRecipeDataAccessInterface;
 import use_case.view_recipe.ViewRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
 import okhttp3.OkHttpClient;
@@ -22,7 +23,8 @@ import okhttp3.Response;
  */
 public class CocktailDataAccessObject implements
         SearchRecipeDataAccessInterface,
-        ViewRecipeDataAccessInterface {
+        ViewRecipeDataAccessInterface,
+        RandomRecipeDataAccessInterface {
     private static final String API_URL = "http://thecocktaildb.com/api/json/v1/1";
     private static final int START = 1;
     private static final int END = 15;
@@ -139,5 +141,20 @@ public class CocktailDataAccessObject implements
         catch (IOException | JSONException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    @Override
+    public List<Recipe> getRandomRecipes(int limit) {
+        final List<Recipe> recipes = new ArrayList<>();
+
+        for (int i = 0; i < limit; i++) {
+            final JSONObject responseBody = makeApiRequest(String.format("%s/random.php", API_URL));
+            final JSONArray cocktails = getCocktails(responseBody);
+
+            final JSONObject raw = cocktails.getJSONObject(0);
+            recipes.add(createRecipe(raw));
+        }
+
+        return recipes;
     }
 }

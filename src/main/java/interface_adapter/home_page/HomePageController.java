@@ -1,6 +1,5 @@
 package interface_adapter.home_page;
 
-import interface_adapter.recipe_detail.RecipeDetailController;
 import use_case.view_recipe.ViewRecipeInputBoundary;
 
 /**

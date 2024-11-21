@@ -5,7 +5,6 @@ import data_access.CocktailDataAccessObject;
 import data_access.UserDataAccessObject;
 import entities.recipe.factory.CocktailFactory;
 import entities.user.factory.CommonUserFactory;
-import entities.user.factory.UserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.login.LoginViewModel;
@@ -79,7 +78,8 @@ public class MainApp {
 
         // LoginView initialization
         final LoginView loginView = LoginUseCaseFactory.create(viewManagerModel,
-                signupViewModel, loginViewModel, preferenceViewModel, homePageViewModel, userDataAccessObject);
+                signupViewModel, loginViewModel, preferenceViewModel, homePageViewModel,
+                userDataAccessObject, cocktailDataAccessObject);
         views.add(loginView, loginView.getViewName());
 
         // SearchRecipeView initialization

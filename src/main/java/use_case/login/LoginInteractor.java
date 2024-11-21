@@ -1,6 +1,8 @@
 package use_case.login;
 
+import entities.recipe.Recipe;
 import entities.user.User;
+import use_case.random_recipes.RandomRecipeDataAccessInterface;
 
 import java.util.List;
 
@@ -9,10 +11,14 @@ import java.util.List;
  */
 public class LoginInteractor implements LoginInputBoundary {
     private final LoginDataAccessInterface userDataAccessObject;
+    private final RandomRecipeDataAccessInterface cocktailDataAccessObject;
     private final LoginOutputBoundary loginPresenter;
 
-    public LoginInteractor(LoginDataAccessInterface userDataAccessObject, LoginOutputBoundary loginPresenter) {
+    public LoginInteractor(LoginDataAccessInterface userDataAccessObject,
+                           RandomRecipeDataAccessInterface cocktailDataAccessObject,
+                           LoginOutputBoundary loginPresenter) {
         this.userDataAccessObject = userDataAccessObject;
+        this.cocktailDataAccessObject = cocktailDataAccessObject;
         this.loginPresenter = loginPresenter;
     }
 
@@ -36,11 +42,14 @@ public class LoginInteractor implements LoginInputBoundary {
                 }
                 else {
                     userDataAccessObject.setCurrentUser(user.getName());
+                    final List<Recipe> randomRecipes = cocktailDataAccessObject.getRandomRecipes(3);
+                    System.out.println(randomRecipes);
 
                     final List<Integer> ingredientsToAvoid = userDataAccessObject.getIngredientsToAvoid(username);
                     final LoginOutputData outputData = new LoginOutputData(
                             username,
                             ingredientsToAvoid,
+                            randomRecipes,
                             false);
                     if (ingredientsToAvoid.isEmpty()) {
                         loginPresenter.preparePreferenceView(outputData);
