@@ -1,5 +1,6 @@
 package app.usecase_factory;
 
+import data_access.CocktailDataAccessObject;
 import data_access.UserDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home_page.HomePageViewModel;
@@ -35,10 +36,11 @@ public final class LoginUseCaseFactory {
                                     LoginViewModel loginViewModel,
                                     PreferenceViewModel preferenceViewModel,
                                     HomePageViewModel homePageViewModel,
-                                    UserDataAccessObject userDataAccessObject) {
+                                    UserDataAccessObject userDataAccessObject,
+                                   CocktailDataAccessObject cocktailDataAccessObject) {
         final LoginController loginController = createLoginUseCase(viewManagerModel,
                 signupViewModel, loginViewModel, preferenceViewModel, homePageViewModel,
-                userDataAccessObject);
+                userDataAccessObject, cocktailDataAccessObject);
         return new LoginView(loginViewModel, loginController);
     }
 
@@ -47,11 +49,12 @@ public final class LoginUseCaseFactory {
                                                       LoginViewModel loginViewModel,
                                                       PreferenceViewModel preferenceViewModel,
                                                       HomePageViewModel homePageViewModel,
-                                                      UserDataAccessObject userDataAccessObject) {
+                                                      UserDataAccessObject userDataAccessObject,
+                                                      CocktailDataAccessObject cocktailDataAccessObject) {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
                 signupViewModel, loginViewModel, preferenceViewModel, homePageViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
-                userDataAccessObject, loginOutputBoundary);
+                userDataAccessObject, cocktailDataAccessObject, loginOutputBoundary);
 
         return new LoginController(loginInteractor);
     }

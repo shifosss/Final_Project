@@ -14,5 +14,5 @@ public interface RandomRecipeDataAccessInterface {
      * @param limit the number of recipes to be searched.
      * @return a list of random recipes.
      */
-    List<Recipe> getRandom(int limit);
+    List<Recipe> getRandomRecipes(int limit);
 }
