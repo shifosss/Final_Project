@@ -1,6 +1,8 @@
-package view.ui_components.search_recipe;
+package view.ui_components.random_recipe;
 
 import entities.recipe.Recipe;
+import interface_adapter.home_page.HomePageController;
+import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
@@ -19,7 +21,7 @@ import java.awt.event.MouseEvent;
 /**
  * Recipe Panel that shows when searching for recipes.
  */
-public class SearchThumbnailPanel extends JPanel {
+public class RandomRecipeThumbnailPanel extends JPanel {
     private static final int H_GAP = 10;
     private static final int V_GAP = 10;
     private static final int TOP = 5;
@@ -37,19 +39,19 @@ public class SearchThumbnailPanel extends JPanel {
     private JLabel imageLabel;
     private JButton nameButton;
 
-    private final SearchRecipeController searchRecipeController;
-    private final SearchRecipeViewModel searchRecipeViewModel;
+    private final HomePageController homePageController;
+    private final HomePageViewModel homePageViewModel;
     private final RecipeDetailController recipeDetailController;
     private final ServiceManager serviceManager;
 
-    public SearchThumbnailPanel(SearchRecipeViewModel searchRecipeViewModel,
-                                SearchRecipeController searchRecipeController,
-                                RecipeDetailController recipeDetailController,
-                                ServiceManager serviceManager) {
+    public RandomRecipeThumbnailPanel(HomePageViewModel homePageViewModel,
+                                      HomePageController homePageController,
+                                      RecipeDetailController recipeDetailController,
+                                      ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
-        this.searchRecipeController = searchRecipeController;
+        this.homePageController = homePageController;
         this.recipeDetailController = recipeDetailController;
-        this.searchRecipeViewModel = searchRecipeViewModel;
+        this.homePageViewModel = homePageViewModel;
         // Sets Layout
         setLayout(new BorderLayout(H_GAP, V_GAP));
         setBackground(Color.WHITE);
@@ -114,7 +116,7 @@ public class SearchThumbnailPanel extends JPanel {
 
         final ActionListener recipeDetailListener = event -> {
             if (event.getSource().equals(nameButton)) {
-                searchRecipeController.switchToRecipeView(recipe.getId());
+                homePageController.switchToRecipeView(recipe.getId());
             }
         };
 
