@@ -1,7 +1,7 @@
 package use_case.explore_ingredient;
 
 /**
- * The Input data for searching recipe use case.
+ * The Input data for exploring ingredient use case.
  */
 public class ExploreIngredientInputData {
     private final String searchQuery;
@@ -10,7 +10,7 @@ public class ExploreIngredientInputData {
         this.searchQuery = searchQuery;
     }
 
-    String getSearchQuery() {
+    String getQuery() {
         return searchQuery;
     }
 }

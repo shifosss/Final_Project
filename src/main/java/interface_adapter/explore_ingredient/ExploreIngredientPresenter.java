@@ -5,7 +5,7 @@ import use_case.explore_ingredient.ExploreIngredientOutputBoundary;
 import use_case.explore_ingredient.ExploreIngredientOutputData;
 
 /**
- * The presenter for the search recipe use case.
+ * The presenter for the explore ingredient use case.
  */
 public class ExploreIngredientPresenter implements ExploreIngredientOutputBoundary {
     private final ExploreIngredientViewModel exploreIngredientViewModel;
@@ -29,5 +29,10 @@ public class ExploreIngredientPresenter implements ExploreIngredientOutputBounda
         this.viewManagerModel.firePropertyChanged();
         System.out.println(outputData.getIngredients());
     }
+
+    @Override
+    public void prepareFailView(String errorMessage) {
+        // TODO: Create a fail view when there are no recipe matches.
+        System.out.println(errorMessage);
     }
 }

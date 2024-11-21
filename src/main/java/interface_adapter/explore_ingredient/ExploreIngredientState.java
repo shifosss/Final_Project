@@ -6,7 +6,7 @@ import entities.recipe.Recipe;
 import entities.recipe.Ingredient;
 
 /**
- * The state information representing the searched recipe.
+ * The state information representing the explored ingredient.
  */
 public class ExploreIngredientState {
     private List<Recipe> recipes;
