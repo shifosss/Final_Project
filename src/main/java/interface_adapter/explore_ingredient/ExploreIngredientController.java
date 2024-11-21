@@ -14,6 +14,10 @@ public class ExploreIngredientController {
         this.exploreIngredientUseCaseInteractor = searchRecipeUseCaseInteractor;
     }
 
+    public void loadIngredients() {
+        exploreIngredientUseCaseInteractor.loadIngredients();
+    }
+
     /**
      * Executes the Explore Ingredient Use Case.
      * @param query user input to be searched.
