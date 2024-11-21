@@ -5,16 +5,17 @@ import java.util.List;
 import entities.recipe.Ingredient;
 import entities.recipe.Recipe;
 
-/**
- * Data Access Object for the search recipe usecase.
- */
 public interface ExploreIngredientDataAccessInterface {
     /**
-     * Searches for recipes that matches the keyword.
-     * @param ingredient user query.
-     * @return a list of recipe.
+     * Searches for recipes that contain the specified ingredient.
+     * @param ingredient ingredient name to search for
+     * @return a list of recipes containing the ingredient
      */
-    List<Ingredient> exploreRecipeByIngredients(String ingredient);
+    List<Recipe> exploreRecipeByIngredients(String ingredient);
 
+    /**
+     * Gets the list of all available ingredients.
+     * @return a list of all ingredients
+     */
     List<Ingredient> getIngredientsList();
 }

@@ -60,7 +60,7 @@ public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface
     @Override
     public List<Recipe> exploreRecipeByIngredients(String ingredient) {
         final List<Recipe> recipes = new ArrayList<>();
-        final JSONObject responseBody = makeApiRequest(String.format("%s/search.php?i=%s", API_URL, ingredient));
+        final JSONObject responseBody = makeApiRequest(String.format("%s/filter.php?i=%s", API_URL, ingredient));
         return getRecipes(recipes, responseBody);
     }
 

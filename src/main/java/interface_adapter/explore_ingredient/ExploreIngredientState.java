@@ -16,6 +16,7 @@ public class ExploreIngredientState {
     public ExploreIngredientState(ExploreIngredientState copy) {
         this.recipes = copy.recipes;
         this.query = copy.query;
+        this.ingredients = copy.ingredients;
     }
 
     public ExploreIngredientState() {
@@ -29,11 +30,19 @@ public class ExploreIngredientState {
         return query;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
+    }
+
+    public List<Recipe> getRecipes() {
+        return recipes;
     }
 
     public List<Ingredient> getIngredients() {
         return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }

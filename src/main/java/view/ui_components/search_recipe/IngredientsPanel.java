@@ -8,6 +8,7 @@ import entities.recipe.Recipe;
 import data_access.CocktailDataAccessObject;
 import interface_adapter.services.ServiceManager;
 
+@Deprecated
 public class IngredientsPanel extends JPanel {
     private static final Color BACKGROUND_COLOR = new Color(248, 249, 250);
     private static final int GRID_COLUMNS = 3;
