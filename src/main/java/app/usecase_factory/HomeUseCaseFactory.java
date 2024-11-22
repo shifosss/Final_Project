@@ -1,6 +1,12 @@
 package app.usecase_factory;
 
+import data_access.ExploreIngredientDataAccessObject;
+import entities.recipe.factory.CocktailFactory;
+import entities.recipe.factory.RecipeFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.explore_ingredient.ExploreIngredientController;
+import interface_adapter.explore_ingredient.ExploreIngredientPresenter;
+import interface_adapter.explore_ingredient.ExploreIngredientViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailController;
@@ -10,7 +16,10 @@ import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.search_recipe.SearchRecipePresenter;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
+import use_case.explore_ingredient.ExploreIngredientDataAccessInterface;
 import use_case.explore_ingredient.ExploreIngredientInputBoundary;
+import use_case.explore_ingredient.ExploreIngredientInteractor;
+import use_case.explore_ingredient.ExploreIngredientOutputBoundary;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeInputBoundary;
 import use_case.search_recipes.SearchRecipeInteractor;
@@ -40,24 +49,53 @@ public final class HomeUseCaseFactory {
      * @return the home view.
      */
     public static HomeView create(ViewManagerModel viewManagerModel,
-                              HomePageViewModel homePageViewModel,
-                              SearchRecipeViewModel searchRecipeViewModel,
-                              RecipeDetailViewModel recipeDetailViewModel,
-                              SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
-                              ViewRecipeDataAccessInterface viewRecipeDataAccessObject,
-                              ServiceManager serviceManager) {
+                                  HomePageViewModel homePageViewModel,
+                                  SearchRecipeViewModel searchRecipeViewModel,
+                                  RecipeDetailViewModel recipeDetailViewModel,
+                                  SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
+                                  ViewRecipeDataAccessInterface viewRecipeDataAccessObject,
+                                  ServiceManager serviceManager) {
 
-    final HomePageController homePageController = createHomePageUseCase(viewManagerModel,
-            searchRecipeViewModel, recipeDetailViewModel, homePageViewModel,
-            null, // Add ExploreIngredientInputBoundary parameter or remove if not needed
-            viewRecipeDataAccessObject);
-    final RecipeDetailController recipeDetailController = createViewRecipeUseCase(
-            viewManagerModel, searchRecipeViewModel, recipeDetailViewModel, viewRecipeDataAccessObject
-    );
-    return new HomeView(homePageViewModel,
-            homePageController, recipeDetailController,
-            serviceManager);
-}
+        // Create ExploreIngredientController
+        ExploreIngredientInputBoundary exploreIngredientController = createExploreIngredientUseCase(
+                viewManagerModel,
+                new ExploreIngredientViewModel(), // You might need to create this ViewModel
+                searchRecipeViewModel
+        );
+
+        final HomePageController homePageController = createHomePageUseCase(viewManagerModel,
+                searchRecipeViewModel, recipeDetailViewModel, homePageViewModel,
+                exploreIngredientController,
+                viewRecipeDataAccessObject);
+        final RecipeDetailController recipeDetailController = createViewRecipeUseCase(
+                viewManagerModel, searchRecipeViewModel, recipeDetailViewModel, viewRecipeDataAccessObject
+        );
+        return new HomeView(homePageViewModel,
+                homePageController, recipeDetailController,
+                serviceManager);
+    }
+
+    // Add this method to create ExploreIngredientController
+    private static ExploreIngredientInputBoundary createExploreIngredientUseCase(
+            ViewManagerModel viewManagerModel,
+            ExploreIngredientViewModel exploreIngredientViewModel,
+            SearchRecipeViewModel searchRecipeViewModel) {
+
+        final RecipeFactory cocktailFactory = new CocktailFactory(); // Implement this
+
+        ExploreIngredientOutputBoundary exploreIngredientPresenter = new ExploreIngredientPresenter(
+                exploreIngredientViewModel,
+                viewManagerModel
+        );
+
+        ExploreIngredientDataAccessInterface exploreIngredientDataAccessObject =
+                new ExploreIngredientDataAccessObject(cocktailFactory); // Implement this
+
+        return new ExploreIngredientInteractor(
+                exploreIngredientDataAccessObject,
+                exploreIngredientPresenter
+        );
+    }
 
     private static HomePageController createHomePageUseCase(
             ViewManagerModel viewManagerModel,
