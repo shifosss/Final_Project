@@ -1,39 +1,43 @@
 package interface_adapter.home_page;
 
+import use_case.explore_ingredient.ExploreIngredientInputBoundary;
+import use_case.explore_ingredient.ExploreIngredientOutputData;
 import use_case.view_recipe.ViewRecipeInputBoundary;
 import use_case.view_recipe.ViewRecipeInputData;
-import interface_adapter.ViewManagerModel;
-import use_case.explore_ingredient.ExploreIngredientInputBoundary;
 
+/**
+ * Controller for the home view.
+ */
 public class HomePageController {
     private final ViewRecipeInputBoundary recipeDetailController;
-    private final ExploreIngredientInputBoundary exploreIngredientController;
-    private final ViewManagerModel viewManagerModel;
-    private final HomePagePresenter homePagePresenter;
+    private final ExploreIngredientInputBoundary ingredientController;
 
-    public HomePageController(
-            ViewRecipeInputBoundary recipeDetailController,
-            ExploreIngredientInputBoundary exploreIngredientController,
-            ViewManagerModel viewManagerModel,
-            HomePagePresenter homePagePresenter) {
+    public HomePageController(ViewRecipeInputBoundary recipeDetailController,
+                              ExploreIngredientInputBoundary ingredientController) {
         this.recipeDetailController = recipeDetailController;
-        this.exploreIngredientController = exploreIngredientController;
-        this.viewManagerModel = viewManagerModel;
-        this.homePagePresenter = homePagePresenter;
+        this.ingredientController = ingredientController;
     }
 
+    /**
+     * Switch to Recipe View.
+     * @param id the given recipe id. (useful for clicking recipes directly on homepage)
+     */
     public void switchToRecipeView(int id) {
         final ViewRecipeInputData inputData = new ViewRecipeInputData(id);
         recipeDetailController.execute(inputData);
     }
 
-    public void switchToSearchRecipeView() {
-        recipeDetailController.switchToSearchView();
+    /**
+     * Switches to the explore ingredient view.
+     */
+    public void switchToExploreIngredientView() {
+        ingredientController.switchToExploreIngredients();
     }
 
-    public void switchToExploreIngredientView() {
-        exploreIngredientController.loadIngredients();
-        viewManagerModel.setState("explore ingredient");
-        viewManagerModel.firePropertyChanged();
+    /**
+     * Switches to the search recipes view when textfield is clicked.
+     */
+    public void switchToSearchRecipeView() {
+        recipeDetailController.switchToSearchView();
     }
 }

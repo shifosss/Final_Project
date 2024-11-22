@@ -1,8 +1,12 @@
 package app.usecase_factory;
 
+import data_access.CocktailDataAccessObject;
+import data_access.UserDataAccessObject;
+import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.recipe_detail.RecipeDetailPresenter;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
+import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeInputBoundary;
 import use_case.search_recipes.SearchRecipeInteractor;
@@ -33,8 +37,8 @@ public final class SearchRecipeUseCaseFactory {
      * @param searchRecipeViewModel the SearchRecipeViewModel to be injected into the View.
      * @param recipeDetailViewModel the RecipeDetailViewModel to be injected into the View.
      * @param homePageViewModel the HomePageViewModel to be injected into the View.
-     * @param searchRecipeDataAccessObject the SearchRecipeDAO to be injected into the View.
-     * @param viewRecipeDataAccessObject the ViewRecipeDAO to be injected into the View.
+     * @param cocktailDataAccessObject the CocktailDAO to be injected into the View.
+     * @param userDataAccessObject the UserDAO to be injected into the View.
      * @param serviceManager the Service Manager that handles service requests.
      * @return the SearchRecipeView given the arguments.
      */
@@ -42,15 +46,15 @@ public final class SearchRecipeUseCaseFactory {
                                           SearchRecipeViewModel searchRecipeViewModel,
                                           RecipeDetailViewModel recipeDetailViewModel,
                                           interface_adapter.home_page.HomePageViewModel homePageViewModel,
-                                          SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
-                                          ViewRecipeDataAccessInterface viewRecipeDataAccessObject,
+                                          CocktailDataAccessObject cocktailDataAccessObject,
+                                          UserDataAccessObject userDataAccessObject,
                                           ServiceManager serviceManager) {
         final SearchRecipeController searchRecipeController = createSearchRecipeUseCase(viewManagerModel,
                 searchRecipeViewModel, recipeDetailViewModel, homePageViewModel,
-                searchRecipeDataAccessObject);
+                cocktailDataAccessObject, userDataAccessObject);
         final RecipeDetailController recipeDetailController = createViewRecipeUseCase(
-                viewManagerModel, searchRecipeViewModel, recipeDetailViewModel, viewRecipeDataAccessObject
-        );
+                viewManagerModel, searchRecipeViewModel, recipeDetailViewModel,
+                cocktailDataAccessObject, userDataAccessObject);
         return new SearchRecipeView(searchRecipeViewModel,
                 searchRecipeController, recipeDetailController,
                 serviceManager);
@@ -60,11 +64,12 @@ public final class SearchRecipeUseCaseFactory {
             ViewManagerModel viewManagerModel,
             SearchRecipeViewModel searchRecipeViewModel,
             RecipeDetailViewModel recipeDetailViewModel,
-            ViewRecipeDataAccessInterface viewRecipeDataAccessObject) {
+            ViewRecipeDataAccessInterface viewRecipeDataAccessObject,
+            BookmarkRecipeDataAccessInterface bookmarkRecipeDataAccessObject) {
         final ViewRecipeOutputBoundary viewRecipeOutputBoundary = new RecipeDetailPresenter(
                 recipeDetailViewModel, searchRecipeViewModel, viewManagerModel);
         final ViewRecipeInputBoundary viewRecipeInteractor = new ViewRecipeInteractor(
-                viewRecipeDataAccessObject, viewRecipeOutputBoundary
+                viewRecipeDataAccessObject, bookmarkRecipeDataAccessObject, viewRecipeOutputBoundary
         );
 
         return new RecipeDetailController(viewRecipeInteractor);
@@ -74,13 +79,14 @@ public final class SearchRecipeUseCaseFactory {
             ViewManagerModel viewManagerModel,
             SearchRecipeViewModel searchRecipeViewModel,
             RecipeDetailViewModel recipeDetailViewModel,
-            interface_adapter.home_page.HomePageViewModel homepageViewModel,
-            SearchRecipeDataAccessInterface searchRecipeDataAccessObject) {
+            HomePageViewModel homepageViewModel,
+            SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
+            BookmarkRecipeDataAccessInterface bookmarkRecipeDataAccessObject) {
 
         final SearchRecipeOutputBoundary searchRecipeOutputBoundary = new SearchRecipePresenter(viewManagerModel,
                 searchRecipeViewModel, recipeDetailViewModel, homepageViewModel);
         final SearchRecipeInputBoundary searchRecipeInteractor = new SearchRecipeInteractor(
-                searchRecipeDataAccessObject, searchRecipeOutputBoundary);
+                searchRecipeDataAccessObject, bookmarkRecipeDataAccessObject, searchRecipeOutputBoundary);
 
         return new SearchRecipeController(searchRecipeInteractor);
     }

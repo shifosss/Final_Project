@@ -1,48 +1,54 @@
 package use_case.explore_ingredient;
 
 import java.util.List;
-import entities.recipe.Recipe;
-import entities.recipe.Ingredient;
 
+import entities.recipe.Recipe;
+import entities.recipe.SimpleRecipe;
+import entities.recipe.Ingredient;
+import interface_adapter.explore_ingredient.ExploreIngredientPresenter;
+import use_case.search_recipes.SearchRecipeInputBoundary;
+import use_case.search_recipes.SearchRecipeInputData;
+import use_case.search_recipes.SearchRecipeOutputBoundary;
+import use_case.search_recipes.SearchRecipeOutputData;
+import use_case.view_recipe.ViewRecipeInputData;
+
+/**
+ * Interactor for the explore ingredient usecase.
+ */
 public class ExploreIngredientInteractor implements ExploreIngredientInputBoundary {
     private final ExploreIngredientDataAccessInterface ingredientDataAccessObject;
-    private final ExploreIngredientOutputBoundary ingredientPresenter;
+    private final ExploreIngredientPresenter ingredientPresenter;
 
-    public ExploreIngredientInteractor(
-            ExploreIngredientDataAccessInterface ingredientDataAccessObject,
-            ExploreIngredientOutputBoundary ingredientPresenter) {
+    public ExploreIngredientInteractor(ExploreIngredientDataAccessInterface ingredientDataAccessObject,
+                                       ExploreIngredientOutputBoundary ingredientPresenter) {
         this.ingredientDataAccessObject = ingredientDataAccessObject;
-        this.ingredientPresenter = ingredientPresenter;
+        this.ingredientPresenter = (ExploreIngredientPresenter) ingredientPresenter;
     }
 
     @Override
-    public void execute(ExploreIngredientInputData exploreIngredientInputData) {
-        final String query = exploreIngredientInputData.getQuery();
+    public void switchToRecipes(ExploreIngredientInputData exploreIngredientInputData) {
+        final String ingredient = exploreIngredientInputData.getIngredientName();
 
-        final List<Recipe> recipeResults = ingredientDataAccessObject.exploreRecipeByIngredients(query);
+        final List<Recipe> recipeResults = ingredientDataAccessObject.exploreRecipeByIngredients(ingredient);
         if (recipeResults.isEmpty()) {
             ingredientPresenter.prepareFailView("No recipes found with this ingredient.");
-        } else {
-            final ExploreIngredientOutputData recipeOutputData = new ExploreIngredientOutputData(
+        }
+        else {
+            final SearchRecipeOutputData outputData = new SearchRecipeOutputData(
+                    "",
                     recipeResults,
                     false
             );
-            ingredientPresenter.prepareSuccessView(recipeOutputData);
+            ingredientPresenter.prepareSuccessView(outputData);
         }
     }
 
     @Override
-    public void loadIngredients() {
-        final List<Ingredient> ingredients = ingredientDataAccessObject.getIngredientsList();
-        if (ingredients.isEmpty()) {
-            ingredientPresenter.prepareFailView("Failed to load ingredients.");
-        } else {
-            final ExploreIngredientOutputData outputData = new ExploreIngredientOutputData(
-                    ingredients,
-                    false
-            );
-            System.out.println("Interactor: Ingredients loaded successfully.");
-            ingredientPresenter.prepareSuccessView(outputData);
-        }
+    public void switchToExploreIngredients() {
+        final List<String> ingredientList = ingredientDataAccessObject.getIngredientsList();
+
+        final ExploreIngredientOutputData outputData = new ExploreIngredientOutputData(
+                ingredientList, false);
+        ingredientPresenter.prepareIngredientsListView(outputData);
     }
 }
