@@ -11,14 +11,14 @@ import entities.recipe.Recipe;
  */
 public class MealFactory implements RecipeFactory {
 
-    public Recipe create(String name, String id,
-                         String instruction, List<Ingredient> ingredients,
-                         String imageLink, String videoLink) {
-        return new MealRecipe(name, id, instruction, ingredients, imageLink, videoLink);
-    }
-
     @Override
     public Recipe create(String name, int id, String instruction, List<Ingredient> ingredients, String imageLink, String videoLink) {
         return null;
+    }
+
+    public Recipe create_meals(String name, String id,
+                               String instruction, List<Ingredient> ingredients,
+                               String imageLink, String videoLink) {
+        return new MealRecipe(name, id, instruction, ingredients, imageLink, videoLink);
     }
 }

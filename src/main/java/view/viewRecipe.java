@@ -1,6 +1,8 @@
 package view;
 
 import data_access.MealDataAccessObject;
+import entities.recipe.factory.MealFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,7 +19,9 @@ public class viewRecipe implements ActionListener {
     }
 
     public viewRecipe() {
-        MealDataAccessObject mealDataAccessObject = new MealDataAccessObject();
+
+        final MealFactory mealFactory = new MealFactory();
+        MealDataAccessObject mealDataAccessObject = new MealDataAccessObject(mealFactory);
         frame.setTitle("Meal Recipe");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 800);
@@ -31,7 +35,8 @@ public class viewRecipe implements ActionListener {
     }
 
     public static JButton createbutton(int i) {
-        MealDataAccessObject mealDataAccessObject = new MealDataAccessObject();
+        final MealFactory mealFactory = new MealFactory();
+        MealDataAccessObject mealDataAccessObject = new MealDataAccessObject(mealFactory);
         JButton button = new JButton(mealDataAccessObject.getMealName(i));
         button.setSize(90, 190);
         button.setBackground(null);

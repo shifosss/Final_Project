@@ -21,4 +21,7 @@ public interface RecipeFactory {
     Recipe create(String name, int id,
                   String instruction, List<Ingredient> ingredients,
                   String imageLink, String videoLink);
+
+    Recipe create_meals(String name, String id, String instruction, List<Ingredient> ingredients,
+                        String imageLink, String videoLink);
 }

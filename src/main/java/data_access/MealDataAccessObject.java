@@ -1,18 +1,24 @@
 package data_access;
 
-import entities.mealrecipe.Meals;
+import entities.recipe.factory.MealFactory;
+import entities.recipe.factory.RecipeFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import entities.mealrecipe.Ingredient;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class MealDataAccessObject {
+
+    private final RecipeFactory mealfactory;
+
+    public MealDataAccessObject(RecipeFactory mealFactory) {
+        this.mealfactory = mealFactory;
+    }
 
     private static final String API_URL = "https://www.themealdb.com/api/json/v1/1/search.php?f=a";
     private static final int START = 1;
