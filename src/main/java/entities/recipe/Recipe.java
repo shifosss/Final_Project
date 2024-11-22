@@ -39,7 +39,13 @@ public interface Recipe {
 
     /**
      * Image link of the recipe.
-     * @return link of recipe.
+     * @return link of recipe image.
      */
     String getImageLink();
+
+    /**
+     * Video link of the recipe.
+     * @return link of recipe video.
+     */
+    String getVideoLink();
 }

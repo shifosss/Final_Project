@@ -21,4 +21,9 @@ public class CommonUser implements User {
     public String getPassword() {
         return password;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s with pass: %s", name, password);
+    }
 }

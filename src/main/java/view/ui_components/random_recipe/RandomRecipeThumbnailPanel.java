@@ -1,6 +1,9 @@
-package view.ui_components.search_recipe;
+package view.ui_components.random_recipe;
 
 import entities.recipe.Recipe;
+import interface_adapter.home_page.HomePageViewModel;
+import interface_adapter.recipe_detail.RecipeDetailController;
+import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
 
@@ -9,13 +12,14 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
  * Recipe Panel that shows when searching for recipes.
  */
-public class SearchRecipePanel extends JPanel {
+public class RandomRecipeThumbnailPanel extends JPanel {
     private static final int H_GAP = 10;
     private static final int V_GAP = 10;
     private static final int TOP = 5;
@@ -32,11 +36,20 @@ public class SearchRecipePanel extends JPanel {
 
     private JLabel imageLabel;
     private JButton nameButton;
-    private final ServiceManager serviceManager;
-    private Recipe currentRecipe;
 
-    public SearchRecipePanel(ServiceManager serviceManager) {
+    private final HomePageViewModel homePageViewModel;
+    private final SearchRecipeController searchRecipeController;
+    private final RecipeDetailController recipeDetailController;
+    private final ServiceManager serviceManager;
+
+    public RandomRecipeThumbnailPanel(HomePageViewModel homePageViewModel,
+                                      SearchRecipeController searchRecipeController,
+                                      RecipeDetailController recipeDetailController,
+                                      ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
+        this.searchRecipeController = searchRecipeController;
+        this.recipeDetailController = recipeDetailController;
+        this.homePageViewModel = homePageViewModel;
         // Sets Layout
         setLayout(new BorderLayout(H_GAP, V_GAP));
         setBackground(Color.WHITE);
@@ -51,25 +64,26 @@ public class SearchRecipePanel extends JPanel {
     }
 
     private JButton createStyledButton() {
-        JButton button = new JButton();
+        final JButton button = new JButton();
 
         // Basic button setup
-        button.setFocusPainted(false);  // Remove focus border
+        // Remove focus border
+        button.setFocusPainted(false);
         button.setFont(new Font("SansSerif", Font.BOLD, FONT_SIZE));
         button.setForeground(TEXT_COLOR);
         button.setBackground(BUTTON_BACKGROUND);
 
         // Create rounded border with padding
         button.setBorder(new CompoundBorder(
-                new LineBorder(BUTTON_BORDER, 1, true),  // Outer border, rounded
-                new EmptyBorder(TOP, LEFT, BOTTOM, RIGHT)  // Inner padding
+                new LineBorder(BUTTON_BORDER, 1, true),
+                new EmptyBorder(TOP, LEFT, BOTTOM, RIGHT)
         ));
 
         // Make sure the background is painted
         button.setContentAreaFilled(true);
         button.setOpaque(true);
 
-        // Add hover effect
+        // Add hover effect for decor
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -92,12 +106,17 @@ public class SearchRecipePanel extends JPanel {
      * @param recipe Recipe entity that holds the recipe information.
      */
     public void addRecipe(Recipe recipe) {
-        this.currentRecipe = recipe;
         final String recipeName = recipe.getName();
         final String imageLink = recipe.getImageLink();
 
         final ImageServiceInterface imageService = serviceManager.getWebImageService();
         final ImageIcon recipeImage = imageService.fetchImage(imageLink);
+
+        final ActionListener recipeDetailListener = event -> {
+            if (event.getSource().equals(nameButton)) {
+                searchRecipeController.switchToRecipeView(recipe.getId());
+            }
+        };
 
         // Image label at the top
         imageLabel.setIcon(recipeImage);
@@ -106,31 +125,7 @@ public class SearchRecipePanel extends JPanel {
 
         // Recipe name button at the bottom
         nameButton.setText(recipeName);
-        nameButton.addActionListener(e -> showRecipeDetails());
+        nameButton.addActionListener(recipeDetailListener);
         add(nameButton, BorderLayout.SOUTH);
-    }
-
-    private void showRecipeDetails() {
-        JFrame detailFrame = new JFrame("Recipe Details");
-
-        // Get the RecipeScrollPanel parent
-        Container parent = this.getParent();
-        while (parent != null && !(parent instanceof RecipeScrollPanel)) {
-            parent = parent.getParent();
-        }
-
-        if (parent == null) {
-            System.err.println("Error: Could not find RecipeScrollPanel parent");
-            return;
-        }
-
-        // Create detail panel with both required parameters
-        RecipeDetailPanel detailPanel = new RecipeDetailPanel(currentRecipe,
-                (RecipeScrollPanel) parent);
-
-        detailFrame.add(detailPanel);
-        detailFrame.pack();
-        detailFrame.setLocationRelativeTo(this);
-        detailFrame.setVisible(true);
     }
 }

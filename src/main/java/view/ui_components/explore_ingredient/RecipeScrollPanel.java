@@ -1,14 +1,13 @@
-package view.ui_components.search_recipe;
+package view.ui_components.explore_ingredient;
 
+import data_access.CocktailDataAccessObject;
+import entities.recipe.Recipe;
+import interface_adapter.services.ServiceManager;
+
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.*;
-
-import entities.recipe.Recipe;
-import interface_adapter.services.ServiceManager;
-import data_access.CocktailDataAccessObject;
 
 public class RecipeScrollPanel extends JPanel {
     private static final int ROW = 0;
@@ -20,7 +19,6 @@ public class RecipeScrollPanel extends JPanel {
     private final JPanel recipePanel;
     private final JScrollPane scrollPane;
     private final ServiceManager serviceManager;
-    private final CocktailDataAccessObject cocktailDataAccessObject;
     private boolean isExploreMode = false;  // New flag to track mode
 
     private List<Recipe> currentRecipes = new ArrayList<>();
@@ -28,7 +26,6 @@ public class RecipeScrollPanel extends JPanel {
 
     public RecipeScrollPanel(ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
-        this.cocktailDataAccessObject = new CocktailDataAccessObject();
 
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
@@ -122,33 +119,6 @@ public class RecipeScrollPanel extends JPanel {
         welcomeLabel.setForeground(new Color(108, 117, 125));
         welcomePanel.add(welcomeLabel);
 
-        // Recommendations section
-        JPanel recommendationsPanel = new JPanel();
-        recommendationsPanel.setLayout(new BoxLayout(recommendationsPanel, BoxLayout.Y_AXIS));
-        recommendationsPanel.setBackground(Color.WHITE);
-
-        // Recommendations title
-        JLabel recommendationsTitle = new JLabel("Recommendations");
-        recommendationsTitle.setFont(new Font("SansSerif", Font.BOLD, 24));
-        recommendationsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        recommendationsPanel.add(recommendationsTitle);
-
-        // Add some vertical spacing
-        recommendationsPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-
-        // Panel for recommendation recipes
-        JPanel recommendedRecipesPanel = new JPanel(new GridLayout(1, RECOMMENDATIONS_COUNT, H_GAP, V_GAP));
-        recommendedRecipesPanel.setBackground(Color.WHITE);
-
-        // Add random recipes
-        for (int i = 0; i < RECOMMENDATIONS_COUNT; i++) {
-            Recipe randomRecipe = cocktailDataAccessObject.searchRandomRecipe();
-            SearchRecipePanel randomRecipePanel = new SearchRecipePanel(serviceManager);
-            randomRecipePanel.addRecipe(randomRecipe);
-            recommendedRecipesPanel.add(randomRecipePanel);
-        }
-        recommendationsPanel.add(recommendedRecipesPanel);
-
         // Search message panel
         JPanel searchPanel = new JPanel(new GridBagLayout());
         searchPanel.setBackground(Color.WHITE);
@@ -160,8 +130,6 @@ public class RecipeScrollPanel extends JPanel {
         // Add all components with glue for spacing
         recipePanel.add(Box.createVerticalGlue());
         recipePanel.add(welcomePanel);
-        recipePanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        recipePanel.add(recommendationsPanel);
         recipePanel.add(Box.createRigidArea(new Dimension(0, 20)));
         recipePanel.add(searchPanel);
         recipePanel.add(Box.createVerticalGlue());
@@ -191,9 +159,9 @@ public class RecipeScrollPanel extends JPanel {
     private List<JPanel> parseToPanel(List<Recipe> recipes) {
         final List<JPanel> panels = new ArrayList<>();
         for (Recipe recipe : recipes) {
-            final SearchRecipePanel srp = new SearchRecipePanel(serviceManager);
-            srp.addRecipe(recipe);
-            panels.add(srp);
+//            final SearchRecipePanel srp = new SearchRecipePanel(serviceManager);
+//            srp.addRecipe(recipe);
+//            panels.add(srp);
         }
         return panels;
     }

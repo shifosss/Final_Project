@@ -4,6 +4,7 @@ package entities.recipe;
  * Ingredient entity.
  */
 public class Ingredient {
+    // private final int id;
     private final String name;
     private final String measure;
 
