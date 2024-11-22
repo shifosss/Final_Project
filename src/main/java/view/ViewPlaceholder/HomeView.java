@@ -9,6 +9,7 @@ import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.services.ServiceManager;
 import view.PageView;
 import view.ui_components.random_recipe.RandomRecipeThumbnailPanel;
+import view.ui_components.main_page.HeaderPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,46 +36,58 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
     private final HomePageController homePageController;
     private final RecipeDetailController recipeDetailController;
 
+
     public HomeView(HomePageViewModel homePageViewModel,
-                    HomePageController homePageController, RecipeDetailController recipeDetailController,
+                    HomePageController homePageController,
+                    RecipeDetailController recipeDetailController,
                     ServiceManager serviceManager) {
         this.homePageViewModel = homePageViewModel;
         this.homePageController = homePageController;
         this.recipeDetailController = recipeDetailController;
         this.serviceManager = serviceManager;
 
-        // Recommendations section
-        this.recommendationsPanel = new JPanel();
-        recommendationsPanel.setLayout(new BoxLayout(recommendationsPanel, BoxLayout.Y_AXIS));
-        recommendationsPanel.setBackground(Color.WHITE);
+        // Create the "Explore by Ingredients" button
+        JButton exploreIngredientsButton = createExploreIngredientsButton();
 
-        // Recommendations title
-        JLabel recommendationsTitle = new JLabel("Recommendations");
-        recommendationsTitle.setFont(new Font("SansSerif", Font.BOLD, 24));
-        recommendationsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        recommendationsPanel.add(recommendationsTitle);
+        // Create the HeaderPanel with the button
+        HeaderPanel headerPanel = new HeaderPanel("Recipe Lookup", exploreIngredientsButton);
 
-        // Add some vertical spacing
-        recommendationsPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-
-        // Panel for recommendation recipes
-        this.recommendedRecipesPanel = new JPanel(new GridLayout(1, 3, 10, 10));
-        recommendedRecipesPanel.setBackground(Color.WHITE);
-
-        final JPanel searchBar = new JPanel(new BorderLayout());
-        searchBar.add(searchTextField);
+        // Create the search bar panel
+        JPanel searchBarPanel = new JPanel(new BorderLayout());
+        searchBarPanel.add(searchTextField, BorderLayout.CENTER);
         searchTextField.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
                 homePageController.switchToSearchRecipeView();
             }
         });
-        homePageViewModel.addPropertyChangeListener(this);
 
+        // Combine the HeaderPanel and search bar into a single panel
+        JPanel northPanel = new JPanel(new BorderLayout());
+        northPanel.add(headerPanel, BorderLayout.NORTH);
+        northPanel.add(searchBarPanel, BorderLayout.CENTER);
+
+        // Set up layout and add components
         setLayout(new BorderLayout());
+        add(northPanel, BorderLayout.NORTH);
 
-        add(searchBar, BorderLayout.NORTH);
+        // Recommendations section
+        this.recommendationsPanel = new JPanel();
+        recommendationsPanel.setLayout(new BoxLayout(recommendationsPanel, BoxLayout.Y_AXIS));
+        recommendationsPanel.setBackground(Color.WHITE);
+
+        JLabel recommendationsTitle = new JLabel("Recommendations");
+        recommendationsTitle.setFont(new Font("SansSerif", Font.BOLD, 24));
+        recommendationsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        recommendationsPanel.add(recommendationsTitle);
+
+        recommendationsPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        this.recommendedRecipesPanel = new JPanel(new GridLayout(1, 3, 10, 10));
+        recommendedRecipesPanel.setBackground(Color.WHITE);
+
         add(recommendationsPanel, BorderLayout.CENTER);
+        homePageViewModel.addPropertyChangeListener(this);
     }
 
     @Override
@@ -114,5 +127,17 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
             randomRecipeThumbnailPanel.addRecipe(randomRecipe);
         }
         recommendationsPanel.add(recommendedRecipesPanel);
+    }
+
+    /**
+     * Creates the "Explore by Ingredients" button.
+     */
+    public JButton createExploreIngredientsButton() {
+        JButton exploreIngredientsButton = new JButton("Explore by Ingredients");
+        exploreIngredientsButton.addActionListener(e -> {
+            // Call the controller to switch views
+            homePageController.switchToExploreIngredientView();
+        });
+        return exploreIngredientsButton;
     }
 }
