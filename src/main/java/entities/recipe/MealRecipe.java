@@ -7,13 +7,13 @@ import java.util.List;
  */
 public class MealRecipe implements Recipe {
     private final String name;
-    private final int id;
+    private final String id;
     private final String instruction;
     private final List<Ingredient> ingredients;
     private final String imageLink;
     private final String videoLink;
 
-    public MealRecipe(String name, int id,
+    public MealRecipe(String name, String id,
                       String instruction, List<Ingredient> ingredients,
                       String imageLink, String videoLink) {
         this.name = name;
@@ -31,6 +31,11 @@ public class MealRecipe implements Recipe {
 
     @Override
     public int getId() {
+        return 0;
+    }
+
+    @Override
+    public String getMealId() {
         return id;
     }
 

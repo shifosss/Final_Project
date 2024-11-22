@@ -58,4 +58,9 @@ public class CocktailRecipe implements Recipe {
     public String getVideoLink() {
         return videoLink;
     }
+
+    @Override
+    public String getMealId() {
+        return "";
+    }
 }

@@ -71,6 +71,12 @@ public class MealDataAccessObject {
         }
         return mealsarray;
     }
+    public get_meal_id(int index) throws JSONException {
+        final JSONObject meals = makeApiRequest(API_URL);
+        assert meals != null;
+        final JSONArray mealsArray = meals.getJSONArray("meals");
+        return mealsArray.getJSONObject(index).getString("idMeal");
+    }
 
     public String getRecipe(int index) throws JSONException {
         final JSONObject recipe = makeApiRequest(API_URL);
