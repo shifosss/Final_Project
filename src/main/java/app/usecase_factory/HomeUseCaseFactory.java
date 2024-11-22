@@ -39,18 +39,16 @@ public final class HomeUseCaseFactory {
      * @return the home view.
      */
     public static HomeView create(ViewManagerModel viewManagerModel,
-                                  interface_adapter.home_page.HomePageViewModel homePageViewModel,
+                                  HomePageViewModel homePageViewModel,
                                   SearchRecipeViewModel searchRecipeViewModel,
                                   RecipeDetailViewModel recipeDetailViewModel,
                                   SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
                                   ViewRecipeDataAccessInterface viewRecipeDataAccessObject,
                                   ServiceManager serviceManager) {
-        final interface_adapter.home_page.HomePageController homePageController = createHomePageUseCase(viewManagerModel,
+
+        final HomePageController homePageController = createHomePageUseCase(viewManagerModel,
                 searchRecipeViewModel, recipeDetailViewModel, homePageViewModel,
-                viewRecipeDataAccessObject);
-        final SearchRecipeController searchRecipeController = createSearchRecipeUseCase(viewManagerModel,
-                searchRecipeViewModel, recipeDetailViewModel, homePageViewModel,
-                searchRecipeDataAccessObject);
+                viewRecipeDataAccessObject);;
         final RecipeDetailController recipeDetailController = createViewRecipeUseCase(
                 viewManagerModel, searchRecipeViewModel, recipeDetailViewModel, viewRecipeDataAccessObject
         );
@@ -70,7 +68,7 @@ public final class HomeUseCaseFactory {
         final ViewRecipeInputBoundary viewRecipeInteractor = new ViewRecipeInteractor(
                 viewRecipeDataAccessObject, viewRecipeOutputBoundary
         );
-        return new HomePageController(viewRecipeInteractor);
+        return new HomePageController(viewRecipeInteractor, viewManagerModel);
     }
 
     private static RecipeDetailController createViewRecipeUseCase(
