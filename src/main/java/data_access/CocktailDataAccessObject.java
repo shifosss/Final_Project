@@ -140,7 +140,7 @@ public class CocktailDataAccessObject implements SearchRecipeDataAccessInterface
         return ingredients;
     }
 
-    private JSONObject makeApiRequest(String apiUrl) throws JSONException {
+    protected JSONObject makeApiRequest(String apiUrl) throws JSONException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         final Request request = new Request.Builder()

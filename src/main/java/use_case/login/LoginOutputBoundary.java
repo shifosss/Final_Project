@@ -1,4 +1,4 @@
-package use_case.login.login;
+package use_case.login;
 
 import use_case.login.LoginOutputData;
 

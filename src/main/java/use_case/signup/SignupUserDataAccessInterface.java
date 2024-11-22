@@ -1,4 +1,4 @@
-package use_case.signup.signup;
+package use_case.signup;
 
 import entities.user.User;
 
