@@ -17,6 +17,7 @@ import interface_adapter.services.image_service.WebImageService;
 import interface_adapter.services.video_service.VideoServiceInterface;
 import interface_adapter.services.video_service.WebVideoService;
 import interface_adapter.signup.SignupViewModel;
+import view.ExploreIngredientRecipeView;
 import view.RecipeDetailView;
 import view.SearchRecipeView;
 import view.ViewManager;
@@ -82,9 +83,14 @@ public class MainApp {
         views.add(loginView, loginView.getViewName());
 
         // SearchRecipeView initialization
-        final HomeView homeView = HomeUseCaseFactory.create(viewManagerModel,
-                homePageViewModel, searchRecipeViewModel, recipeDetailViewModel,
-                cocktailDataAccessObject, cocktailDataAccessObject, serviceManager);
+        final HomeView homeView = HomeUseCaseFactory.create(
+                viewManagerModel,
+                homePageViewModel,
+                searchRecipeViewModel,
+                recipeDetailViewModel,
+                cocktailDataAccessObject,  // Only pass this once
+                serviceManager
+        );
         views.add(homeView, homePageViewModel.getViewName());
 
         final SearchRecipeView searchRecipeView = SearchRecipeUseCaseFactory.create(viewManagerModel,
@@ -96,6 +102,13 @@ public class MainApp {
                 recipeDetailViewModel, searchRecipeViewModel,
                 cocktailDataAccessObject, serviceManager);
         views.add(recipeDetailView, recipeDetailView.getViewName());
+
+        final ExploreIngredientRecipeView exploreIngredientView = ExploreIngredientUseCaseFactory.create(
+                viewManagerModel,
+                cocktailDataAccessObject,
+                serviceManager
+        );
+        views.add(exploreIngredientView, "explore ingredient");
 
         // Handles what view model to be shown first
         viewManagerModel.setState(signupView.getViewName());

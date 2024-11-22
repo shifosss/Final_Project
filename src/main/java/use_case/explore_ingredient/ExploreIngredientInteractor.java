@@ -8,8 +8,9 @@ public class ExploreIngredientInteractor implements ExploreIngredientInputBounda
     private final ExploreIngredientDataAccessInterface ingredientDataAccessObject;
     private final ExploreIngredientOutputBoundary ingredientPresenter;
 
-    public ExploreIngredientInteractor(ExploreIngredientDataAccessInterface ingredientDataAccessObject,
-                                       ExploreIngredientOutputBoundary ingredientPresenter) {
+    public ExploreIngredientInteractor(
+            ExploreIngredientDataAccessInterface ingredientDataAccessObject,
+            ExploreIngredientOutputBoundary ingredientPresenter) {
         this.ingredientDataAccessObject = ingredientDataAccessObject;
         this.ingredientPresenter = ingredientPresenter;
     }
@@ -20,16 +21,13 @@ public class ExploreIngredientInteractor implements ExploreIngredientInputBounda
 
         final List<Recipe> recipeResults = ingredientDataAccessObject.exploreRecipeByIngredients(query);
         if (recipeResults.isEmpty()) {
-//            ingredientPresenter.prepareFailView("No recipes found with this ingredient.");
-            throw new RuntimeException("No recipes found with this ingredient.");
-        }
-        else {
+            ingredientPresenter.prepareFailView("No recipes found with this ingredient.");
+        } else {
             final ExploreIngredientOutputData recipeOutputData = new ExploreIngredientOutputData(
                     recipeResults,
                     false
             );
             ingredientPresenter.prepareSuccessView(recipeOutputData);
-//            ingredientPresenter.prepareRecipeListView(recipeOutputData);
         }
     }
 
@@ -37,15 +35,14 @@ public class ExploreIngredientInteractor implements ExploreIngredientInputBounda
     public void loadIngredients() {
         final List<Ingredient> ingredients = ingredientDataAccessObject.getIngredientsList();
         if (ingredients.isEmpty()) {
-//            ingredientPresenter.prepareFailView("Failed to load ingredients.");
-            throw new RuntimeException("Failed to load ingredients.");
+            ingredientPresenter.prepareFailView("Failed to load ingredients.");
         } else {
             final ExploreIngredientOutputData outputData = new ExploreIngredientOutputData(
                     ingredients,
                     false
             );
+            System.out.println("Interactor: Ingredients loaded successfully.");
             ingredientPresenter.prepareSuccessView(outputData);
-//            ingredientPresenter.prepareIngredientsListView(ingredients);
         }
     }
 }

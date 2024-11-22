@@ -12,7 +12,7 @@ public class ExploreIngredientViewModel extends ViewModel {
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
     public ExploreIngredientViewModel() {
-        super("explore ingredient");
+        super("explore_ingredient");
         setState(new SearchRecipeState());
     }
 
@@ -30,6 +30,7 @@ public class ExploreIngredientViewModel extends ViewModel {
 
     public void setState(ExploreIngredientState state) {
         this.state = state;
+        System.out.println("State updated: " + state);
         firePropertyChanged();
     }
 }

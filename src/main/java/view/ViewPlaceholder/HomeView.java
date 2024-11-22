@@ -133,7 +133,7 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
      * Creates the "Explore by Ingredients" button.
      */
     public JButton createExploreIngredientsButton() {
-        JButton exploreIngredientsButton = new JButton("Explore by Ingredients");
+        JButton exploreIngredientsButton = new JButton("Explore Ingredients");
         exploreIngredientsButton.addActionListener(e -> {
             // Call the controller to switch views
             homePageController.switchToExploreIngredientView();

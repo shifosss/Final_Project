@@ -8,11 +8,18 @@ import use_case.explore_ingredient.ExploreIngredientInputBoundary;
 public class HomePageController {
     private final ViewRecipeInputBoundary recipeDetailController;
     private final ExploreIngredientInputBoundary exploreIngredientController;
+    private final ViewManagerModel viewManagerModel;
+    private final HomePagePresenter homePagePresenter;
 
-    public HomePageController(ViewRecipeInputBoundary recipeDetailController,
-                              ExploreIngredientInputBoundary exploreIngredientController) {
+    public HomePageController(
+            ViewRecipeInputBoundary recipeDetailController,
+            ExploreIngredientInputBoundary exploreIngredientController,
+            ViewManagerModel viewManagerModel,
+            HomePagePresenter homePagePresenter) {
         this.recipeDetailController = recipeDetailController;
         this.exploreIngredientController = exploreIngredientController;
+        this.viewManagerModel = viewManagerModel;
+        this.homePagePresenter = homePagePresenter;
     }
 
     public void switchToRecipeView(int id) {
@@ -26,5 +33,7 @@ public class HomePageController {
 
     public void switchToExploreIngredientView() {
         exploreIngredientController.loadIngredients();
+        viewManagerModel.setState("explore ingredient");
+        viewManagerModel.firePropertyChanged();
     }
 }

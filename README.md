@@ -19,9 +19,8 @@ User Story 5 (FINISHED 11.6 by Alex & Rolland & Miguel):
 After they type some keyword and click the search button, they will be provided with all the recipe that fits the name.
 
 User Story 6:
-Users have access to the Explore By Ingredient button on the homepage. 
+Users have access to the Explore Ingredient button on the homepage. 
 Once they click the button, there will be a list of ingredients. 
-And clicking on either ingredient will lead to a list of recipes (images and names) containing that ingredient.
 Once the user finish viewing, they can go back to the search page using the back button. (next button possible)
 
 User Story 7:

@@ -1,10 +1,14 @@
 package use_case.explore_ingredient;
 
+import entities.recipe.Ingredient;
+
+import java.util.List;
+
 public interface ExploreIngredientOutputBoundary {
     /**
      * Prepares view for showing the list of all available ingredients
      */
-//    void prepareIngredientsListView(List<Ingredient> ingredients);
+    void prepareIngredientsListView(List<Ingredient> ingredients);
 
     /**
      * Prepares view for showing recipes containing a specific ingredient
@@ -17,5 +21,5 @@ public interface ExploreIngredientOutputBoundary {
 
     void prepareSuccessView(ExploreIngredientOutputData outputData);
 
-//    void prepareFailView(String _error);
+    void prepareFailView(String _error);
 }
