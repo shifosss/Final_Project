@@ -8,7 +8,7 @@ import entities.user.User;
 public interface UserFactory {
     /**
      * Creates a new User.
-     * @param name the name of the new user
+     * @param name the getName of the new user
      * @param password the password of the new user
      * @return the new user
      */

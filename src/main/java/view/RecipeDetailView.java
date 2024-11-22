@@ -1,5 +1,6 @@
 package view;
 
+import entities.recipe.CocktailRecipe;
 import entities.recipe.Recipe;
 import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.recipe_detail.RecipeDetailState;
@@ -106,7 +107,7 @@ public class RecipeDetailView extends JPanel implements
 
     private void setFields(RecipeDetailState state) {
         // Updates the Recipe detail view.
-        final Recipe recipe = state.getRecipe();
+        final CocktailRecipe recipe = state.getRecipe();
         // sets the recipe title
         recipeTitlePanel.updateComponents(recipe);
         videoPanel.updateComponents(recipe);

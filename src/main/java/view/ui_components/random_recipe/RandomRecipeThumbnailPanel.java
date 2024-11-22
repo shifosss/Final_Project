@@ -4,8 +4,6 @@ import entities.recipe.Recipe;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailController;
-import interface_adapter.search_recipe.SearchRecipeController;
-import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
 
@@ -125,7 +123,7 @@ public class RandomRecipeThumbnailPanel extends JPanel {
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         add(imageLabel, BorderLayout.CENTER);
 
-        // Recipe name button at the bottom
+        // Recipe getName button at the bottom
         nameButton.setText(recipeName);
         nameButton.addActionListener(recipeDetailListener);
         add(nameButton, BorderLayout.SOUTH);

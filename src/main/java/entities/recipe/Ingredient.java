@@ -4,7 +4,7 @@ package entities.recipe;
  * Ingredient entity.
  */
 public class Ingredient {
-    // private final int id;
+    // private final int getId;
     private final String name;
     private final String measure;
 
@@ -23,6 +23,6 @@ public class Ingredient {
 
     @Override
     public String toString() {
-        return String.format("Ingredient{name='%s', measure='%s'}", name, measure);
+        return String.format("Ingredient{getName='%s', measure='%s'}", name, measure);
     }
 }

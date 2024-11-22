@@ -1,5 +1,6 @@
 package view.ui_components.explore_ingredient;
 
+import entities.recipe.CocktailRecipe;
 import entities.recipe.Ingredient;
 import entities.recipe.Recipe;
 
@@ -30,7 +31,7 @@ public class RecipeDetailPanel extends JPanel {
     private RecipeScrollPanel scrollPanel;
     private JButton nextButton;
 
-    public RecipeDetailPanel(Recipe recipe, RecipeScrollPanel scrollPanel) {
+    public RecipeDetailPanel(CocktailRecipe recipe, RecipeScrollPanel scrollPanel) {
         super(new BorderLayout());
         this.currentRecipe = recipe;
         this.scrollPanel = scrollPanel;
@@ -234,7 +235,7 @@ public class RecipeDetailPanel extends JPanel {
     }
 
     private void showNextRecipe() {
-        Recipe nextRecipe = scrollPanel.getNextRecipe(currentRecipe);
+        CocktailRecipe nextRecipe = (CocktailRecipe) scrollPanel.getNextRecipe(currentRecipe);
         if (nextRecipe != null) {
             // Update the current panel with the next recipe
             this.currentRecipe = nextRecipe;

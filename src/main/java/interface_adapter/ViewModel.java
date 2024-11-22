@@ -47,7 +47,7 @@ public class ViewModel<T> {
      * when a class is listening for multiple kinds of property changes.
      * <p/>
      * For example, the LoggedInView listens for two kinds of property changes;
-     * it can use the property name to distinguish which property has changed.
+     * it can use the property getName to distinguish which property has changed.
      * @param propertyName the label for the property that was changed
      */
     public void firePropertyChanged(String propertyName) {

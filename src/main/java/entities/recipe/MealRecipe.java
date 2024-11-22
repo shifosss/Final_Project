@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Meals Recipe.
  */
-public class MealRecipe implements Recipe {
+public class MealRecipe extends Recipe {
     private final String name;
     private final int id;
     private final String instruction;
@@ -34,12 +34,10 @@ public class MealRecipe implements Recipe {
         return id;
     }
 
-    @Override
     public String getInstruction() {
         return instruction;
     }
 
-    @Override
     public List<Ingredient> getIngredients() {
         return ingredients;
     }
@@ -54,7 +52,6 @@ public class MealRecipe implements Recipe {
         return imageLink;
     }
 
-    @Override
     public String getVideoLink() {
         return videoLink;
     }

@@ -12,13 +12,16 @@ public interface RecipeFactory {
 
     /**
      * Creates a recipe.
-     * @param name recipe name.
-     * @param id recipe id.
+     * @param name recipe getName.
+     * @param id recipe getId.
      * @param instruction recipe instruction.
      * @param ingredients recipe ingredients.
      * @return recipe entity.
      */
-    Recipe create(String name, int id,
-                  String instruction, List<Ingredient> ingredients,
-                  String imageLink, String videoLink);
+    Recipe createDetailRecipe(String name, int id,
+                              String instruction, List<Ingredient> ingredients,
+                              String imageLink, String videoLink);
+
+    Recipe createSimpleRecipe(String name, int id,
+                              String imageLink);
 }

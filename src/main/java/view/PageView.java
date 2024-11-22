@@ -5,8 +5,8 @@ package view;
  */
 public interface PageView {
     /**
-     * Returns the view name (identifier so pages can be switched efficiently.
-     * @return the view name.
+     * Returns the view getName (identifier so pages can be switched efficiently.
+     * @return the view getName.
      */
     String getViewName();
 }

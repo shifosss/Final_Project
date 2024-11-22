@@ -123,7 +123,7 @@ public class SearchThumbnailPanel extends JPanel {
         imageLabel.setHorizontalAlignment(JLabel.CENTER);
         add(imageLabel, BorderLayout.CENTER);
 
-        // Recipe name button at the bottom
+        // Recipe getName button at the bottom
         nameButton.setText(recipeName);
         nameButton.addActionListener(recipeDetailListener);
         add(nameButton, BorderLayout.SOUTH);

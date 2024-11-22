@@ -1,5 +1,6 @@
 package use_case.view_recipe;
 
+import entities.recipe.CocktailRecipe;
 import entities.recipe.Recipe;
 
 /**
@@ -7,5 +8,5 @@ import entities.recipe.Recipe;
  */
 public interface ViewRecipeDataAccessInterface {
 
-    Recipe getRecipeById(int id);
+    CocktailRecipe getRecipeById(int id);
 }

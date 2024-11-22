@@ -16,7 +16,7 @@ public class RecipeDetailController {
 
     /**
      * Executes the interactor for recipe detail use case.
-     * @param id recipe id.
+     * @param id recipe getId.
      */
     public void execute(int id) {
         final ViewRecipeInputData recipeDetailInputData = new ViewRecipeInputData(id);

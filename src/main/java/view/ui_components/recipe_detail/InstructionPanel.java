@@ -1,5 +1,6 @@
 package view.ui_components.recipe_detail;
 
+import entities.recipe.CocktailRecipe;
 import entities.recipe.Recipe;
 
 import javax.swing.*;
@@ -34,7 +35,7 @@ public class InstructionPanel extends JPanel {
      * Updates components.
      * @param recipe the recipe entity.
      */
-    public void updateComponents(Recipe recipe) {
+    public void updateComponents(CocktailRecipe recipe) {
         final String instructionsText = recipe.getInstruction();
         if (instructionsText == null || instructionsText.isEmpty()) {
             instructionsArea.setText("No instructions available");

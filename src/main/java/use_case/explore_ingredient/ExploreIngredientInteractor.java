@@ -1,7 +1,7 @@
 package use_case.explore_ingredient;
 
 import java.util.List;
-import entities.recipe.SimpleRecipe;
+import entities.recipe.SimpleCocktailRecipe;
 import entities.recipe.Ingredient;
 
 public class ExploreIngredientInteractor implements ExploreIngredientInputBoundary {
@@ -18,7 +18,7 @@ public class ExploreIngredientInteractor implements ExploreIngredientInputBounda
     public void execute(ExploreIngredientInputData exploreIngredientInputData) {
         final String query = exploreIngredientInputData.getQuery();
 
-        final List<SimpleRecipe> recipeResults = ingredientDataAccessObject.exploreRecipeByIngredients(query);
+        final List<SimpleCocktailRecipe> recipeResults = ingredientDataAccessObject.exploreRecipeByIngredients(query);
         if (recipeResults.isEmpty()) {
             ingredientPresenter.prepareFailView("No recipes found with this ingredient.");
         }

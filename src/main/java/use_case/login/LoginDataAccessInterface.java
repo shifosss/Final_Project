@@ -37,7 +37,7 @@ public interface LoginDataAccessInterface {
     /**
      * Returns the ingredients the user does not want on their food.
      * @param username the username.
-     * @return a list of ingredients id to avoid.
+     * @return a list of ingredients getId to avoid.
      */
     List<Integer> getIngredientsToAvoid(String username);
 }

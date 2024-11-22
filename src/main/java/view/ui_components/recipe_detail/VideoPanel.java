@@ -3,9 +3,7 @@ package view.ui_components.recipe_detail;
 import entities.recipe.Recipe;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
-import interface_adapter.services.image_service.WebImageService;
 import interface_adapter.services.video_service.VideoServiceInterface;
-import interface_adapter.services.video_service.WebVideoService;
 
 import javax.swing.*;
 import java.awt.*;

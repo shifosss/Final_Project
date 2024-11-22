@@ -1,5 +1,7 @@
 package interface_adapter.explore_ingredient;
 
+import interface_adapter.search_recipe.SearchRecipeState;
+import interface_adapter.search_recipe.SearchRecipeViewModel;
 import use_case.explore_ingredient.ExploreIngredientOutputBoundary;
 import use_case.explore_ingredient.ExploreIngredientOutputData;
 import entities.recipe.Ingredient;
@@ -8,13 +10,16 @@ import java.util.List;
 
 public class ExploreIngredientPresenter implements ExploreIngredientOutputBoundary {
     private final ExploreIngredientViewModel exploreIngredientViewModel;
+    private final SearchRecipeViewModel searchRecipeViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public ExploreIngredientPresenter(
             ExploreIngredientViewModel exploreIngredientViewModel,
-            ViewManagerModel viewManagerModel) {
+            ViewManagerModel viewManagerModel,
+            SearchRecipeViewModel searchRecipeViewModel) {
         this.exploreIngredientViewModel = exploreIngredientViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.searchRecipeViewModel = searchRecipeViewModel;
     }
 
     @Override
@@ -31,11 +36,19 @@ public class ExploreIngredientPresenter implements ExploreIngredientOutputBounda
 
     @Override
     public void prepareRecipeListView(ExploreIngredientOutputData outputData) {
-        ExploreIngredientState exploreIngredientState = exploreIngredientViewModel.getState();
-        exploreIngredientState.setRecipes(outputData.getSimpleRecipes());
-        exploreIngredientState.setIngredients(null);  // Clear ingredients list since we're showing recipes
-        this.exploreIngredientViewModel.setState(exploreIngredientState);
-        this.exploreIngredientViewModel.firePropertyChanged();
+//        ExploreIngredientState exploreIngredientState = exploreIngredientViewModel.getState();
+//        exploreIngredientState.setRecipes(outputData.getSimpleRecipes());
+//        exploreIngredientState.setIngredients(null);  // Clear ingredients list since we're showing recipes
+//        this.exploreIngredientViewModel.setState(exploreIngredientState);
+//        this.exploreIngredientViewModel.firePropertyChanged();
+        final SearchRecipeState searchRecipeState = searchRecipeViewModel.getState();
+        searchRecipeState.setRecipes(outputData.getSimpleRecipes());
+
+        this.searchRecipeViewModel.setState(searchRecipeState);
+        this.searchRecipeViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setState(searchRecipeViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
     }
 
     @Override

@@ -6,7 +6,7 @@
 //import entities.recipe.Ingredient;
 //import entities.recipe.Recipe;
 //import data_access.CocktailDataAccessObject;
-//import entities.recipe.SimpleRecipe;
+//import entities.recipe.SimpleCocktailRecipe;
 //import interface_adapter.services.ServiceManager;
 //
 //@Deprecated
@@ -65,7 +65,7 @@
 //    private void searchByIngredient(String ingredientName) {
 //        try {
 //            // Call the correct API method to get recipes by ingredient
-//            List<SimpleRecipe> recipes = dataAccess.exploreRecipeByIngredients(ingredientName);
+//            List<SimpleCocktailRecipe> recipes = dataAccess.exploreRecipeByIngredients(ingredientName);
 //
 //            // Set explore mode and display recipes
 //            recipeScrollPanel.setExploreMode(true);

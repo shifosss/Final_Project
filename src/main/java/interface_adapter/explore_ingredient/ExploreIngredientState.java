@@ -1,11 +1,12 @@
 package interface_adapter.explore_ingredient;
 
 import java.util.List;
-import entities.recipe.SimpleRecipe;
+
+import entities.recipe.SimpleCocktailRecipe;
 import entities.recipe.Ingredient;
 
 public class ExploreIngredientState {
-    private List<SimpleRecipe> recipes;
+    private List<SimpleCocktailRecipe> recipes;
     private List<Ingredient> ingredients;
     private String query;
 
@@ -25,11 +26,11 @@ public class ExploreIngredientState {
         return query;
     }
 
-    public void setRecipes(List<SimpleRecipe> recipes) {
+    public void setRecipes(List<SimpleCocktailRecipe> recipes) {
         this.recipes = recipes;
     }
 
-    public List<SimpleRecipe> getRecipes() {
+    public List<SimpleCocktailRecipe> getRecipes() {
         return recipes;
     }
 

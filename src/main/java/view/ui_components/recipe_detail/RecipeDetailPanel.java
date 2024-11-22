@@ -1,5 +1,6 @@
 package view.ui_components.recipe_detail;
 
+import entities.recipe.CocktailRecipe;
 import entities.recipe.Recipe;
 import entities.recipe.Ingredient;
 
@@ -27,7 +28,7 @@ public class RecipeDetailPanel extends JPanel {
 
     // TODO: Transform this by dividing the sections into separate cases.
     // TODO: For example, do instructions, ingredients components separately, then remove this.
-    public RecipeDetailPanel(Recipe recipe) {
+    public RecipeDetailPanel(CocktailRecipe recipe) {
         super(new BorderLayout());
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));

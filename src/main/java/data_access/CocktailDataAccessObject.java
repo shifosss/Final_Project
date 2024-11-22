@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.recipe.CocktailRecipe;
 import entities.recipe.Ingredient;
-import entities.recipe.factory.RecipeFactory;
+import entities.recipe.factory.CocktailFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,9 +29,9 @@ public class CocktailDataAccessObject implements
     private static final String API_URL = "http://thecocktaildb.com/api/json/v1/1";
     private static final int START = 1;
     private static final int END = 15;
-    private final RecipeFactory cocktailFactory;
+    private final CocktailFactory cocktailFactory;
 
-    public CocktailDataAccessObject(RecipeFactory cocktailFactory) {
+    public CocktailDataAccessObject(CocktailFactory cocktailFactory) {
         this.cocktailFactory = cocktailFactory;
     }
 
@@ -50,12 +51,12 @@ public class CocktailDataAccessObject implements
     }
 
     @Override
-    public Recipe getRecipeById(int id) {
-        Recipe result = null;
+    public CocktailRecipe getRecipeById(int id) {
+        CocktailRecipe result = null;
         // http://thecocktaildb.com/api/json/v1/1/lookup.php?i=11007
         final JSONObject responseBody = makeApiRequest(String.format("%s/lookup.php?i=%d", API_URL, id));
         final JSONArray cocktails = getCocktails(responseBody);
-        // we will assume that each id are distinct
+        // we will assume that each getId are distinct
         if (cocktails.length() == 1) {
             final JSONObject raw = cocktails.getJSONObject(0);
             result = createRecipe(raw);
@@ -78,7 +79,7 @@ public class CocktailDataAccessObject implements
     }
 
     // below, we are assuming that each raw recipe jsonobject has the attributes.
-    private Recipe createRecipe(JSONObject raw) {
+    private CocktailRecipe createRecipe(JSONObject raw) {
         final String name = getRecipeName(raw);
         final int id = getRecipeId(raw);
         final String instruction = getInstruction(raw);
@@ -86,7 +87,7 @@ public class CocktailDataAccessObject implements
         final String imageLink = getImageLink(raw);
         final String videoLink = getVideoLink(raw);
 
-        return cocktailFactory.create(name, id, instruction, ingredients, imageLink, videoLink);
+        return cocktailFactory.createDetailRecipe(name, id, instruction, ingredients, imageLink, videoLink);
     }
 
     private String getRecipeName(JSONObject raw) {

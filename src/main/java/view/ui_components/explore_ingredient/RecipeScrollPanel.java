@@ -2,7 +2,18 @@ package view.ui_components.explore_ingredient;
 
 import data_access.CocktailDataAccessObject;
 import entities.recipe.Recipe;
+import entities.recipe.factory.CocktailFactory;
+import interface_adapter.recipe_detail.RecipeDetailController;
+import interface_adapter.recipe_detail.RecipeDetailPresenter;
+import interface_adapter.recipe_detail.RecipeDetailViewModel;
+import interface_adapter.search_recipe.SearchRecipeController;
+import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
+import use_case.view_recipe.ViewRecipeDataAccessInterface;
+import use_case.view_recipe.ViewRecipeInputBoundary;
+import use_case.view_recipe.ViewRecipeInteractor;
+import use_case.view_recipe.ViewRecipeOutputBoundary;
+import view.ui_components.search_recipe.SearchThumbnailPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -157,12 +168,29 @@ public class RecipeScrollPanel extends JPanel {
     }
 
     private List<JPanel> parseToPanel(List<Recipe> recipes) {
-        final List<JPanel> panels = new ArrayList<>();
-        for (Recipe recipe : recipes) {
-//            final SearchRecipePanel srp = new SearchRecipePanel(serviceManager);
+//        final RecipeDetailViewModel recipeDetailViewModel = new RecipeDetailViewModel();
+//        final ViewRecipeDataAccessInterface viewRecipeDataAccessInterface =
+//                new CocktailDataAccessObject(new CocktailFactory());
+//        final ViewRecipeOutputBoundary recipeDetailPresenter =
+//                new RecipeDetailPresenter(recipeDetailViewModel, viewRecipeInputBoundary);
+//        final ViewRecipeInputBoundary viewRecipeInputBoundary =
+//                new ViewRecipeInteractor(viewRecipeDataAccessInterface, recipeDetailPresenter);
+//        final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel();
+//        final SearchRecipeController searchRecipeController = new SearchRecipeController(searchRecipeViewModel);
+//        final RecipeDetailController recipeDetailController = new RecipeDetailController(new ViewRecipeInteractor(
+//                viewRecipeDataAccessInterface, recipeDetailPresenter
+//        ));
+//
+//
+//        final List<JPanel> panels = new ArrayList<>();
+//        for (Recipe recipe : recipes) {
+//            final SearchThumbnailPanel srp = new SearchThumbnailPanel(searchRecipeViewModel,
+//                    searchRecipeController, recipeDetailController, serviceManager
+//            );
 //            srp.addRecipe(recipe);
 //            panels.add(srp);
-        }
-        return panels;
+//        }
+//        return panels;
+        return null; // Replace with actual implementation to parse recipes to panels
     }
 }

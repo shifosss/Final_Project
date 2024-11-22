@@ -1,6 +1,6 @@
 package view.ui_components.explore_ingredient;
 
-import entities.recipe.SimpleRecipe;
+import entities.recipe.SimpleCocktailRecipe;
 import interface_adapter.services.ServiceManager;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class SimpleRecipePanel extends JPanel {
         setBorder(BorderFactory.createLineBorder(new Color(222, 226, 230), 1));
     }
 
-    public void addRecipe(SimpleRecipe recipe) {
+    public void addRecipe(SimpleCocktailRecipe recipe) {
         removeAll();
 
         // Image Panel

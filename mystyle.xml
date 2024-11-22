@@ -9,7 +9,7 @@
         names will be relative to the specified directory. See
         https://checkstyle.org/config.html#Checker
 
-        <property name="basedir" value="${basedir}"/>
+        <property getName="basedir" value="${basedir}"/>
     -->
 
     <metadata name="org.checkstyle.principle" value="Practice What You Preach"/>

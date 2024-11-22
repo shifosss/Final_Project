@@ -2,6 +2,7 @@ package interface_adapter.search_recipe;
 
 import java.util.List;
 
+import entities.recipe.CocktailRecipe;
 import entities.recipe.Recipe;
 
 /**
@@ -31,7 +32,7 @@ public class SearchRecipeState {
         this.recipes = recipes;
     }
 
-    public List<Recipe> getRecipes() {
+    public List<CocktailRecipe> getRecipes() {
         return recipes;
     }
 }

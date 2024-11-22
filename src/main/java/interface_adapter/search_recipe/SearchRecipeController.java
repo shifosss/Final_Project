@@ -40,7 +40,7 @@ public class SearchRecipeController {
 
     /**
      * Switches to the recipe detail view.
-     * @param recipeId id of recipe.
+     * @param recipeId getId of recipe.
      */
     public void switchToRecipeView(int recipeId) {
         final ViewRecipeInputData recipeDetailInputData = new ViewRecipeInputData(recipeId);

@@ -2,6 +2,7 @@ package use_case.search_recipes;
 
 import java.util.List;
 
+import entities.recipe.CocktailRecipe;
 import entities.recipe.Recipe;
 
 /**
@@ -16,9 +17,9 @@ public interface SearchRecipeDataAccessInterface {
     List<Recipe> searchRecipeByKeyword(String keyword);
 
     /**
-     * Returns a recipe given the id input.
-     * @param id id associated with recipe.
+     * Returns a recipe given the getId input.
+     * @param id getId associated with recipe.
      * @return the recipe.
      */
-    Recipe getRecipeById(int id);
+    CocktailRecipe getRecipeById(int id);
 }

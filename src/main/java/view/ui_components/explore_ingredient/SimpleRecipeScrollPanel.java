@@ -1,12 +1,10 @@
 package view.ui_components.explore_ingredient;
 
-import entities.recipe.Recipe;
-import entities.recipe.SimpleRecipe;
+import entities.recipe.SimpleCocktailRecipe;
 import interface_adapter.services.ServiceManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleRecipeScrollPanel extends JPanel {
@@ -35,13 +33,13 @@ public class SimpleRecipeScrollPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void displayRecipes(List<SimpleRecipe> recipes) {
+    public void displayRecipes(List<SimpleCocktailRecipe> recipes) {
         recipePanel.removeAll();
 
         if (recipes == null || recipes.isEmpty()) {
             showNoResultsMessage();
         } else {
-            for (SimpleRecipe recipe : recipes) {
+            for (SimpleCocktailRecipe recipe : recipes) {
                 SimpleRecipePanel panel = new SimpleRecipePanel(serviceManager);
                 panel.addRecipe(recipe);
                 recipePanel.add(panel);

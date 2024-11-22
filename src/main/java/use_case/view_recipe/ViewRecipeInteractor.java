@@ -1,5 +1,6 @@
 package use_case.view_recipe;
 
+import entities.recipe.CocktailRecipe;
 import entities.recipe.Recipe;
 
 /**
@@ -21,7 +22,7 @@ public class ViewRecipeInteractor implements ViewRecipeInputBoundary {
         // TODO: Double check this after dao is finished.
         final int recipeId = recipeDetailInputData.getId();
 
-        final Recipe recipe = recipeDetailDataAccessObject.getRecipeById(recipeId);
+        final CocktailRecipe recipe = recipeDetailDataAccessObject.getRecipeById(recipeId);
 
         if (recipe == null) {
             final ViewRecipeOutputData recipeDetailOutputData = new ViewRecipeOutputData(

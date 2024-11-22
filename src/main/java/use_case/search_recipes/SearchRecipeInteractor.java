@@ -2,6 +2,7 @@ package use_case.search_recipes;
 
 import java.util.List;
 
+import entities.recipe.CocktailRecipe;
 import entities.recipe.Recipe;
 import interface_adapter.search_recipe.SearchRecipePresenter;
 import use_case.view_recipe.ViewRecipeInputData;
@@ -64,7 +65,7 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
     public void switchToRecipeDetailView(ViewRecipeInputData recipeDetailInputData) {
         final int recipeId = recipeDetailInputData.getId();
 
-        final Recipe recipe = recipeDataAccessObject.getRecipeById(recipeId);
+        final CocktailRecipe recipe = recipeDataAccessObject.getRecipeById(recipeId);
 
         if (recipe == null) {
             final ViewRecipeOutputData recipeDetailOutputData = new ViewRecipeOutputData(
