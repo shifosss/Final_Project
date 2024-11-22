@@ -1,7 +1,6 @@
 package use_case.explore_ingredient;
 
 import java.util.List;
-
 import entities.recipe.Recipe;
 import entities.recipe.Ingredient;
 
@@ -21,14 +20,16 @@ public class ExploreIngredientInteractor implements ExploreIngredientInputBounda
 
         final List<Recipe> recipeResults = ingredientDataAccessObject.exploreRecipeByIngredients(query);
         if (recipeResults.isEmpty()) {
-            ingredientPresenter.prepareFailView("No recipes found with this ingredient.");
+//            ingredientPresenter.prepareFailView("No recipes found with this ingredient.");
+            throw new RuntimeException("No recipes found with this ingredient.");
         }
         else {
             final ExploreIngredientOutputData recipeOutputData = new ExploreIngredientOutputData(
                     recipeResults,
                     false
             );
-            ingredientPresenter.prepareRecipeListView(recipeOutputData);
+            ingredientPresenter.prepareSuccessView(recipeOutputData);
+//            ingredientPresenter.prepareRecipeListView(recipeOutputData);
         }
     }
 
@@ -36,9 +37,15 @@ public class ExploreIngredientInteractor implements ExploreIngredientInputBounda
     public void loadIngredients() {
         final List<Ingredient> ingredients = ingredientDataAccessObject.getIngredientsList();
         if (ingredients.isEmpty()) {
-            ingredientPresenter.prepareFailView("Failed to load ingredients.");
+//            ingredientPresenter.prepareFailView("Failed to load ingredients.");
+            throw new RuntimeException("Failed to load ingredients.");
         } else {
-            ingredientPresenter.prepareIngredientsListView(ingredients);
+            final ExploreIngredientOutputData outputData = new ExploreIngredientOutputData(
+                    ingredients,
+                    false
+            );
+            ingredientPresenter.prepareSuccessView(outputData);
+//            ingredientPresenter.prepareIngredientsListView(ingredients);
         }
     }
 }
