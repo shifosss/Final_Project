@@ -12,16 +12,18 @@ public class MealRecipe implements Recipe {
     private final List<Ingredient> ingredients;
     private final String imageLink;
     private final String videoLink;
+    private final String isAlcoholic;
 
     public MealRecipe(String name, int id,
                       String instruction, List<Ingredient> ingredients,
-                      String imageLink, String videoLink) {
+                      String imageLink, String videoLink, String isAlcoholic) {
         this.name = name;
         this.id = id;
         this.instruction = instruction;
         this.ingredients = ingredients;
         this.imageLink = imageLink;
         this.videoLink = videoLink;
+        this.isAlcoholic = isAlcoholic;
     }
 
     @Override
@@ -59,4 +61,7 @@ public class MealRecipe implements Recipe {
         return videoLink;
     }
 
+    @Override
+    public String getIsAlcoholic() {return isAlcoholic;}
 }
+

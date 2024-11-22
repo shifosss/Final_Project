@@ -20,5 +20,5 @@ public interface RecipeFactory {
      */
     Recipe create(String name, int id,
                   String instruction, List<Ingredient> ingredients,
-                  String imageLink, String videoLink);
+                  String imageLink, String videoLink, String isAlcoholic);
 }
