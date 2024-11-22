@@ -86,10 +86,9 @@ public class CocktailDataAccessObject implements
         final JSONObject responseBody = makeApiRequest(String.format("%s/filter.php?i=%s", API_URL, ingredient));
         final JSONArray cocktails = getCocktails(responseBody);
 
-        for (int i = 0; i < cocktails.length() && i < 10; i++) {
+        for (int i = 0; i < cocktails.length(); i++) {
             final JSONObject raw = cocktails.getJSONObject(i);
             final int recipeId = getRecipeId(raw);
-            System.out.println(recipeId);
             recipes.add(getRecipeById(recipeId));
         }
         return recipes;
@@ -134,7 +133,7 @@ public class CocktailDataAccessObject implements
         final String imageLink = getImageLink(raw);
         final String videoLink = getVideoLink(raw);
 
-        return cocktailFactory.create(name, id, instruction, ingredients, imageLink, videoLink);
+        return cocktailFactory.create(name, id, instruction, ingredients, imageLink, videoLink, "");
     }
 
     private String getRecipeName(JSONObject raw) {

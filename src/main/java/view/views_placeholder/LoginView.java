@@ -1,9 +1,8 @@
-package view.ViewPlaceholder;
+package view.views_placeholder;
 
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
-import interface_adapter.signup.SignupState;
 import view.PageView;
 
 import javax.swing.*;

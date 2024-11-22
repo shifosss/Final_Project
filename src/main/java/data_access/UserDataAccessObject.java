@@ -301,6 +301,7 @@ public class UserDataAccessObject implements
                 "Put them in a freezer or something lmao.",
                 List.of(new Ingredient("H2O", "Maybe one cup")),
                 "",
+                "",
                 "");
         userDataAccessObject.createCustomRecipe("shin", recipeExample);
         //userDataAccessObject.removeCustomRecipe("shin", 2605);

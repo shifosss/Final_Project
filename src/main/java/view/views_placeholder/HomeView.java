@@ -1,8 +1,7 @@
-package view.ViewPlaceholder;
+package view.views_placeholder;
 
 import entities.recipe.Recipe;
 import interface_adapter.explore_ingredient.ExploreIngredientController;
-import interface_adapter.explore_ingredient.ExploreIngredientViewModel;
 import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailController;
@@ -15,8 +14,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
@@ -107,8 +104,7 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
     private void updateRandomRecipePanel(List<Recipe> randomRecipes) {
         recommendedRecipesPanel.removeAll();
         // Add random recipes
-        for (int i = 0; i < 3; i++) {
-            final Recipe randomRecipe = randomRecipes.get(i);
+        for (final Recipe randomRecipe : randomRecipes) {
             final RandomRecipeThumbnailPanel randomRecipeThumbnailPanel = new RandomRecipeThumbnailPanel(
                     homePageViewModel,
                     searchRecipeController,

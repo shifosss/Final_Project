@@ -9,6 +9,8 @@ import interface_adapter.recipe_detail.RecipeDetailViewModel;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
 import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
+import use_case.bookmark_recipe.BookmarkRecipeInputBoundary;
+import use_case.bookmark_recipe.BookmarkRecipeInteractor;
 import use_case.view_recipe.ViewRecipeDataAccessInterface;
 import use_case.view_recipe.ViewRecipeInputBoundary;
 import use_case.view_recipe.ViewRecipeInteractor;
@@ -56,6 +58,9 @@ public final class RecipeDetailUseCaseFactory {
         final ViewRecipeInputBoundary recipeDetailInteractor = new ViewRecipeInteractor(
                 recipeDetailDataAccessObject, bookmarkRecipeDataAccessObject, recipeDetailOutputBoundary
         );
-        return new RecipeDetailController(recipeDetailInteractor);
+        final BookmarkRecipeInputBoundary bookmarkRecipeInteractor = new BookmarkRecipeInteractor(
+                bookmarkRecipeDataAccessObject, recipeDetailOutputBoundary);
+
+        return new RecipeDetailController(recipeDetailInteractor, bookmarkRecipeInteractor);
     }
 }

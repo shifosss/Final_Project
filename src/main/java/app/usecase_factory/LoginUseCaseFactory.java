@@ -12,7 +12,7 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
-import view.ViewPlaceholder.LoginView;
+import view.views_placeholder.LoginView;
 
 /**
  * Factory for the login usecase.

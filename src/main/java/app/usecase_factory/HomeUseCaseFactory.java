@@ -15,6 +15,8 @@ import interface_adapter.search_recipe.SearchRecipePresenter;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
 import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
+import use_case.bookmark_recipe.BookmarkRecipeInputBoundary;
+import use_case.bookmark_recipe.BookmarkRecipeInteractor;
 import use_case.explore_ingredient.ExploreIngredientDataAccessInterface;
 import use_case.explore_ingredient.ExploreIngredientInputBoundary;
 import use_case.explore_ingredient.ExploreIngredientInteractor;
@@ -27,7 +29,7 @@ import use_case.view_recipe.ViewRecipeDataAccessInterface;
 import use_case.view_recipe.ViewRecipeInputBoundary;
 import use_case.view_recipe.ViewRecipeInteractor;
 import use_case.view_recipe.ViewRecipeOutputBoundary;
-import view.ViewPlaceholder.HomeView;
+import view.views_placeholder.HomeView;
 
 /**
  * home page factory that creates necessary usecases.
@@ -96,8 +98,10 @@ public final class HomeUseCaseFactory {
         final ViewRecipeInputBoundary viewRecipeInteractor = new ViewRecipeInteractor(
                 viewRecipeDataAccessObject, bookmarkRecipeDataAccessObject, viewRecipeOutputBoundary
         );
+        final BookmarkRecipeInputBoundary bookmarkRecipeInteractor = new BookmarkRecipeInteractor(
+                bookmarkRecipeDataAccessObject, viewRecipeOutputBoundary);
 
-        return new RecipeDetailController(viewRecipeInteractor);
+        return new RecipeDetailController(viewRecipeInteractor, bookmarkRecipeInteractor);
     }
 
     private static SearchRecipeController createSearchRecipeUseCase(

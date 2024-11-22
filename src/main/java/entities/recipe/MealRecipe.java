@@ -59,4 +59,9 @@ public class MealRecipe implements Recipe {
         return videoLink;
     }
 
+    @Override
+    public String getIsAlcoholic() {
+        return "Non-Alcoholic";
+    }
+
 }

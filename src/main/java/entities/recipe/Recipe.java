@@ -48,4 +48,10 @@ public interface Recipe {
      * @return link of recipe video.
      */
     String getVideoLink();
+
+    /**
+     * Returns the alcoholic state of the recipe.
+     * @return the alcoholic state.
+     */
+    String getIsAlcoholic();
 }

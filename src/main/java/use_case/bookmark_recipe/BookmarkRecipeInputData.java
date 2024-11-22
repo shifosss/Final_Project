@@ -1,22 +1,24 @@
 package use_case.bookmark_recipe;
 
+import entities.recipe.Recipe;
+
 /**
  * Bookmark input data.
  */
 public class BookmarkRecipeInputData {
-    private final String username;
     private final int recipeId;
+    private final Recipe recipe;
 
-    public BookmarkRecipeInputData(String username, int recipeId) {
-        this.username = username;
+    public BookmarkRecipeInputData(int recipeId, Recipe recipe) {
         this.recipeId = recipeId;
-    }
-
-    public String getUsername() {
-        return username;
+        this.recipe = recipe;
     }
 
     public int getRecipeId() {
         return recipeId;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
     }
 }

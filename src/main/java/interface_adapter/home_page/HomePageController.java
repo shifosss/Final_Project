@@ -1,7 +1,6 @@
 package interface_adapter.home_page;
 
 import use_case.explore_ingredient.ExploreIngredientInputBoundary;
-import use_case.explore_ingredient.ExploreIngredientOutputData;
 import use_case.view_recipe.ViewRecipeInputBoundary;
 import use_case.view_recipe.ViewRecipeInputData;
 

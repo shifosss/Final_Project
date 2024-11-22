@@ -25,9 +25,9 @@ import view.ExploreIngredientRecipeView;
 import view.RecipeDetailView;
 import view.SearchRecipeView;
 import view.ViewManager;
-import view.ViewPlaceholder.HomeView;
-import view.ViewPlaceholder.LoginView;
-import view.ViewPlaceholder.SignupView;
+import view.views_placeholder.HomeView;
+import view.views_placeholder.LoginView;
+import view.views_placeholder.SignupView;
 
 import javax.swing.*;
 import java.awt.*;
