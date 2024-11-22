@@ -10,6 +10,7 @@ import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.search_recipe.SearchRecipePresenter;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
+import use_case.explore_ingredient.ExploreIngredientInputBoundary;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeInputBoundary;
 import use_case.search_recipes.SearchRecipeInteractor;
@@ -39,36 +40,38 @@ public final class HomeUseCaseFactory {
      * @return the home view.
      */
     public static HomeView create(ViewManagerModel viewManagerModel,
-                                  HomePageViewModel homePageViewModel,
-                                  SearchRecipeViewModel searchRecipeViewModel,
-                                  RecipeDetailViewModel recipeDetailViewModel,
-                                  SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
-                                  ViewRecipeDataAccessInterface viewRecipeDataAccessObject,
-                                  ServiceManager serviceManager) {
+                              HomePageViewModel homePageViewModel,
+                              SearchRecipeViewModel searchRecipeViewModel,
+                              RecipeDetailViewModel recipeDetailViewModel,
+                              SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
+                              ViewRecipeDataAccessInterface viewRecipeDataAccessObject,
+                              ServiceManager serviceManager) {
 
-        final HomePageController homePageController = createHomePageUseCase(viewManagerModel,
-                searchRecipeViewModel, recipeDetailViewModel, homePageViewModel,
-                viewRecipeDataAccessObject);;
-        final RecipeDetailController recipeDetailController = createViewRecipeUseCase(
-                viewManagerModel, searchRecipeViewModel, recipeDetailViewModel, viewRecipeDataAccessObject
-        );
-        return new HomeView(homePageViewModel,
-                homePageController, recipeDetailController,
-                serviceManager);
-    }
+    final HomePageController homePageController = createHomePageUseCase(viewManagerModel,
+            searchRecipeViewModel, recipeDetailViewModel, homePageViewModel,
+            null, // Add ExploreIngredientInputBoundary parameter or remove if not needed
+            viewRecipeDataAccessObject);
+    final RecipeDetailController recipeDetailController = createViewRecipeUseCase(
+            viewManagerModel, searchRecipeViewModel, recipeDetailViewModel, viewRecipeDataAccessObject
+    );
+    return new HomeView(homePageViewModel,
+            homePageController, recipeDetailController,
+            serviceManager);
+}
 
     private static HomePageController createHomePageUseCase(
             ViewManagerModel viewManagerModel,
             SearchRecipeViewModel searchRecipeViewModel,
             RecipeDetailViewModel recipeDetailViewModel,
             HomePageViewModel homepageViewModel,
+            ExploreIngredientInputBoundary exploreIngredientController,
             ViewRecipeDataAccessInterface viewRecipeDataAccessObject) {
         final ViewRecipeOutputBoundary viewRecipeOutputBoundary = new RecipeDetailPresenter(
                 recipeDetailViewModel, searchRecipeViewModel, viewManagerModel);
         final ViewRecipeInputBoundary viewRecipeInteractor = new ViewRecipeInteractor(
                 viewRecipeDataAccessObject, viewRecipeOutputBoundary
         );
-        return new HomePageController(viewRecipeInteractor, viewManagerModel);
+        return new HomePageController(viewRecipeInteractor, exploreIngredientController);
     }
 
     private static RecipeDetailController createViewRecipeUseCase(
