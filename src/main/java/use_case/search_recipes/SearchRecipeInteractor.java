@@ -4,6 +4,7 @@ import java.util.List;
 
 import entities.recipe.Recipe;
 import interface_adapter.search_recipe.SearchRecipePresenter;
+import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
 import use_case.view_recipe.ViewRecipeInputData;
 import use_case.view_recipe.ViewRecipeOutputBoundary;
 import use_case.view_recipe.ViewRecipeOutputData;
@@ -13,13 +14,16 @@ import use_case.view_recipe.ViewRecipeOutputData;
  */
 public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
     private final SearchRecipeDataAccessInterface recipeDataAccessObject;
+    private final BookmarkRecipeDataAccessInterface bookmarkRecipeDataAccessObject;
     private final SearchRecipePresenter recipePresenter;
 
     public SearchRecipeInteractor(SearchRecipeDataAccessInterface recipeDataAccessObject,
+                                  BookmarkRecipeDataAccessInterface bookmarkRecipeDataAccessObject,
                                   SearchRecipeOutputBoundary recipePresenter) {
         this.recipeDataAccessObject = recipeDataAccessObject;
+        this.bookmarkRecipeDataAccessObject = bookmarkRecipeDataAccessObject;
         // TODO: is this casting allowed?? i mean interactor is not interface adapter specific so....
-        // my point being that interactor uses a presenter which implements two use cases output boundary.
+        // my point being that interactor uses a presenter which implements more than one use cases output boundary.
         this.recipePresenter = (SearchRecipePresenter) recipePresenter;
     }
 
@@ -63,12 +67,15 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
     @Override
     public void switchToRecipeDetailView(ViewRecipeInputData recipeDetailInputData) {
         final int recipeId = recipeDetailInputData.getId();
+        final String currentUser = bookmarkRecipeDataAccessObject.getCurrentUser();
+        final boolean isBookmarked = bookmarkRecipeDataAccessObject.isBookmarked(currentUser, recipeId);
 
         final Recipe recipe = recipeDataAccessObject.getRecipeById(recipeId);
 
         if (recipe == null) {
             final ViewRecipeOutputData recipeDetailOutputData = new ViewRecipeOutputData(
                     recipe,
+                    isBookmarked,
                     true
             );
             recipePresenter.prepareFailView(recipeDetailOutputData, "Recipe not found.");
@@ -76,6 +83,7 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
         else {
             final ViewRecipeOutputData recipeDetailOutputData = new ViewRecipeOutputData(
                     recipe,
+                    isBookmarked,
                     false
             );
             recipePresenter.prepareSuccessView(recipeDetailOutputData);

@@ -4,13 +4,13 @@ package use_case.explore_ingredient;
  * The Input data for exploring ingredient use case.
  */
 public class ExploreIngredientInputData {
-    private final String searchQuery;
+    private final String ingredientName;
 
-    public ExploreIngredientInputData(String searchQuery) {
-        this.searchQuery = searchQuery;
+    public ExploreIngredientInputData(String ingredientName) {
+        this.ingredientName = ingredientName;
     }
 
-    String getQuery() {
-        return searchQuery;
+    String getIngredientName() {
+        return ingredientName;
     }
 }

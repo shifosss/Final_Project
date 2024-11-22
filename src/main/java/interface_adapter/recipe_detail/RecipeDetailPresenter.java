@@ -25,6 +25,7 @@ public class RecipeDetailPresenter implements ViewRecipeOutputBoundary {
     public void prepareSuccessView(ViewRecipeOutputData outputData) {
         final RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
         recipeDetailState.setRecipe(outputData.getRecipe());
+        recipeDetailState.setIsBookmarked(outputData.isBookmarked());
 
         // updates the recipe detail state
         this.recipeDetailViewModel.setState(recipeDetailState);

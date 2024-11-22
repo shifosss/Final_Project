@@ -10,12 +10,19 @@ public class ExploreIngredientController {
         this.exploreIngredientUseCaseInteractor = exploreIngredientUseCaseInteractor;
     }
 
-    public void execute(String query) {
-        ExploreIngredientInputData inputData = new ExploreIngredientInputData(query);
-        exploreIngredientUseCaseInteractor.execute(inputData);
+    /**
+     * Switches to the recipes that contains the ingredient.
+     * @param ingredient the ingredient name.
+     */
+    public void switchToRecipes(String ingredient) {
+        final ExploreIngredientInputData inputData = new ExploreIngredientInputData(ingredient);
+        exploreIngredientUseCaseInteractor.switchToRecipes(inputData);
     }
 
-    public void loadIngredients() {
-        exploreIngredientUseCaseInteractor.loadIngredients();
+    /**
+     * Switches to the explore ingredients view.
+     */
+    public void switchToExploreIngredients() {
+        exploreIngredientUseCaseInteractor.switchToExploreIngredients();
     }
 }

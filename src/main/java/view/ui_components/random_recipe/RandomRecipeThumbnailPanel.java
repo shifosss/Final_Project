@@ -1,11 +1,9 @@
 package view.ui_components.random_recipe;
 
 import entities.recipe.Recipe;
-import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.search_recipe.SearchRecipeController;
-import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
 
@@ -39,17 +37,17 @@ public class RandomRecipeThumbnailPanel extends JPanel {
     private JLabel imageLabel;
     private JButton nameButton;
 
-    private final HomePageController homePageController;
     private final HomePageViewModel homePageViewModel;
+    private final SearchRecipeController searchRecipeController;
     private final RecipeDetailController recipeDetailController;
     private final ServiceManager serviceManager;
 
     public RandomRecipeThumbnailPanel(HomePageViewModel homePageViewModel,
-                                      HomePageController homePageController,
+                                      SearchRecipeController searchRecipeController,
                                       RecipeDetailController recipeDetailController,
                                       ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
-        this.homePageController = homePageController;
+        this.searchRecipeController = searchRecipeController;
         this.recipeDetailController = recipeDetailController;
         this.homePageViewModel = homePageViewModel;
         // Sets Layout
@@ -116,7 +114,7 @@ public class RandomRecipeThumbnailPanel extends JPanel {
 
         final ActionListener recipeDetailListener = event -> {
             if (event.getSource().equals(nameButton)) {
-                homePageController.switchToRecipeView(recipe.getId());
+                searchRecipeController.switchToRecipeView(recipe.getId());
             }
         };
 

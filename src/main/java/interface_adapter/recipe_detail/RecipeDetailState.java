@@ -8,6 +8,7 @@ import entities.recipe.Recipe;
  */
 public class RecipeDetailState {
     private Recipe recipe;
+    private boolean isBookmarked;
 
     public RecipeDetailState(RecipeDetailState copy) {
         this.recipe = copy.recipe;
@@ -22,5 +23,13 @@ public class RecipeDetailState {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    public void setIsBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
+    }
+
+    public boolean getIsBookmarked() {
+        return isBookmarked;
     }
 }

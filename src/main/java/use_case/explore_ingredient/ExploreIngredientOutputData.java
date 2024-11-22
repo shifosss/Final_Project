@@ -5,37 +5,23 @@ import entities.recipe.Recipe;
 import entities.recipe.Ingredient;
 import entities.recipe.SimpleRecipe;
 
+/**
+ * Output data for the explore ingredient usecase.
+ */
 public class ExploreIngredientOutputData {
-    private final List<?> data;  // Can be either List<Recipe> or List<Ingredient>
+    private final List<String> ingredientsList;
     private final boolean useCaseFailed;
-    private final boolean isIngredientList;
 
-    public ExploreIngredientOutputData(List<?> data, boolean useCaseFailed) {
-        this.data = data;
+    public ExploreIngredientOutputData(List<String> ingredientsList, boolean useCaseFailed) {
+        this.ingredientsList = ingredientsList;
         this.useCaseFailed = useCaseFailed;
-        this.isIngredientList = !data.isEmpty() && data.get(0) instanceof Ingredient;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Recipe> getRecipes() {
-        return isIngredientList ? null : (List<Recipe>) data;
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<SimpleRecipe> getSimpleRecipes() {
-        return isIngredientList? (List<SimpleRecipe>) data : null;
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Ingredient> getIngredients() {
-        return isIngredientList ? (List<Ingredient>) data : null;
+    public List<String> getIngredientsList() {
+        return ingredientsList;
     }
 
     public boolean isUseCaseFailed() {
         return useCaseFailed;
-    }
-
-    public boolean isIngredientList() {
-        return isIngredientList;
     }
 }
