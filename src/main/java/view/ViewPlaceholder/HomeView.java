@@ -1,7 +1,8 @@
 package view.ViewPlaceholder;
 
 import entities.recipe.Recipe;
-import interface_adapter.home_page.HomePageController;
+import interface_adapter.explore_ingredient.ExploreIngredientController;
+import interface_adapter.explore_ingredient.ExploreIngredientViewModel;
 import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailController;
@@ -26,21 +27,26 @@ import java.util.List;
 public class HomeView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
     private final String viewName = "home page";
 
-    private final JTextField searchTextField = new JTextField(15);
+    private final JButton searchButton = new JButton("Search");
+    private final JButton exploreByIngredientButton = new JButton("Explore By Ingredient");
     private JPanel recommendationsPanel;
     private JPanel recommendedRecipesPanel;
 
     private final HomePageViewModel homePageViewModel;
     private final ServiceManager serviceManager;
-    private final HomePageController homePageController;
+    private final SearchRecipeController searchRecipeController;
     private final RecipeDetailController recipeDetailController;
+    private final ExploreIngredientController exploreIngredientController;
 
     public HomeView(HomePageViewModel homePageViewModel,
-                    HomePageController homePageController, RecipeDetailController recipeDetailController,
+                    SearchRecipeController searchRecipeController,
+                    RecipeDetailController recipeDetailController,
+                    ExploreIngredientController exploreIngredientController,
                     ServiceManager serviceManager) {
         this.homePageViewModel = homePageViewModel;
-        this.homePageController = homePageController;
+        this.searchRecipeController = searchRecipeController;
         this.recipeDetailController = recipeDetailController;
+        this.exploreIngredientController = exploreIngredientController;
         this.serviceManager = serviceManager;
 
         // Recommendations section
@@ -49,7 +55,7 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
         recommendationsPanel.setBackground(Color.WHITE);
 
         // Recommendations title
-        JLabel recommendationsTitle = new JLabel("Recommendations");
+        final JLabel recommendationsTitle = new JLabel("Recommendations");
         recommendationsTitle.setFont(new Font("SansSerif", Font.BOLD, 24));
         recommendationsTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
         recommendationsPanel.add(recommendationsTitle);
@@ -61,16 +67,14 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
         this.recommendedRecipesPanel = new JPanel(new GridLayout(1, 3, 10, 10));
         recommendedRecipesPanel.setBackground(Color.WHITE);
 
-        final JPanel searchBar = new JPanel(new BorderLayout());
-        searchBar.add(searchTextField);
-        searchTextField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                homePageController.switchToSearchRecipeView();
-            }
-        });
-        homePageViewModel.addPropertyChangeListener(this);
+        final JPanel searchBar = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+        searchBar.add(searchButton);
+        searchBar.add(exploreByIngredientButton);
+        searchButton.addActionListener(event -> recipeDetailController.switchToSearchView());
 
+        exploreByIngredientButton.addActionListener(event -> exploreIngredientController.switchToExploreIngredients());
+
+        homePageViewModel.addPropertyChangeListener(this);
         setLayout(new BorderLayout());
 
         add(searchBar, BorderLayout.NORTH);
@@ -96,7 +100,7 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
     private void setFields(HomePageState state) {
         final String query = state.getQuery();
         final List<Recipe> randomRecipes = state.getRandomRecipe();
-        searchTextField.setText(query);
+        searchButton.setText(query);
         updateRandomRecipePanel(randomRecipes);
     }
 
@@ -104,10 +108,10 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
         recommendedRecipesPanel.removeAll();
         // Add random recipes
         for (int i = 0; i < 3; i++) {
-            Recipe randomRecipe = randomRecipes.get(i);
-            RandomRecipeThumbnailPanel randomRecipeThumbnailPanel = new RandomRecipeThumbnailPanel(
+            final Recipe randomRecipe = randomRecipes.get(i);
+            final RandomRecipeThumbnailPanel randomRecipeThumbnailPanel = new RandomRecipeThumbnailPanel(
                     homePageViewModel,
-                    homePageController,
+                    searchRecipeController,
                     recipeDetailController,
                     serviceManager);
             recommendedRecipesPanel.add(randomRecipeThumbnailPanel);

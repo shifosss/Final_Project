@@ -7,11 +7,17 @@ import entities.recipe.Recipe;
  */
 public class ViewRecipeOutputData {
     private final Recipe recipe;
+    private final boolean isBookmarked;
     private final boolean useCaseFailed;
 
-    public ViewRecipeOutputData(Recipe recipe, boolean useCaseFailed) {
+    public ViewRecipeOutputData(Recipe recipe, boolean isBookmarked, boolean useCaseFailed) {
         this.recipe = recipe;
+        this.isBookmarked = isBookmarked;
         this.useCaseFailed = useCaseFailed;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
     }
 
     public Recipe getRecipe() {

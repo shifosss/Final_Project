@@ -19,4 +19,10 @@ public interface BookmarkRecipeDataAccessInterface {
      * @param recipeId the id of recipe.
      */
     void bookmarkRecipe(String username, int recipeId);
+
+    /**
+     * Gets the current signed-in user.
+     * @return the username of the user.
+     */
+    String getCurrentUser();
 }

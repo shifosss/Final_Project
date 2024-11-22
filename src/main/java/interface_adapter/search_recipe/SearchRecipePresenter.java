@@ -78,12 +78,6 @@ public class SearchRecipePresenter implements SearchRecipeOutputBoundary, ViewRe
 
     @Override
     public void switchToHomePageView(SearchRecipeOutputData outputData) {
-        final HomePageState homePageState = homePageViewModel.getState();
-        homePageState.setQuery(outputData.getQuery());
-
-        this.homePageViewModel.setState(homePageState);
-        this.homePageViewModel.firePropertyChanged();
-
         this.viewManagerModel.setState(homePageViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }

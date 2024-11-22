@@ -4,16 +4,14 @@ import entities.recipe.Ingredient;
 
 import java.util.List;
 
+/**
+ * Output Boundary for the explore ingredients.
+ */
 public interface ExploreIngredientOutputBoundary {
     /**
      * Prepares view for showing the list of all available ingredients
      */
-    void prepareIngredientsListView(List<Ingredient> ingredients);
-
-    /**
-     * Prepares view for showing recipes containing a specific ingredient
-     */
-    void prepareRecipeListView(ExploreIngredientOutputData outputData);
+    void prepareIngredientsListView(ExploreIngredientOutputData outputData);
 
     /**
      * Prepares view for error cases

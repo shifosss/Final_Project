@@ -18,26 +18,23 @@ import interface_adapter.services.ServiceManager;
 import view.ui_components.explore_ingredient.SimpleRecipePanel;
 import view.ui_components.explore_ingredient.SimpleRecipeScrollPanel;
 
-// COMMENT OUT FOR DETAILED VIEW ONLY: import view.ui_components.explore_ingredient.SimpleRecipeScrollPanel;
-// UNCOMMENT FOR DETAILED VIEW: import view.ui_components.explore_ingredient.RecipeScrollPanel;
+/**
+ * Explore ingredient recipe view.
+ */
+public class ExploreIngredientRecipeView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
+    private static final Color BACKGROUND_COLOR = new Color(248, 249, 250);
+    private static final int GRID_COLUMNS = 3;
 
-public class ExploreIngredientRecipeView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName = "explore ingredient";
     private final ExploreIngredientViewModel exploreViewModel;
     private final ExploreIngredientController exploreController;
     private final ServiceManager serviceManager;
     private final ViewManagerModel viewManagerModel;
-    private SimpleRecipeScrollPanel simpleRecipePanel;
 
     // UI Components
     private final JButton backButton;
-    // COMMENT OUT FOR DETAILED VIEW ONLY: private final SimpleRecipeScrollPanel simpleRecipePanel;
-    // UNCOMMENT FOR DETAILED VIEW: private final RecipeScrollPanel detailRecipePanel;
     private final JPanel gridPanel;
     private final JPanel contentPanel;
-
-    private static final Color BACKGROUND_COLOR = new Color(248, 249, 250);
-    private static final int GRID_COLUMNS = 3;
 
     public ExploreIngredientRecipeView(
             ExploreIngredientViewModel exploreViewModel,
@@ -54,24 +51,8 @@ public class ExploreIngredientRecipeView extends JPanel implements ActionListene
         // Initialize components
         backButton = new JButton("<");
 
-        // COMMENT OUT FOR DETAILED VIEW ONLY:
-        simpleRecipePanel = new SimpleRecipeScrollPanel(serviceManager);
-
-        // UNCOMMENT FOR DETAILED VIEW:
-        /*
-        detailRecipePanel = new RecipeScrollPanel(serviceManager);
-        */
-
         // Content panel for recipes
         contentPanel = new JPanel(new BorderLayout());
-
-        // COMMENT OUT FOR DETAILED VIEW ONLY:
-        contentPanel.add(simpleRecipePanel, BorderLayout.CENTER);
-
-        // UNCOMMENT FOR DETAILED VIEW:
-        /*
-        contentPanel.add(detailRecipePanel, BorderLayout.CENTER);
-        */
 
         // Grid panel for ingredients
         gridPanel = new JPanel(new GridLayout(0, GRID_COLUMNS, 10, 10));
@@ -79,25 +60,24 @@ public class ExploreIngredientRecipeView extends JPanel implements ActionListene
 
         setupLayout();
         setupActionListeners();
-        exploreController.loadIngredients();
     }
 
     private void setupLayout() {
         setLayout(new BorderLayout());
         setBackground(BACKGROUND_COLOR);
 
-        JPanel headerPanel = new JPanel(new BorderLayout());
+        final JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(BACKGROUND_COLOR);
         headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         headerPanel.add(backButton, BorderLayout.WEST);
 
-        JLabel titleLabel = new JLabel("Explore by Ingredients");
+        final JLabel titleLabel = new JLabel("Explore by Ingredients");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
 
-        JScrollPane ingredientScroll = new JScrollPane(gridPanel);
+        final JScrollPane ingredientScroll = new JScrollPane(gridPanel);
         ingredientScroll.setBorder(null);
 
         add(headerPanel, BorderLayout.NORTH);
@@ -111,8 +91,8 @@ public class ExploreIngredientRecipeView extends JPanel implements ActionListene
         });
     }
 
-    private JButton createIngredientButton(Ingredient ingredient) {
-        JButton button = new JButton(ingredient.getName());
+    private JButton createIngredientButton(String ingredient) {
+        final JButton button = new JButton(ingredient);
         button.setPreferredSize(new Dimension(200, 40));
         button.setFont(new Font("SansSerif", Font.PLAIN, 14));
         button.setBackground(new Color(255, 255, 255));
@@ -121,51 +101,24 @@ public class ExploreIngredientRecipeView extends JPanel implements ActionListene
                 BorderFactory.createEmptyBorder(5, 10, 5, 10)
         ));
 
-        button.addActionListener(e -> {
-            removeAll();
-            setLayout(new BorderLayout());
-
-            JPanel headerPanel = new JPanel(new BorderLayout());
-            headerPanel.setBackground(BACKGROUND_COLOR);
-            headerPanel.add(backButton, BorderLayout.WEST);
-
-            add(headerPanel, BorderLayout.NORTH);
-            add(contentPanel, BorderLayout.CENTER);
-
-            revalidate();
-            repaint();
-
-            exploreController.execute(ingredient.getName());
-        });
+        button.addActionListener(event -> exploreController.switchToRecipes(ingredient));
 
         return button;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        ExploreIngredientState state = (ExploreIngredientState) evt.getNewValue();
+        final ExploreIngredientState state = (ExploreIngredientState) evt.getNewValue();
+        System.out.println(String.format("\n%s\n", state.getIngredients().toString()));
 
-        if (state.getIngredients() != null) {
-            displayIngredients(state.getIngredients());
-        }
-
-        if (state.getRecipes() != null) {
-            // COMMENT OUT FOR DETAILED VIEW ONLY:
-            simpleRecipePanel.displayRecipes(state.getRecipes());
-
-            // UNCOMMENT FOR DETAILED VIEW:
-            /*
-            detailRecipePanel.displayRecipes(state.getRecipes());
-            */
-        }
+        // updates fields
+        displayIngredients(state.getIngredients());
     }
 
-    private void displayIngredients(List<Ingredient> ingredients) {
+    private void displayIngredients(List<String> ingredients) {
         gridPanel.removeAll();
-        for (Ingredient ingredient : ingredients) {
-            if (!ingredient.getName().isEmpty()) {
-                gridPanel.add(createIngredientButton(ingredient));
-            }
+        for (String ingredient : ingredients) {
+            gridPanel.add(createIngredientButton(ingredient));
         }
         gridPanel.revalidate();
         gridPanel.repaint();
@@ -176,6 +129,7 @@ public class ExploreIngredientRecipeView extends JPanel implements ActionListene
         System.out.println("Click " + event.getActionCommand());
     }
 
+    @Override
     public String getViewName() {
         return viewName;
     }
