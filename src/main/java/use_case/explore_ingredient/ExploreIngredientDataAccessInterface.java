@@ -1,7 +1,8 @@
 package use_case.explore_ingredient;
 
 import java.util.List;
-import entities.recipe.SimpleRecipe;
+
+import entities.recipe.Recipe;
 import entities.recipe.Ingredient;
 
 public interface ExploreIngredientDataAccessInterface {
@@ -11,7 +12,7 @@ public interface ExploreIngredientDataAccessInterface {
      * @param ingredient ingredient to search for
      * @return list of simplified recipes
      */
-    List<SimpleRecipe> exploreRecipeByIngredients(String ingredient);
+    List<Recipe> exploreRecipeByIngredients(String ingredient);
 
     /**
      * Gets the list of available ingredients.
