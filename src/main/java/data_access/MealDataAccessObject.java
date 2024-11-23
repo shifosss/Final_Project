@@ -49,12 +49,6 @@ public class MealDataAccessObject {
         return makeApiRequest(API_URL);
     }
 
-    public static void main(String[] args) throws JSONException {
-        final MealDataAccessObject mealDataAccessObject = new MealDataAccessObject();
-        final JSONObject meals = mealDataAccessObject.getMeals();
-        System.out.println(meals);
-    }
-
     public int get_length_meals(int index) throws JSONException {
         final JSONObject meals = makeApiRequest(API_URL);
         assert meals != null;
