@@ -1,16 +1,12 @@
-package view.ui_components.recipe_detail;
+package view.ui_components.meal_recipe_detail;
 
-import entities.recipe.Recipe;
+import entities.recipe.MealRecipe;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Contains instruction about the recipe.
- */
 public class InstructionPanel extends JPanel {
     private final JTextArea instructionsArea;
 
@@ -32,10 +28,11 @@ public class InstructionPanel extends JPanel {
 
     /**
      * Updates components.
-     * @param recipe the recipe entity.
+     * @param mealrecipe the meal recipe entity.
      */
-    public void updateComponents(Recipe recipe) {
-        final String instructionsText = recipe.getInstruction();
+    public void updateComponents(MealRecipe mealrecipe) {
+
+        final String instructionsText = mealrecipe.getInstruction();
         if (instructionsText == null || instructionsText.isEmpty()) {
             instructionsArea.setText("No instructions available");
         }
