@@ -1,7 +1,6 @@
 package use_case.view_recipe;
 
 import entities.recipe.MealRecipe;
-import entities.recipe.Recipe;
 
 /**
  * Recipe detail output data that contains information after execution.
@@ -22,7 +21,7 @@ public class ViewMealRecipeOutputData {
         return is_Bookmarked;
     }
 
-    public Recipe getRecipe() {
+    public MealRecipe getRecipe() {
         return recipe;
     }
 

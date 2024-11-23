@@ -32,6 +32,7 @@ public class viewRecipe implements ActionListener {
             panel.add(createbutton(i));
         }
         frame.setVisible(true);
+        frame.setCursor(Cursor.getPredefinedCursor(Cursor.CUSTOM_CURSOR));
     }
 
     public static JButton createbutton(int i) {

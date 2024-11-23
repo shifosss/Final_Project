@@ -1,7 +1,6 @@
 package interface_adapter.meal_recipe_detail;
 
 import entities.recipe.MealRecipe;
-import entities.recipe.Recipe;
 import use_case.view_recipe.ViewMealRecipeInputBoundary;
 import use_case.view_recipe.ViewMealRecipeInputData;
 import use_case.view_recipe.ViewRecipeInputData;
@@ -25,13 +24,6 @@ public class MealRecipeDetailController {
     public void switchToRecipe(String id) {
         final ViewMealRecipeInputData MealrecipeDetailInputData = new ViewMealRecipeInputData(id);
 
-    }
-
-    /**
-     * Switches to the search view.
-     */
-    public void switchToSearchView() {
-        mealrecipeDetailInteractor.switchToSearchView();
     }
 
     /**

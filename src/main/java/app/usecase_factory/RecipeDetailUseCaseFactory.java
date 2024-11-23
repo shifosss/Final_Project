@@ -28,6 +28,7 @@ public final class RecipeDetailUseCaseFactory {
      * @param recipeDetailViewModel the RecipeDetail View Model to be injected into the View.
      * @param searchRecipeViewModel the SearchRecipe View Model to be injected into the View.
      * @param cocktailDataAccessObject the CocktailDAO to be injected into the View.
+     * @param userDataAccessObject the UserDAO to be injected into the view.
      * @param serviceManager the ServiceManager to be injected into the View.
      * @return a new instance of recipe detail view.
      */

@@ -17,9 +17,4 @@ public interface ViewMealRecipeOutputBoundary {
      * @param errorMessage the explanation of the failure
      */
     void prepareFailView(ViewRecipeOutputData outputData, String errorMessage);
-
-    /**
-     * Switches to the Search Recipe View, usually triggered when back button is clicked.
-     */
-    void switchToSearchRecipeView();
 }
