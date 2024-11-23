@@ -30,4 +30,11 @@ public interface CustomRecipeDataAccessInterface {
      * @return a list of Recipes created by the user.
      */
     List<Recipe> getCustomRecipes(String username);
+
+    /**
+     * Checks if the user exists within the database.
+     * @param username the user.
+     * @return true if user exists. Otherwise, return false.
+     */
+    boolean existsByName(String username);
 }

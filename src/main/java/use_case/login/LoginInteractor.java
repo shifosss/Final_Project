@@ -10,6 +10,8 @@ import java.util.List;
  * The interactor for the login usecase.
  */
 public class LoginInteractor implements LoginInputBoundary {
+    private static final int LIMIT = 9;
+
     private final LoginDataAccessInterface userDataAccessObject;
     private final RandomRecipeDataAccessInterface cocktailDataAccessObject;
     private final LoginOutputBoundary loginPresenter;
@@ -42,14 +44,16 @@ public class LoginInteractor implements LoginInputBoundary {
                 }
                 else {
                     userDataAccessObject.setCurrentUser(user.getName());
-                    final List<Recipe> randomRecipes = cocktailDataAccessObject.getRandomRecipes(3);
-                    System.out.println(randomRecipes);
+                    final List<Recipe> randomRecipes = cocktailDataAccessObject.getRandomRecipes(LIMIT);
+                    final List<Integer> bookmarkedRecipeIds = userDataAccessObject.getBookmarkedRecipes(username);
+                    final List<Recipe> bookmarkedRecipes = cocktailDataAccessObject.getRecipesByIdList(bookmarkedRecipeIds);
 
                     final List<Integer> ingredientsToAvoid = userDataAccessObject.getIngredientsToAvoid(username);
                     final LoginOutputData outputData = new LoginOutputData(
                             username,
                             ingredientsToAvoid,
                             randomRecipes,
+                            bookmarkedRecipes,
                             false);
                     if (ingredientsToAvoid.isEmpty()) {
                         loginPresenter.preparePreferenceView(outputData);

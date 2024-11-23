@@ -75,7 +75,8 @@ public final class SearchRecipeUseCaseFactory {
         );
 
         final BookmarkRecipeInputBoundary bookmarkRecipeInteractor = new BookmarkRecipeInteractor(
-                bookmarkRecipeDataAccessObject, viewRecipeOutputBoundary);
+                bookmarkRecipeDataAccessObject, (SearchRecipeDataAccessInterface) viewRecipeDataAccessObject,
+                viewRecipeOutputBoundary);
 
         return new RecipeDetailController(viewRecipeInteractor, bookmarkRecipeInteractor);
     }

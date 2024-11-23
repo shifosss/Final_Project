@@ -8,11 +8,11 @@ import java.awt.*;
  */
 public class HeaderPanel extends JPanel {
 
-    public HeaderPanel(String title) {
-        setLayout(new BorderLayout());
-        final JLabel titleLabel = new JLabel(title, JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
-        setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        add(titleLabel, BorderLayout.CENTER);
+    public HeaderPanel(JButton searchButton, JButton exploreIngredientButton, JButton userButton) {
+        setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+
+        add(exploreIngredientButton);
+        add(searchButton);
+        add(userButton);
     }
 }

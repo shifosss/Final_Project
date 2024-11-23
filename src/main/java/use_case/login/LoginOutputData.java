@@ -11,12 +11,15 @@ public class LoginOutputData {
     private String username;
     private List<Integer> ingredientsToAvoidId;
     private List<Recipe> randomRecipes;
+    private List<Recipe> bookmarkedRecipe;
     private boolean useCaseFailed;
 
-    public LoginOutputData(String username, List<Integer> ingredientsToAvoidId, List<Recipe> randomRecipes, boolean useCaseFailed) {
+    public LoginOutputData(String username, List<Integer> ingredientsToAvoidId,
+                           List<Recipe> randomRecipes, List<Recipe> bookmarkedRecipe, boolean useCaseFailed) {
         this.username = username;
         this.ingredientsToAvoidId = ingredientsToAvoidId;
         this.randomRecipes = randomRecipes;
+        this.bookmarkedRecipe = bookmarkedRecipe;
         this.useCaseFailed = useCaseFailed;
     }
 
@@ -34,5 +37,9 @@ public class LoginOutputData {
 
     public boolean isUseCaseFailed() {
         return useCaseFailed;
+    }
+
+    public List<Recipe> getBookmarkedRecipes() {
+        return bookmarkedRecipe;
     }
 }

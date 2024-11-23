@@ -17,11 +17,13 @@ import entities.user.factory.UserFactory;
 import exceptions.RecipeNotFound;
 import exceptions.UserNotFound;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
 import use_case.create_recipe.CustomRecipeDataAccessInterface;
 import use_case.login.LoginDataAccessInterface;
 import use_case.signup.SignupDataAccessInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -128,14 +130,24 @@ public class UserDataAccessObject implements
     }
 
     @Override
+    public List<Integer> getBookmarkedRecipes(String username) {
+        final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
+        final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);
+        final Document foundUser = usersCollection.find(Filters.eq(USERNAME, username)).first();
+
+        return foundUser.getList(BOOKMARKED_RECIPE_IDS, Integer.class, List.of());
+    }
+
+    @Override
     public void signUp(User user) {
         final String username = user.getName();
         final String password = user.getPassword();
 
-        if (!validatePassword(password) || !validateUsername(username)) {
-            return;
-        }
         if (existsByName(username)) {
+            throw new UserNotFound(username);
+        }
+
+        if (!validatePassword(password) || !validateUsername(username)) {
             return;
         }
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
@@ -252,15 +264,64 @@ public class UserDataAccessObject implements
 
     @Override
     public List<Recipe> getCustomRecipes(String username) {
-        return List.of();
+        if (!existsByName(username)) {
+            throw new UserNotFound(username);
+        }
+
+        final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
+        final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);
+        final MongoCollection<Document> recipesCollection = database.getCollection(RECIPES_COLLECTION_NAME);
+
+        final Document foundUser = usersCollection.find(Filters.eq(USERNAME, username)).first();
+
+        final List<ObjectId> createdRecipeIds = foundUser.getList(CREATED_RECIPES, ObjectId.class, List.of());
+        final List<Recipe> results = new ArrayList<>();
+
+        for (ObjectId recipeObjectId : createdRecipeIds) {
+            final Document recipeObject = recipesCollection.find(Filters.eq("_id", recipeObjectId)).first();
+            final String recipeName = recipeObject.getString(RECIPE_NAME);
+            final int recipeId = recipeObject.getInteger(RECIPE_ID);
+            final String recipeInstruction = recipeObject.getString(INSTRUCTIONS);
+            final List<Ingredient> recipeIngredients = getIngredientsEntity(recipeObject);
+            final String recipeIsAlcoholic = recipeObject.getString("isAlcoholic");
+
+            results.add(recipeFactory.create(recipeName, recipeId,
+                    recipeInstruction, recipeIngredients,
+                    "", "", recipeIsAlcoholic));
+        }
+
+        return results;
+    }
+
+    private List<Ingredient> getIngredientsEntity(Document recipeObject) {
+        final List<Ingredient> result = new ArrayList<>();
+        final List<String> ingredients = recipeObject.getList(INGREDIENTS, String.class, List.of());
+        final List<String> measurements = recipeObject.getList(MEASUREMENTS, String.class, List.of());
+        for (int i = 0; i < ingredients.size(); i++) {
+            final String ingredient = ingredients.get(i);
+            final String measurement = measurements.get(i);
+            result.add(new Ingredient(ingredient, measurement));
+        }
+
+        return result;
     }
 
     private List<String> getMeasurements(Recipe recipe) {
-        return null;
+        final List<String> result = new ArrayList<>();
+        final List<Ingredient> ingredientList = recipe.getIngredients();
+        for (Ingredient ingredient: ingredientList) {
+            result.add(ingredient.getMeasure());
+        }
+        return result;
     }
 
     private List<String> getIngredients(Recipe recipe) {
-        return null;
+        final List<String> result = new ArrayList<>();
+        final List<Ingredient> ingredientList = recipe.getIngredients();
+        for (Ingredient ingredient: ingredientList) {
+            result.add(ingredient.getName());
+        }
+        return result;
     }
 
     private int generateRandomId() {
@@ -296,10 +357,10 @@ public class UserDataAccessObject implements
                 userFactory1, recipeFactory1);
 
         final Recipe recipeExample = recipeFactory1.create(
-                "Ice water baby",
+                "The floor is lava",
                 0,
-                "Put them in a freezer or something lmao.",
-                List.of(new Ingredient("H2O", "Maybe one cup")),
+                "Scoop the lava 5 times. Marinate your hand inside.",
+                List.of(new Ingredient("Molten rocks", "Maybe one cup")),
                 "",
                 "",
                 "");

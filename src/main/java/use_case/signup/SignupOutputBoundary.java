@@ -1,5 +1,8 @@
 package use_case.signup;
 
+/**
+ * Output boundary for the signup usecase.
+ */
 public interface SignupOutputBoundary {
     /**
      * Prepares the success view. (When the signup is successful)
@@ -9,7 +12,7 @@ public interface SignupOutputBoundary {
 
     /**
      * Prepares the fail view when the signup fails(ie: username already exists).
-     * @param data the output data.
+     * @param errorMessage the error message.
      */
     void prepareFailView(String errorMessage);
 

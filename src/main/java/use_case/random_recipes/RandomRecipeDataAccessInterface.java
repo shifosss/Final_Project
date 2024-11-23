@@ -15,4 +15,11 @@ public interface RandomRecipeDataAccessInterface {
      * @return a list of random recipes.
      */
     List<Recipe> getRandomRecipes(int limit);
+
+    /**
+     * Returns recipes associated with ids.
+     * @param bookmarkedRecipeIds a list of recipe ids.
+     * @return the list of recipe.
+     */
+    List<Recipe> getRecipesByIdList(List<Integer> bookmarkedRecipeIds);
 }

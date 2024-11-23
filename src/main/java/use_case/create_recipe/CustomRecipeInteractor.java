@@ -15,7 +15,6 @@ public class CustomRecipeInteractor implements CustomRecipeInputBoundary {
 
     @Override
     public void switchToHomePage() {
-
     }
 
     @Override

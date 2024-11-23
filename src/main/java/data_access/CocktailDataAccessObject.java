@@ -80,6 +80,17 @@ public class CocktailDataAccessObject implements
     }
 
     @Override
+    public List<Recipe> getRecipesByIdList(List<Integer> bookmarkedRecipeIds) {
+        final List<Recipe> recipes = new ArrayList<>();
+
+        for (Integer recipeId: bookmarkedRecipeIds) {
+            recipes.add(getRecipeById(recipeId));
+        }
+
+        return recipes;
+    }
+
+    @Override
     public List<Recipe> exploreRecipeByIngredients(String ingredient) {
         // https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin
         final List<Recipe> recipes = new ArrayList<>();
