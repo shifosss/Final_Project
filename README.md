@@ -90,7 +90,7 @@ Optional contributions are also welcome. Feel free to fork the repository and su
 
 ---
 
-### Installation
+### License
 MIT license. Shown beside.
 
 ---
