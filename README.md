@@ -88,8 +88,11 @@ We welcome feedback to improve the app! If you encounter any issues or have sugg
 
 Optional contributions are also welcome. Feel free to fork the repository and submit pull requests for review.
 
-### License
-MIt license. Shown beside.
+---
+
+### Installation
+MIT license. Shown beside.
+
 ---
 
 Wriiten by Rolland He, 11.22
