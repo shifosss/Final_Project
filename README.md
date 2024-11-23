@@ -81,6 +81,8 @@ Optional contributions are also welcome. Feel free to fork the repository and su
 
 ---
 
+Wriiten by Rolland He, 11.22
+
 User Story 1:
 Users are able to sign up , log into, or log out of their own account. (Finished 11.21 by Miguel & George)
 If they just sign up, they will have a choice to set their preference for ingredients.
