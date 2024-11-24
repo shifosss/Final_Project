@@ -8,6 +8,7 @@ import entities.recipe.factory.RecipeFactory;
 import entities.user.factory.CommonUserFactory;
 import entities.user.factory.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.custom_recipe.CustomRecipeViewModel;
 import interface_adapter.explore_ingredient.ExploreIngredientViewModel;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.login.LoginViewModel;
@@ -26,10 +27,7 @@ import view.ExploreIngredientRecipeView;
 import view.RecipeDetailView;
 import view.SearchRecipeView;
 import view.ViewManager;
-import view.views_placeholder.HomeView;
-import view.views_placeholder.LoginView;
-import view.views_placeholder.SignupView;
-import view.views_placeholder.UserProfileView;
+import view.views_placeholder.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -82,6 +80,7 @@ public class MainApp {
         final PreferenceViewModel preferenceViewModel = new PreferenceViewModel();
         final SearchRecipeViewModel searchRecipeViewModel = new SearchRecipeViewModel();
         final RecipeDetailViewModel recipeDetailViewModel = new RecipeDetailViewModel();
+        final CustomRecipeViewModel customRecipeViewModel = new CustomRecipeViewModel();
 
         // SignupView initialization
         final SignupView signupView = SignupUseCaseFactory.create(viewManagerModel,
@@ -97,7 +96,8 @@ public class MainApp {
         // SearchRecipeView initialization
         final HomeView homeView = HomeUseCaseFactory.create(viewManagerModel,
                 homePageViewModel, searchRecipeViewModel, recipeDetailViewModel, exploreIngredientViewModel,
-                userProfileViewModel, cocktailDataAccessObject, userDataAccessObject, serviceManager);
+                userProfileViewModel, customRecipeViewModel,
+                cocktailDataAccessObject, userDataAccessObject, serviceManager);
         views.add(homeView, homePageViewModel.getViewName());
 
         final SearchRecipeView searchRecipeView = SearchRecipeUseCaseFactory.create(viewManagerModel,
@@ -119,6 +119,11 @@ public class MainApp {
         final UserProfileView userProfileView = UserProfileUseCaseFactory.create(
                 viewManagerModel, userProfileViewModel, homePageViewModel, userDataAccessObject, serviceManager);
         views.add(userProfileView, userProfileView.getViewName());
+
+        final CustomRecipeView customRecipeView = CustomRecipeUseCaseFactory.create(
+                viewManagerModel, homePageViewModel, customRecipeViewModel,
+                cocktailDataAccessObject, userDataAccessObject, serviceManager);
+        views.add(customRecipeView, customRecipeView.getViewName());
 
         // Handles what view model to be shown first
         viewManagerModel.setState(loginView.getViewName());

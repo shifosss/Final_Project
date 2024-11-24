@@ -1,7 +1,5 @@
 package use_case.create_recipe;
 
-import entities.recipe.Recipe;
-
 /**
  * Input boundary for the custom recipe usecase.
  */

@@ -1,6 +1,5 @@
 package data_access;
 
-
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -59,6 +58,7 @@ public class UserDataAccessObject implements
     private static final String INGREDIENTS = "ingredients";
     private static final String MEASUREMENTS = "measurements";
     private static final String INSTRUCTIONS = "instructions";
+    private static final String IS_ALCOHOLIC = "isAlcoholic";
     private static final int MIN_BOUND = 1;
     private static final int MAX_BOUND = 20000;
 
@@ -215,7 +215,9 @@ public class UserDataAccessObject implements
     }
 
     @Override
-    public void createCustomRecipe(String username, Recipe recipe) {
+    public void createCustomRecipe(String username, String recipeName,
+                                         String recipeInstruction, List<String> ingredients,
+                                         List<String> measurements, String isAlcoholic) {
         if (!existsByName(username)) {
             throw new UserNotFound(username);
         }
@@ -223,11 +225,12 @@ public class UserDataAccessObject implements
         final MongoCollection<Document> recipesCollection = database.getCollection(RECIPES_COLLECTION_NAME);
 
         // Creates the recipe in recipe collection.
-        final Document customMongoRecipe = new Document(RECIPE_NAME, recipe.getName())
-                    .append(RECIPE_ID, generateRandomId())
-                    .append(INGREDIENTS, getIngredients(recipe))
-                    .append(MEASUREMENTS, getMeasurements(recipe))
-                    .append(INSTRUCTIONS, recipe.getInstruction());
+        final Document customMongoRecipe = new Document(RECIPE_NAME, recipeName)
+                .append(RECIPE_ID, generateRandomId())
+                .append(INGREDIENTS, ingredients)
+                .append(MEASUREMENTS, measurements)
+                .append(INSTRUCTIONS, recipeInstruction)
+                .append(IS_ALCOHOLIC, isAlcoholic);
         recipesCollection.insertOne(customMongoRecipe);
 
         // adds a reference to the created recipe.
@@ -306,24 +309,6 @@ public class UserDataAccessObject implements
         return result;
     }
 
-    private List<String> getMeasurements(Recipe recipe) {
-        final List<String> result = new ArrayList<>();
-        final List<Ingredient> ingredientList = recipe.getIngredients();
-        for (Ingredient ingredient: ingredientList) {
-            result.add(ingredient.getMeasure());
-        }
-        return result;
-    }
-
-    private List<String> getIngredients(Recipe recipe) {
-        final List<String> result = new ArrayList<>();
-        final List<Ingredient> ingredientList = recipe.getIngredients();
-        for (Ingredient ingredient: ingredientList) {
-            result.add(ingredient.getName());
-        }
-        return result;
-    }
-
     private int generateRandomId() {
         // Generate random int between min (inclusive) and max (inclusive)
         int randomInt = random.nextInt((MAX_BOUND - MIN_BOUND) + 1) + MIN_BOUND;
@@ -356,15 +341,11 @@ public class UserDataAccessObject implements
         final UserDataAccessObject userDataAccessObject = new UserDataAccessObject(
                 userFactory1, recipeFactory1);
 
-        final Recipe recipeExample = recipeFactory1.create(
-                "The floor is lava",
-                0,
+        userDataAccessObject.createCustomRecipe("shin", "The floor is lava",
                 "Scoop the lava 5 times. Marinate your hand inside.",
-                List.of(new Ingredient("Molten rocks", "Maybe one cup")),
-                "",
-                "",
+                List.of("Molten Rocks"),
+                List.of("1 handful"),
                 "");
-        userDataAccessObject.createCustomRecipe("shin", recipeExample);
         //userDataAccessObject.removeCustomRecipe("shin", 2605);
     }
 }

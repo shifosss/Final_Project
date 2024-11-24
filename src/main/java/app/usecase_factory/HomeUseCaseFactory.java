@@ -3,6 +3,7 @@ package app.usecase_factory;
 import data_access.CocktailDataAccessObject;
 import data_access.UserDataAccessObject;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.custom_recipe.CustomRecipeViewModel;
 import interface_adapter.explore_ingredient.ExploreIngredientController;
 import interface_adapter.explore_ingredient.ExploreIngredientPresenter;
 import interface_adapter.explore_ingredient.ExploreIngredientViewModel;
@@ -20,6 +21,8 @@ import interface_adapter.user_profile.UserProfileViewModel;
 import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
 import use_case.bookmark_recipe.BookmarkRecipeInputBoundary;
 import use_case.bookmark_recipe.BookmarkRecipeInteractor;
+import use_case.create_recipe.CustomRecipeInputBoundary;
+import use_case.create_recipe.CustomRecipeInteractor;
 import use_case.explore_ingredient.ExploreIngredientDataAccessInterface;
 import use_case.explore_ingredient.ExploreIngredientInputBoundary;
 import use_case.explore_ingredient.ExploreIngredientInteractor;
@@ -63,6 +66,7 @@ public final class HomeUseCaseFactory {
                                   RecipeDetailViewModel recipeDetailViewModel,
                                   ExploreIngredientViewModel exploreIngredientViewModel,
                                   UserProfileViewModel userProfileViewModel,
+                                  CustomRecipeViewModel customRecipeViewModel,
                                   CocktailDataAccessObject cocktailDataAccessObject,
                                   UserDataAccessObject userDataAccessObject,
                                   ServiceManager serviceManager) {
@@ -70,7 +74,7 @@ public final class HomeUseCaseFactory {
         final HomePageController homePageController = createHomePageUseCases(
                 viewManagerModel, homePageViewModel, searchRecipeViewModel,
                 recipeDetailViewModel, exploreIngredientViewModel, userProfileViewModel,
-                cocktailDataAccessObject, userDataAccessObject);
+                customRecipeViewModel, cocktailDataAccessObject, userDataAccessObject);
 
         return new HomeView(homePageViewModel,
                 homePageController,
@@ -84,13 +88,14 @@ public final class HomeUseCaseFactory {
             RecipeDetailViewModel recipeDetailViewModel,
             ExploreIngredientViewModel exploreIngredientViewModel,
             UserProfileViewModel userProfileViewModel,
+            CustomRecipeViewModel customRecipeViewModel,
             CocktailDataAccessObject cocktailDataAccessObject,
             UserDataAccessObject userDataAccessObject) {
 
         final HomePagePresenter homePagePresenter = new HomePagePresenter(
                 homePageViewModel, searchRecipeViewModel,
                 recipeDetailViewModel, exploreIngredientViewModel, userProfileViewModel,
-                viewManagerModel);
+                customRecipeViewModel, viewManagerModel);
         final ExploreIngredientInputBoundary exploreIngredientInteractor = new ExploreIngredientInteractor(
                 cocktailDataAccessObject, homePagePresenter);
         final ViewRecipeInputBoundary viewRecipeInteractor = new ViewRecipeInteractor(
@@ -100,7 +105,11 @@ public final class HomeUseCaseFactory {
         final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
                 homePagePresenter, userDataAccessObject
         );
+        final CustomRecipeInputBoundary customRecipeInteractor = new CustomRecipeInteractor(
+                userDataAccessObject, cocktailDataAccessObject, homePagePresenter
+        );
 
-        return new HomePageController(viewRecipeInteractor, exploreIngredientInteractor, userProfileInteractor);
+        return new HomePageController(viewRecipeInteractor, exploreIngredientInteractor,
+                userProfileInteractor, customRecipeInteractor);
     }
 }

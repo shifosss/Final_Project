@@ -29,6 +29,7 @@ public class RecipeDetailView extends JPanel implements
     private final IngredientPanel ingredientPanel;
     private final InstructionPanel instructionPanel;
     private final VideoPanel videoPanel;
+    private final IsAlcoholicPanel alcholicPanel;
 
     private final RecipeDetailViewModel recipeDetailViewModel;
     private final ServiceManager serviceManager;
@@ -52,11 +53,9 @@ public class RecipeDetailView extends JPanel implements
                 serviceManager
         );
 
-        ingredientPanel = new IngredientPanel(
-        );
-
-        instructionPanel = new InstructionPanel(
-        );
+        ingredientPanel = new IngredientPanel();
+        instructionPanel = new InstructionPanel();
+        alcholicPanel = new IsAlcoholicPanel();
 
         final ActionListener switchToSearchListener = event -> {
             if (event.getSource().equals(backButton)) {
@@ -92,6 +91,7 @@ public class RecipeDetailView extends JPanel implements
         centerPanel.add(videoPanel);
         centerPanel.add(ingredientPanel);
         centerPanel.add(instructionPanel);
+        centerPanel.add(alcholicPanel);
         add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -113,8 +113,7 @@ public class RecipeDetailView extends JPanel implements
         videoPanel.updateComponents(recipe);
         ingredientPanel.updateComponents(recipe);
         instructionPanel.updateComponents(recipe);
-        // TODO: Update the scroll panel so that the scroll bar is always at the top
-        //  (so the viewing always starts at the top)
+        alcholicPanel.updateComponents(recipe);
     }
 
     @Override

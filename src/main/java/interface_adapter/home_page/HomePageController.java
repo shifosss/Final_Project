@@ -1,6 +1,7 @@
 package interface_adapter.home_page;
 
-import use_case.bookmark_recipe.BookmarkRecipeInputBoundary;
+import use_case.create_recipe.CustomRecipeInputBoundary;
+import use_case.create_recipe.CustomRecipeInputData;
 import use_case.explore_ingredient.ExploreIngredientInputBoundary;
 import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInputData;
@@ -14,13 +15,16 @@ public class HomePageController {
     private final ViewRecipeInputBoundary recipeDetailInteractor;
     private final ExploreIngredientInputBoundary ingredientInteractor;
     private final UserProfileInputBoundary userInteractor;
+    private final CustomRecipeInputBoundary customRecipeInteractor;
 
     public HomePageController(ViewRecipeInputBoundary recipeDetailInteractor,
                               ExploreIngredientInputBoundary ingredientInteractor,
-                              UserProfileInputBoundary userInteractor) {
+                              UserProfileInputBoundary userInteractor,
+                              CustomRecipeInputBoundary customRecipeInteractor) {
         this.recipeDetailInteractor = recipeDetailInteractor;
         this.ingredientInteractor = ingredientInteractor;
         this.userInteractor = userInteractor;
+        this.customRecipeInteractor = customRecipeInteractor;
     }
 
     /**
@@ -60,5 +64,12 @@ public class HomePageController {
     public void switchToUserButton(String username) {
         final UserProfileInputData inputData = new UserProfileInputData(username);
         userInteractor.switchToUserView(inputData);
+    }
+
+    /**
+     * Goes to the custom recipe view.
+     */
+    public void switchToCustomRecipeView() {
+        customRecipeInteractor.switchToCustomRecipeView();
     }
 }

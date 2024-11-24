@@ -143,8 +143,13 @@ public class CocktailDataAccessObject implements
         final List<Ingredient> ingredients = getIngredients(raw);
         final String imageLink = getImageLink(raw);
         final String videoLink = getVideoLink(raw);
+        final String isAlcoholic = getIsAlcoholic(raw);
 
-        return cocktailFactory.create(name, id, instruction, ingredients, imageLink, videoLink, "");
+        return cocktailFactory.create(name, id, instruction, ingredients, imageLink, videoLink, isAlcoholic);
+    }
+
+    private String getIsAlcoholic(JSONObject raw) {
+        return raw.optString("strAlcoholic", "");
     }
 
     private String getRecipeName(JSONObject raw) {

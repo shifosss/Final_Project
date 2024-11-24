@@ -32,6 +32,7 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
     private final JButton searchButton = new JButton("Search");
     private final JButton exploreByIngredientButton = new JButton("Explore By Ingredient");
     private final JButton userButton = new JButton("User");
+    private final JButton customRecipeButton = new JButton("Create custom recipe");
     private final ContentPanel contentPanel;
 
     private final HomePageViewModel homePageViewModel;
@@ -57,12 +58,16 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
         userButton.addActionListener(event -> {
             homePageController.switchToUserButton(currentUser);
         });
+        customRecipeButton.addActionListener(event -> {
+            homePageController.switchToCustomRecipeView();
+        });
 
         homePageViewModel.addPropertyChangeListener(this);
         setLayout(new BorderLayout());
 
         add(headerPanel, BorderLayout.NORTH);
         add(contentPanel.getScrollPane(), BorderLayout.CENTER);
+        add(new JPanel().add(customRecipeButton), BorderLayout.SOUTH);
     }
 
     @Override
