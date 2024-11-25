@@ -32,7 +32,6 @@ public class ViewRecipeInteractor implements ViewRecipeInputBoundary {
         );
 
         final Recipe recipe = recipeDetailDataAccessObject.getRecipeById(recipeId);
-
         if (recipe == null) {
             final ViewRecipeOutputData recipeDetailOutputData = new ViewRecipeOutputData(
                     null,

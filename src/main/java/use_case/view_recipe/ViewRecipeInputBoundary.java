@@ -18,7 +18,7 @@ public interface ViewRecipeInputBoundary {
 
     /**
      * Bookmarks the recipe.
-     * @param recipeDetailInputData the recipe input data.
+     * @param recipeDetailInputData the input data.
      */
     void bookmarkRecipe(ViewRecipeInputData recipeDetailInputData);
 }

@@ -10,15 +10,17 @@ import java.util.List;
  * The interactor for the login usecase.
  */
 public class LoginInteractor implements LoginInputBoundary {
-    private final LoginDataAccessInterface userDataAccessObject;
-    private final RandomRecipeDataAccessInterface cocktailDataAccessObject;
+    private static final int LIMIT = 9;
+
+    private final LoginDataAccessInterface loginDataAccessObject;
+    private final RandomRecipeDataAccessInterface randomRecipeDataAccessObject;
     private final LoginOutputBoundary loginPresenter;
 
-    public LoginInteractor(LoginDataAccessInterface userDataAccessObject,
-                           RandomRecipeDataAccessInterface cocktailDataAccessObject,
+    public LoginInteractor(LoginDataAccessInterface loginDataAccessObject,
+                           RandomRecipeDataAccessInterface randomRecipeDataAccessObject,
                            LoginOutputBoundary loginPresenter) {
-        this.userDataAccessObject = userDataAccessObject;
-        this.cocktailDataAccessObject = cocktailDataAccessObject;
+        this.loginDataAccessObject = loginDataAccessObject;
+        this.randomRecipeDataAccessObject = randomRecipeDataAccessObject;
         this.loginPresenter = loginPresenter;
     }
 
@@ -27,29 +29,32 @@ public class LoginInteractor implements LoginInputBoundary {
         final String username = loginInputData.getUsername();
         final String password = loginInputData.getPassword();
 
-        if (!userDataAccessObject.existsByName(username)) {
+        if (!loginDataAccessObject.existsByName(username)) {
             loginPresenter.prepareFailView(username + ": Account does not exist.");
         }
         else {
-            final String pwd = userDataAccessObject.getUser(username).getPassword();
+            final String pwd = loginDataAccessObject.getUser(username).getPassword();
             if (!pwd.equals(password)) {
                 loginPresenter.prepareFailView(username + ": Wrong password.");
             }
             else {
-                final User user = userDataAccessObject.getUser(username);
+                final User user = loginDataAccessObject.getUser(username);
                 if (user == null) {
                     loginPresenter.prepareFailView(username + ": User not found.");
                 }
                 else {
-                    userDataAccessObject.setCurrentUser(user.getName());
-                    final List<Recipe> randomRecipes = cocktailDataAccessObject.getRandomRecipes(3);
-                    System.out.println(randomRecipes);
+                    loginDataAccessObject.setCurrentUser(user.getName());
+                    final List<Recipe> randomRecipes = randomRecipeDataAccessObject.getRandomRecipes(LIMIT);
+                    final List<Integer> bookmarkedRecipeIds = loginDataAccessObject.getBookmarkedRecipes(username);
+                    final List<Recipe> bookmarkedRecipes = randomRecipeDataAccessObject
+                            .getRecipesByIdList(bookmarkedRecipeIds);
 
-                    final List<Integer> ingredientsToAvoid = userDataAccessObject.getIngredientsToAvoid(username);
+                    final List<Integer> ingredientsToAvoid = loginDataAccessObject.getIngredientsToAvoid(username);
                     final LoginOutputData outputData = new LoginOutputData(
                             username,
                             ingredientsToAvoid,
                             randomRecipes,
+                            bookmarkedRecipes,
                             false);
                     if (ingredientsToAvoid.isEmpty()) {
                         loginPresenter.preparePreferenceView(outputData);

@@ -12,16 +12,18 @@ public class CocktailRecipe implements Recipe {
     private final List<Ingredient> ingredients;
     private final String imageLink;
     private final String videoLink;
+    private final String isAlcoholic;
 
     public CocktailRecipe(String name, int id,
                           String instruction, List<Ingredient> ingredients,
-                          String imageLink, String videoLink) {
+                          String imageLink, String videoLink, String isAlcoholic) {
         this.name = name;
         this.id = id;
         this.instruction = instruction;
         this.ingredients = ingredients;
         this.imageLink = imageLink;
         this.videoLink = videoLink;
+        this.isAlcoholic = isAlcoholic;
     }
 
     @Override
@@ -46,7 +48,7 @@ public class CocktailRecipe implements Recipe {
 
     @Override
     public String toString() {
-        return String.format("Name: %s\nIngredients: %s", name, ingredients);
+        return String.format("Name: %s\n", name);
     }
 
     @Override
@@ -58,4 +60,10 @@ public class CocktailRecipe implements Recipe {
     public String getVideoLink() {
         return videoLink;
     }
+
+    @Override
+    public String getIsAlcoholic() {
+        return isAlcoholic;
+    }
+
 }

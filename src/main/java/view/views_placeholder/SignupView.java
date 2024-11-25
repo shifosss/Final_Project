@@ -1,4 +1,4 @@
-package view.ViewPlaceholder;
+package view.views_placeholder;
 
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupState;
@@ -8,13 +8,14 @@ import view.PageView;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * View for sign up.
+ * View for sign up with enhanced design.
  */
 public class SignupView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
     private final JButton signupButton = new JButton("Sign up");
@@ -30,39 +31,112 @@ public class SignupView extends JPanel implements PageView, ActionListener, Prop
         this.signupController = signupController;
         this.signupViewModel = signupViewModel;
 
-        add(new JLabel("Signup Panel"));
-        add(usernameField);
-        add(passwordField);
-        add(confirmPasswordField);
-        add(signupButton);
-        add(loginButton);
+        setLayout(new GridBagLayout());
+        setOpaque(false); // 背景透明以显示自定义背景图
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-        final ActionListener attemptSignup = event -> {
-            if (event.getSource().equals(signupButton) || event.getSource().equals(confirmPasswordField)
-                    || event.getSource().equals(passwordField) || event.getSource().equals(usernameField)) {
-                final SignupState currentState = signupViewModel.getState();
-                signupController.execute(
-                        currentState.getUsername(),
-                        currentState.getPassword(),
-                        currentState.getRepeatPassword()
-                );
+        // add title
+        JLabel titleLabel = new JLabel("Cocktail lab");
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
+        titleLabel.setForeground(Color.WHITE);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        add(titleLabel, gbc);
+
+        // add user input
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 1;
+        add(new JLabel("Username:"), gbc);
+
+        gbc.gridx = 1;
+        add(usernameField, gbc);
+
+        // add password frame
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        add(new JLabel("Password:"), gbc);
+
+        gbc.gridx = 1;
+        add(passwordField, gbc);
+
+        // add password input frame
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        add(new JLabel("Confirm Password:"), gbc);
+
+        gbc.gridx = 1;
+        add(confirmPasswordField, gbc);
+
+        // add signup button
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        add(signupButton, gbc);
+
+        // add login button
+        gbc.gridx = 1;
+        add(loginButton, gbc);
+
+        // set up button
+        signupButton.setBackground(new Color(0, 128, 0));
+        signupButton.setForeground(Color.WHITE);
+
+        loginButton.setBackground(new Color(75, 0, 130));
+        loginButton.setForeground(Color.WHITE);
+
+        signupButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                signupButton.setBackground(new Color(34, 139, 34));
             }
-        };
 
-        final ActionListener switchToLogin = event -> {
-            signupController.switchToLoginView();
-        };
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                signupButton.setBackground(new Color(0, 128, 0));
+            }
+        });
 
-        signupButton.addActionListener(attemptSignup);
-        confirmPasswordField.addActionListener(attemptSignup);
-        passwordField.addActionListener(attemptSignup);
-        usernameField.addActionListener(attemptSignup);
+        loginButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                loginButton.setBackground(new Color(139, 0, 139));
+            }
 
-        loginButton.addActionListener(switchToLogin);
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                loginButton.setBackground(new Color(75, 0, 130));
+            }
+        });
+
+        // add actionlistener
+        signupButton.addActionListener(event -> {
+            final SignupState currentState = signupViewModel.getState();
+            signupController.execute(
+                    currentState.getUsername(),
+                    currentState.getPassword(),
+                    currentState.getRepeatPassword()
+            );
+        });
+
+        loginButton.addActionListener(event -> signupController.switchToLoginView());
 
         addUsernameListener();
         addPasswordListener();
         addConfirmPasswordListener();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // paint background
+        g.setColor(new Color(255, 165, 0));
+        g.fillRect(0, 0, getWidth(), getHeight());
+
+        // load png image
+        ImageIcon cocktail1 = new ImageIcon(getClass().getResource("/image/cocktail1.png"));
+        g.drawImage(cocktail1.getImage(), 50, 50, 200, 300, this);
+
+        ImageIcon cocktail2 = new ImageIcon(getClass().getResource("/image/cocktail2.png"));
+        g.drawImage(cocktail2.getImage(), 550, 50, 100, 150, this);
     }
 
     @Override
@@ -71,9 +145,7 @@ public class SignupView extends JPanel implements PageView, ActionListener, Prop
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
+    public void actionPerformed(ActionEvent e) {}
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -85,7 +157,6 @@ public class SignupView extends JPanel implements PageView, ActionListener, Prop
 
     private void addUsernameListener() {
         usernameField.getDocument().addDocumentListener(new DocumentListener() {
-
             private void documentListenerHelper() {
                 final SignupState currentState = signupViewModel.getState();
                 currentState.setUsername(usernameField.getText());
@@ -111,7 +182,6 @@ public class SignupView extends JPanel implements PageView, ActionListener, Prop
 
     private void addPasswordListener() {
         passwordField.getDocument().addDocumentListener(new DocumentListener() {
-
             private void documentListenerHelper() {
                 final SignupState currentState = signupViewModel.getState();
                 currentState.setPassword(new String(passwordField.getPassword()));
@@ -137,7 +207,6 @@ public class SignupView extends JPanel implements PageView, ActionListener, Prop
 
     private void addConfirmPasswordListener() {
         confirmPasswordField.getDocument().addDocumentListener(new DocumentListener() {
-
             private void documentListenerHelper() {
                 final SignupState currentState = signupViewModel.getState();
                 currentState.setRepeatPassword(new String(confirmPasswordField.getPassword()));
@@ -160,5 +229,4 @@ public class SignupView extends JPanel implements PageView, ActionListener, Prop
             }
         });
     }
-
 }

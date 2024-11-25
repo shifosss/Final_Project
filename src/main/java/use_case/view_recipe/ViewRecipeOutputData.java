@@ -2,6 +2,8 @@ package use_case.view_recipe;
 
 import entities.recipe.Recipe;
 
+import java.util.List;
+
 /**
  * Recipe detail output data that contains information after execution.
  */

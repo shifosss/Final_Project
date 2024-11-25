@@ -1,6 +1,7 @@
 package interface_adapter.recipe_detail;
 
-import entities.recipe.Recipe;
+import use_case.bookmark_recipe.BookmarkRecipeInputBoundary;
+import use_case.bookmark_recipe.BookmarkRecipeInputData;
 import use_case.view_recipe.ViewRecipeInputBoundary;
 import use_case.view_recipe.ViewRecipeInputData;
 
@@ -9,23 +10,22 @@ import use_case.view_recipe.ViewRecipeInputData;
  */
 public class RecipeDetailController {
     private final ViewRecipeInputBoundary recipeDetailInteractor;
+    private final BookmarkRecipeInputBoundary bookmarkRecipeInteractor;
 
-    public RecipeDetailController(ViewRecipeInputBoundary recipeDetailInteractor) {
+    public RecipeDetailController(ViewRecipeInputBoundary recipeDetailInteractor,
+                                  BookmarkRecipeInputBoundary bookmarkRecipeInteractor) {
         this.recipeDetailInteractor = recipeDetailInteractor;
+        this.bookmarkRecipeInteractor = bookmarkRecipeInteractor;
     }
 
     /**
      * Executes the interactor for recipe detail use case.
+     * Essentially, switches to the recipe view.
      * @param id recipe id.
      */
     public void execute(int id) {
         final ViewRecipeInputData recipeDetailInputData = new ViewRecipeInputData(id);
         recipeDetailInteractor.execute(recipeDetailInputData);
-    }
-
-    public void switchToRecipe(int id) {
-        final ViewRecipeInputData recipeDetailInputData = new ViewRecipeInputData(id);
-
     }
 
     /**
@@ -37,10 +37,12 @@ public class RecipeDetailController {
 
     /**
      * Attempts to bookmark the recipe.
-     * @param recipe the recipe entity.
+     * @param id the recipe id.
      */
-    public void bookmarkRecipe(Recipe recipe) {
-        final ViewRecipeInputData recipeDetailInputData = new ViewRecipeInputData(recipe.getId());
-        recipeDetailInteractor.bookmarkRecipe(recipeDetailInputData);
+    public void bookmarkRecipe(int id) {
+        final BookmarkRecipeInputData inputData = new BookmarkRecipeInputData(
+                id
+        );
+        bookmarkRecipeInteractor.bookmarkRecipe(inputData);
     }
 }

@@ -7,7 +7,7 @@ import use_case.signup.SignupInputData;
  * Controller for the signup view.
  */
 public class SignupController {
-    private SignupInputBoundary signupInteractor;
+    private final SignupInputBoundary signupInteractor;
 
     public SignupController(SignupInputBoundary signupInteractor) {
         this.signupInteractor = signupInteractor;

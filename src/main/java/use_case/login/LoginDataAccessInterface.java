@@ -40,4 +40,11 @@ public interface LoginDataAccessInterface {
      * @return a list of ingredients id to avoid.
      */
     List<Integer> getIngredientsToAvoid(String username);
+
+    /**
+     * Gets the bookmarked recipes of user.
+     * @param username the user.
+     * @return a list of recipe ids.
+     */
+    List<Integer> getBookmarkedRecipes(String username);
 }

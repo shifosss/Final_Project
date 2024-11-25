@@ -1,6 +1,7 @@
-package view.ui_components.random_recipe;
+package view.ui_components.main_page;
 
 import entities.recipe.Recipe;
+import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.search_recipe.SearchRecipeController;
@@ -19,7 +20,7 @@ import java.awt.event.MouseEvent;
 /**
  * Recipe Panel that shows when searching for recipes.
  */
-public class RandomRecipeThumbnailPanel extends JPanel {
+public class HomeRecipeThumbnailPanel extends JPanel {
     private static final int H_GAP = 10;
     private static final int V_GAP = 10;
     private static final int TOP = 5;
@@ -38,17 +39,14 @@ public class RandomRecipeThumbnailPanel extends JPanel {
     private JButton nameButton;
 
     private final HomePageViewModel homePageViewModel;
-    private final SearchRecipeController searchRecipeController;
-    private final RecipeDetailController recipeDetailController;
+    private final HomePageController homePageController;
     private final ServiceManager serviceManager;
 
-    public RandomRecipeThumbnailPanel(HomePageViewModel homePageViewModel,
-                                      SearchRecipeController searchRecipeController,
-                                      RecipeDetailController recipeDetailController,
-                                      ServiceManager serviceManager) {
+    public HomeRecipeThumbnailPanel(HomePageViewModel homePageViewModel,
+                                    HomePageController homePageController,
+                                    ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
-        this.searchRecipeController = searchRecipeController;
-        this.recipeDetailController = recipeDetailController;
+        this.homePageController = homePageController;
         this.homePageViewModel = homePageViewModel;
         // Sets Layout
         setLayout(new BorderLayout(H_GAP, V_GAP));
@@ -114,7 +112,7 @@ public class RandomRecipeThumbnailPanel extends JPanel {
 
         final ActionListener recipeDetailListener = event -> {
             if (event.getSource().equals(nameButton)) {
-                searchRecipeController.switchToRecipeView(recipe.getId());
+                homePageController.switchToRecipeView(recipe.getId());
             }
         };
 

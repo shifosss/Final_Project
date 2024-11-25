@@ -7,5 +7,10 @@ import entities.recipe.Recipe;
  */
 public interface ViewRecipeDataAccessInterface {
 
+    /**
+     * Gets the recipe with id.
+     * @param id the recipe id.
+     * @return the recipe entity.
+     */
     Recipe getRecipeById(int id);
 }

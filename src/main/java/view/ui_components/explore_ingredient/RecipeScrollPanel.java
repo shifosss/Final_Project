@@ -56,11 +56,13 @@ public class RecipeScrollPanel extends JPanel {
         if (recipes == null || recipes.isEmpty()) {
             if (!isExploreMode) {
                 showEmptyState();
-            } else {
+            }
+            else {
                 // Show "No results found" message for explore mode
                 showNoResultsMessage();
             }
-        } else {
+        }
+        else {
             final List<JPanel> recipePanels = parseToPanel(recipes);
             for (JPanel recipe : recipePanels) {
                 recipePanel.add(recipe);

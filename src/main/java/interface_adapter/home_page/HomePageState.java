@@ -13,6 +13,7 @@ public class HomePageState {
     private String query = "";
     private List<Recipe> randomRecipe = new ArrayList<>();
     private List<Integer> ingredientsToAvoidId = new ArrayList<>();
+    private List<Recipe> bookmarkedRecipes = new ArrayList<>();
 
     public void setUsername(String username) {
         this.username = username;
@@ -44,5 +45,13 @@ public class HomePageState {
 
     public List<Recipe> getRandomRecipe() {
         return randomRecipe;
+    }
+
+    public void setBookmarkedRecipes(List<Recipe> bookmarkedRecipes) {
+        this.bookmarkedRecipes = bookmarkedRecipes;
+    }
+
+    public List<Recipe> getBookmarkedRecipes() {
+        return bookmarkedRecipes;
     }
 }

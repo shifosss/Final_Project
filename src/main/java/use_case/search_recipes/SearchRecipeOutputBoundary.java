@@ -6,6 +6,7 @@ package use_case.search_recipes;
 public interface SearchRecipeOutputBoundary {
     /**
      * Prepares the success view for the Search Recipe Use Case.
+     * To be specific, it shows the search results.
      * @param outputData the output data
      */
     void prepareSuccessView(SearchRecipeOutputData outputData);
