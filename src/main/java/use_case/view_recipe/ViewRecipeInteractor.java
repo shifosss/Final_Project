@@ -1,10 +1,8 @@
 package use_case.view_recipe;
 
-import data_access.UserDataAccessObject;
 import entities.recipe.Recipe;
 import exceptions.RecipeNotFound;
-import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
-import use_case.bookmark_recipe.BookmarkRecipeInputBoundary;
+import use_case.bookmarkRecipe.BookmarkRecipeDataAccessInterface;
 
 /**
  * The Recipe Detail Interactor such that it processes the input data.

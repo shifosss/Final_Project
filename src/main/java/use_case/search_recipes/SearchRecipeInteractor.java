@@ -4,9 +4,8 @@ import java.util.List;
 
 import entities.recipe.Recipe;
 import interface_adapter.search_recipe.SearchRecipePresenter;
-import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
+import use_case.bookmarkRecipe.BookmarkRecipeDataAccessInterface;
 import use_case.view_recipe.ViewRecipeInputData;
-import use_case.view_recipe.ViewRecipeOutputBoundary;
 import use_case.view_recipe.ViewRecipeOutputData;
 
 /**

@@ -1,9 +1,6 @@
 package use_case.explore_ingredient;
 
 import java.util.List;
-import entities.recipe.Recipe;
-import entities.recipe.Ingredient;
-import entities.recipe.SimpleRecipe;
 
 /**
  * Output data for the explore ingredient usecase.

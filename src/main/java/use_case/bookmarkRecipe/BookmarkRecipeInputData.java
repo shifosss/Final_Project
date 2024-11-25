@@ -1,4 +1,4 @@
-package use_case.bookmark_recipe;
+package use_case.bookmarkRecipe;
 
 /**
  * Bookmark input data.

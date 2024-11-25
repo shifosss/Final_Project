@@ -1,11 +1,8 @@
 package view.ui_components.main_page;
 
 import entities.recipe.Recipe;
-import interface_adapter.explore_ingredient.ExploreIngredientController;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePageViewModel;
-import interface_adapter.recipe_detail.RecipeDetailController;
-import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.services.ServiceManager;
 
 import javax.swing.*;
@@ -16,6 +13,11 @@ import java.util.List;
  * The panel where the bookmarked recipes will show.
  */
 public class BookmarkedPanel extends JPanel {
+    public static final int TITLE_FONT_SIZE = 24;
+    public static final int TITLE_BOX_HEIGHT = 20;
+    public static final int RECIPE_PANEL_COLS = 3;
+    public static final int RECIPE_PANEL_HORIZONTAL_GAP = 10;
+    public static final int RECIPE_PANEL_VERTICAL_GAP = 10;
     private final JPanel recipesPanel;
 
     private final HomePageViewModel homePageViewModel;
@@ -35,15 +37,15 @@ public class BookmarkedPanel extends JPanel {
 
         // Recommendations title
         final JLabel title = new JLabel("Bookmarked Recipes");
-        title.setFont(new Font("SansSerif", Font.BOLD, 24));
+        title.setFont(new Font("SansSerif", Font.BOLD, TITLE_FONT_SIZE));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(title);
 
         // Add some vertical spacing
-        this.add(Box.createRigidArea(new Dimension(0, 20)));
+        this.add(Box.createRigidArea(new Dimension(0, TITLE_BOX_HEIGHT)));
 
         // Panel for recommendation recipes
-        this.recipesPanel = new JPanel(new GridLayout(1, 3, 10, 10));
+        this.recipesPanel = new JPanel(new GridLayout(1, RECIPE_PANEL_COLS, RECIPE_PANEL_HORIZONTAL_GAP, RECIPE_PANEL_VERTICAL_GAP));
         recipesPanel.setBackground(Color.WHITE);
 
         this.add(recipesPanel);

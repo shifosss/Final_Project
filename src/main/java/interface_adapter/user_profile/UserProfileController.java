@@ -1,9 +1,7 @@
 package interface_adapter.user_profile;
 
-import entities.user.User;
 import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInputData;
-import use_case.user_profile.UserProfileInteractor;
 
 /**
  * Controller for the user profile view.

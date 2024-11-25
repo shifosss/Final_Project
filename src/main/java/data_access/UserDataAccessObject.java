@@ -17,7 +17,7 @@ import exceptions.RecipeNotFound;
 import exceptions.UserNotFound;
 import org.bson.Document;
 import org.bson.types.ObjectId;
-import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
+import use_case.bookmarkRecipe.BookmarkRecipeDataAccessInterface;
 import use_case.create_recipe.CustomRecipeDataAccessInterface;
 import use_case.login.LoginDataAccessInterface;
 import use_case.signup.SignupDataAccessInterface;

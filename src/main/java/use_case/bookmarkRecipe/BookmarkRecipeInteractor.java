@@ -1,12 +1,9 @@
-package use_case.bookmark_recipe;
+package use_case.bookmarkRecipe;
 
 import entities.recipe.Recipe;
-import use_case.random_recipes.RandomRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
 import use_case.view_recipe.ViewRecipeOutputBoundary;
 import use_case.view_recipe.ViewRecipeOutputData;
-
-import java.util.List;
 
 /**
  * Interactor for the bookmark usecase.

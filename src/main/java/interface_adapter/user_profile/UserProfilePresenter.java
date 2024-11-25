@@ -2,7 +2,6 @@ package interface_adapter.user_profile;
 
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 import use_case.user_profile.UserProfileOutputBoundary;
 import use_case.user_profile.UserProfileOutputData;

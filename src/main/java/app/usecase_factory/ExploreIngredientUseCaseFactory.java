@@ -12,7 +12,6 @@ import use_case.explore_ingredient.ExploreIngredientInputBoundary;
 import use_case.explore_ingredient.ExploreIngredientInteractor;
 import use_case.explore_ingredient.ExploreIngredientOutputBoundary;
 import view.ExploreIngredientRecipeView;
-import view.SearchRecipeView;
 
 /**
  * Creates the use cases needed for the xplore ingredients view.

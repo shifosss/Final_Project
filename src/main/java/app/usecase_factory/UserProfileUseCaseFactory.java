@@ -9,7 +9,6 @@ import interface_adapter.user_profile.UserProfilePresenter;
 import interface_adapter.user_profile.UserProfileViewModel;
 import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInteractor;
-import use_case.user_profile.UserProfileOutputBoundary;
 import view.views_placeholder.UserProfileView;
 
 /**

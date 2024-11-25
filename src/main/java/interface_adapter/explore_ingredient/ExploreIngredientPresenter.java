@@ -5,13 +5,9 @@ import interface_adapter.search_recipe.SearchRecipeState;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import use_case.explore_ingredient.ExploreIngredientOutputBoundary;
 import use_case.explore_ingredient.ExploreIngredientOutputData;
-import entities.recipe.Ingredient;
 import interface_adapter.ViewManagerModel;
-import use_case.search_recipes.SearchRecipeInputBoundary;
 import use_case.search_recipes.SearchRecipeOutputBoundary;
 import use_case.search_recipes.SearchRecipeOutputData;
-
-import java.util.List;
 
 /**
  * Presenter for the explore ingredient view.
