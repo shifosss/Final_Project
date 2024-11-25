@@ -8,7 +8,7 @@ public class UserIconPanel extends JPanel {
     final private JLabel userLabel;
     final private JLabel photoLabel;
 
-    public UserIconPanel(String username) {
+    public UserIconPanel() {
         setLayout(new FlowLayout(FlowLayout.LEFT));
         setBackground(new Color(169, 169, 169));
 
@@ -20,7 +20,7 @@ public class UserIconPanel extends JPanel {
         photoLabel.setIcon(roundedPhoto);
 
         // add username
-        userLabel = new JLabel("Username: " + username);
+        userLabel = new JLabel();
         userLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
         userLabel.setForeground(Color.WHITE);
 
@@ -47,6 +47,6 @@ public class UserIconPanel extends JPanel {
      * @param username the username
      */
     public void updateComponents(String username) {
-        userLabel.setText(username);
+        userLabel.setText(String.format("Username: %s", username));
     }
 }

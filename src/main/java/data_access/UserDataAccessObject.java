@@ -21,6 +21,7 @@ import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
 import use_case.create_recipe.CustomRecipeDataAccessInterface;
 import use_case.login.LoginDataAccessInterface;
 import use_case.signup.SignupDataAccessInterface;
+import use_case.user_profile.UserProfileDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,8 @@ public class UserDataAccessObject implements
         LoginDataAccessInterface,
         SignupDataAccessInterface,
         BookmarkRecipeDataAccessInterface,
-        CustomRecipeDataAccessInterface {
+        CustomRecipeDataAccessInterface,
+        UserProfileDataAccessInterface {
     private static final String ACCESS_USERNAME = "appUser";
     private static final String ACCESS_PASSWORD = "myPassword123";
     private static final String CONNECTION_URL = String.format("mongodb+srv://%s:%s@cluster0.dvuik.mongodb.net/",
@@ -282,15 +284,8 @@ public class UserDataAccessObject implements
 
         for (ObjectId recipeObjectId : createdRecipeIds) {
             final Document recipeObject = recipesCollection.find(Filters.eq("_id", recipeObjectId)).first();
-            final String recipeName = recipeObject.getString(RECIPE_NAME);
             final int recipeId = recipeObject.getInteger(RECIPE_ID);
-            final String recipeInstruction = recipeObject.getString(INSTRUCTIONS);
-            final List<Ingredient> recipeIngredients = getIngredientsEntity(recipeObject);
-            final String recipeIsAlcoholic = recipeObject.getString("isAlcoholic");
-
-            results.add(recipeFactory.create(recipeName, recipeId,
-                    recipeInstruction, recipeIngredients,
-                    "", "", recipeIsAlcoholic));
+            results.add(getRecipeById(recipeId));
         }
 
         return results;
@@ -335,17 +330,19 @@ public class UserDataAccessObject implements
         return false;
     }
 
-    public static void main(String[] args) {
-        final UserFactory userFactory1 = new CommonUserFactory();
-        final RecipeFactory recipeFactory1 = new CocktailFactory();
-        final UserDataAccessObject userDataAccessObject = new UserDataAccessObject(
-                userFactory1, recipeFactory1);
+    @Override
+    public Recipe getRecipeById(int recipeId) {
+        final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
+        final MongoCollection<Document> recipesCollection = database.getCollection(RECIPES_COLLECTION_NAME);
+        final Document recipeObject = recipesCollection.find(Filters.eq("id", recipeId)).first();
+        final String recipeName = recipeObject.getString(RECIPE_NAME);
+        final String recipeInstruction = recipeObject.getString(INSTRUCTIONS);
+        final List<Ingredient> recipeIngredients = getIngredientsEntity(recipeObject);
+        final String recipeIsAlcoholic = recipeObject.getString("isAlcoholic");
 
-        userDataAccessObject.createCustomRecipe("shin", "The floor is lava",
-                "Scoop the lava 5 times. Marinate your hand inside.",
-                List.of("Molten Rocks"),
-                List.of("1 handful"),
-                "");
-        //userDataAccessObject.removeCustomRecipe("shin", 2605);
+        return recipeFactory.create(recipeName, recipeId,
+                recipeInstruction, recipeIngredients,
+                "", "", recipeIsAlcoholic);
+
     }
 }

@@ -66,22 +66,20 @@ public class RecommendedPanel extends JPanel {
         recommendedRecipes = randomRecipes;
 
         recommendedRecipesPanel.removeAll();
+        final int size = recommendedRecipes.size();
         // Add random recipes
-        for (int i = currentIndex; i < currentIndex + SHOWN_RECIPE && i < randomRecipes.size(); i++) {
+        for (int i = currentIndex; i < currentIndex + SHOWN_RECIPE && i < size; i++) {
             final HomeRecipeThumbnailPanel randomRecipeThumbnailPanel = new HomeRecipeThumbnailPanel(
                     homePageViewModel,
                     homePageController,
                     serviceManager);
 
             recommendedRecipesPanel.add(randomRecipeThumbnailPanel);
-            randomRecipeThumbnailPanel.addRecipe(randomRecipes.get(i));
+            randomRecipeThumbnailPanel.addRecipe(randomRecipes.get((i % size + size) % size));
         }
 
         // Revalidate and repaint to update the UI
         recommendedRecipesPanel.revalidate();
         recommendedRecipesPanel.repaint();
-
-        prevButton.setEnabled(currentIndex > 0);
-        nextButton.setEnabled(currentIndex + STEP < randomRecipes.size());
     }
 }

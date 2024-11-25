@@ -2,6 +2,7 @@ package interface_adapter.custom_recipe;
 
 import use_case.create_recipe.CustomRecipeInputBoundary;
 import use_case.create_recipe.CustomRecipeInputData;
+import use_case.view_recipe.ViewRecipeInputData;
 
 import java.util.List;
 

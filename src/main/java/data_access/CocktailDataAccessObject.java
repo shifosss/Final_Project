@@ -34,8 +34,6 @@ public class CocktailDataAccessObject implements
     private static final int END = 15;
     private final RecipeFactory cocktailFactory;
 
-
-
     public CocktailDataAccessObject(RecipeFactory cocktailFactory) {
         this.cocktailFactory = cocktailFactory;
     }
@@ -60,9 +58,6 @@ public class CocktailDataAccessObject implements
         // http://thecocktaildb.com/api/json/v1/1/lookup.php?i=11007
         final JSONObject responseBody = makeApiRequest(String.format("%s/lookup.php?i=%d", COCKTAIL_API_URL, id));
         final JSONArray cocktails = getCocktails(responseBody);
-        if (cocktails.length() != 1) {
-            throw new IdentifierOverlap("Multiple existing ids");
-        }
         final JSONObject raw = cocktails.getJSONObject(0);
         return createRecipe(raw);
     }

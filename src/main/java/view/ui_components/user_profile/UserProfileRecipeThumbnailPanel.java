@@ -1,12 +1,16 @@
-package view.ui_components.main_page;
+package view.ui_components.user_profile;
 
 import entities.recipe.Recipe;
+import interface_adapter.custom_recipe.CustomRecipeController;
+import interface_adapter.custom_recipe.CustomRecipeViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailController;
-import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
+import interface_adapter.user_profile.UserProfileController;
+import interface_adapter.user_profile.UserProfileViewModel;
+import view.views_placeholder.CustomRecipeView;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -20,7 +24,7 @@ import java.awt.event.MouseEvent;
 /**
  * Recipe Panel that shows when searching for recipes.
  */
-public class HomeRecipeThumbnailPanel extends JPanel {
+public class UserProfileRecipeThumbnailPanel extends JPanel {
     private static final int H_GAP = 10;
     private static final int V_GAP = 10;
     private static final int TOP = 5;
@@ -38,16 +42,16 @@ public class HomeRecipeThumbnailPanel extends JPanel {
     private JLabel imageLabel;
     private JButton nameButton;
 
-    private final HomePageViewModel homePageViewModel;
-    private final HomePageController homePageController;
+    private final UserProfileViewModel userProfileViewModel;
+    private final UserProfileController userProfileController;
     private final ServiceManager serviceManager;
 
-    public HomeRecipeThumbnailPanel(HomePageViewModel homePageViewModel,
-                                    HomePageController homePageController,
-                                    ServiceManager serviceManager) {
+    public UserProfileRecipeThumbnailPanel(UserProfileViewModel userProfileViewModel,
+                                           UserProfileController userProfileController,
+                                           ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
-        this.homePageController = homePageController;
-        this.homePageViewModel = homePageViewModel;
+        this.userProfileViewModel = userProfileViewModel;
+        this.userProfileController = userProfileController;
         // Sets Layout
         setLayout(new BorderLayout(H_GAP, V_GAP));
         setBackground(Color.WHITE);
@@ -112,7 +116,7 @@ public class HomeRecipeThumbnailPanel extends JPanel {
 
         final ActionListener recipeDetailListener = event -> {
             if (event.getSource().equals(nameButton)) {
-                homePageController.switchToRecipeView(recipe.getId());
+                userProfileController.showRecipe(recipe.getId());
             }
         };
 

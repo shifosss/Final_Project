@@ -1,6 +1,7 @@
 package view.views_placeholder;
 
 import entities.recipe.Recipe;
+import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.user_profile.UserProfileController;
 import interface_adapter.user_profile.UserProfileState;
@@ -44,12 +45,13 @@ public class UserProfileView extends JPanel implements PageView, ActionListener,
         userProfileViewModel.addPropertyChangeListener(this);
 
         // user name
-        userIconPanel = new UserIconPanel("");
+        userIconPanel = new UserIconPanel();
         add(userIconPanel, BorderLayout.NORTH);
 
         // custom recipe panel
-        customRecipePanel = new CustomRecipePanel();
-        add(customRecipePanel, BorderLayout.CENTER);
+        customRecipePanel = new CustomRecipePanel(
+                userProfileViewModel, userProfileController, serviceManager);
+        add(customRecipePanel.getScrollPane(), BorderLayout.CENTER);
 
         // back to homepage button
         returnButtonPanel = new ReturnButtonPanel(returnButton);
@@ -74,6 +76,7 @@ public class UserProfileView extends JPanel implements PageView, ActionListener,
         final String username = state.getUsername();
         final List<Recipe> createdrecipes = state.getCreatedRecipes();
         userIconPanel.updateComponents(username);
+        customRecipePanel.updateComponents(createdrecipes);
     }
 
     @Override
