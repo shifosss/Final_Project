@@ -1,4 +1,4 @@
-package exceptions;
+package data_access.exceptions;
 
 /**
  * To be thrown once a recipe is not found via api calls.
