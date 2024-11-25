@@ -1,20 +1,21 @@
 package view.ui_components.custom_recipe;
 
-import interface_adapter.custom_recipe.CustomIngredientsController;
-import interface_adapter.custom_recipe.CustomIngredientsViewModel;
+import interface_adapter.custom_recipe.CustomRecipeController;
+import interface_adapter.custom_recipe.CustomRecipeViewModel;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomIngredientsPanel extends JPanel {
-    private final CustomIngredientsController controller;
-    private final CustomIngredientsViewModel viewModel;
+    private final CustomRecipeController controller;
+    private final CustomRecipeViewModel viewModel;
 
-    public CustomIngredientsPanel(CustomIngredientsController controller, CustomIngredientsViewModel viewModel) {
+    public CustomIngredientsPanel(CustomRecipeController controller, CustomRecipeViewModel viewModel) {
         this.controller = controller;
         this.viewModel = viewModel;
 
@@ -27,46 +28,43 @@ public class CustomIngredientsPanel extends JPanel {
     }
 
     /**
-     * refresh ingredients
+     * Refresh ingredients.
      */
     public void refreshIngredients() {
-        removeAll(); // clean current content
-        List<String[]> ingredients = viewModel.getIngredients(); // Get ingredients from ViewModel.
+        removeAll();
+        final List<String[]> ingredients = new ArrayList<>();
         for (int i = 0; i < ingredients.size(); i++) {
-            String[] ingredient = ingredients.get(i);
-            add(createRow(ingredient[0], ingredient[1], i)); // Add on each row
+            final String[] ingredient = ingredients.get(i);
+            add(createRow(ingredient[0], ingredient[1], i));
         }
-        revalidate(); // Revalidate
-        repaint(); // Repaint
+        revalidate();
+        repaint();
     }
 
     /**
      * Create an ingredient row
      */
     private JPanel createRow(String ingredient, String measurement, int index) {
-        JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         rowPanel.setBackground(new Color(255, 140, 0));
 
         // Ingredient name and measurement input fields
-        JTextField ingredientField = new JTextField(ingredient, 10);
-        JTextField measurementField = new JTextField(measurement, 10);
+        final JTextField ingredientField = new JTextField(ingredient, 10);
+        final JTextField measurementField = new JTextField(measurement, 10);
 
         // Add button
-        JButton addButton = new JButton("+");
+        final JButton addButton = new JButton("+");
         addButton.setBackground(new Color(34, 139, 34));
         addButton.setForeground(Color.WHITE);
-        addButton.addActionListener(e -> {
-            controller.addIngredient(); // Call the controller to add an ingredient.
-            refreshIngredients(); // Refresh
+        addButton.addActionListener(event -> {
         });
 
         // Remove button
-        JButton removeButton = new JButton("-");
+        final JButton removeButton = new JButton("-");
         removeButton.setBackground(new Color(255, 69, 0));
         removeButton.setForeground(Color.WHITE);
-        removeButton.addActionListener(e -> {
-            controller.removeIngredient(index); // Call the controller to delete an ingredient.
-            refreshIngredients(); // Refresh
+        removeButton.addActionListener(event -> {
+            refreshIngredients();
         });
 
         // Add components to the row panel
@@ -81,7 +79,7 @@ public class CustomIngredientsPanel extends JPanel {
     }
 
     private CompoundBorder createRoundedBorder(String title, Color color) {
-        TitledBorder titledBorder = BorderFactory.createTitledBorder(
+        final TitledBorder titledBorder = BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(color, 2),
                 title,
                 TitledBorder.LEFT,
