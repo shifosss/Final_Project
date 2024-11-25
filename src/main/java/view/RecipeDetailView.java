@@ -67,7 +67,7 @@ public class RecipeDetailView extends JPanel implements
             if (event.getSource().equals(bookmarkButton)) {
                 final RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
                 recipeDetailController.bookmarkRecipe(
-                        recipeDetailState.getRecipe());
+                        recipeDetailState.getRecipe().getId());
             }
         };
 

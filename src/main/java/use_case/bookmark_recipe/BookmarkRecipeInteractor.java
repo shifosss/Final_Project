@@ -27,8 +27,8 @@ public class BookmarkRecipeInteractor implements BookmarkRecipeInputBoundary {
     @Override
     public void bookmarkRecipe(BookmarkRecipeInputData bookmarkRecipeInputData) {
         final String username = bookmarkRecipeDataAccessObject.getCurrentUser();
-        final Recipe recipe = bookmarkRecipeInputData.getRecipe();
         final int recipeId = bookmarkRecipeInputData.getRecipeId();
+        final Recipe recipe = searchRecipeDataAccessObject.getRecipeById(recipeId);
 
         bookmarkRecipeDataAccessObject.bookmarkRecipe(username, recipeId);
 

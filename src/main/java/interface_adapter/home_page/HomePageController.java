@@ -1,7 +1,6 @@
 package interface_adapter.home_page;
 
 import use_case.create_recipe.CustomRecipeInputBoundary;
-import use_case.create_recipe.CustomRecipeInputData;
 import use_case.explore_ingredient.ExploreIngredientInputBoundary;
 import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInputData;
