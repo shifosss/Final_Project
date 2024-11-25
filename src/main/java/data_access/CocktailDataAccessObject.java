@@ -7,7 +7,7 @@ import java.util.List;
 import entities.recipe.Ingredient;
 import entities.recipe.factory.CocktailFactory;
 import entities.recipe.factory.RecipeFactory;
-import exceptions.IdentifierOverlap;
+import data_access.exceptions.IdentifierOverlap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
