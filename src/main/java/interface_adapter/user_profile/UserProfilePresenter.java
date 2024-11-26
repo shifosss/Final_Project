@@ -6,6 +6,7 @@ import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailState;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
+import use_case.bookmark_recipe.BookmarkRecipeOutputData;
 import use_case.user_profile.UserProfileOutputBoundary;
 import use_case.user_profile.UserProfileOutputData;
 import use_case.view_recipe.ViewRecipeOutputBoundary;
@@ -31,7 +32,7 @@ public class UserProfilePresenter implements UserProfileOutputBoundary, ViewReci
     }
 
     @Override
-    public void switchToHomeView() {
+    public void switchToHomePageView() {
         viewManagerModel.setState(homePageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
@@ -74,6 +75,11 @@ public class UserProfilePresenter implements UserProfileOutputBoundary, ViewReci
 
     @Override
     public void switchToSearchRecipeView() {
+
+    }
+
+    @Override
+    public void updateBookmarksView(BookmarkRecipeOutputData outputData) {
 
     }
 }

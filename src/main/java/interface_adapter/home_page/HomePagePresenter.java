@@ -9,6 +9,7 @@ import interface_adapter.recipe_detail.RecipeDetailViewModel;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.user_profile.UserProfileState;
 import interface_adapter.user_profile.UserProfileViewModel;
+import use_case.bookmark_recipe.BookmarkRecipeOutputData;
 import use_case.create_recipe.CustomRecipeOutputBoundary;
 import use_case.create_recipe.CustomRecipeOutputData;
 import use_case.explore_ingredient.ExploreIngredientOutputBoundary;
@@ -82,11 +83,6 @@ public class HomePagePresenter implements ExploreIngredientOutputBoundary, ViewR
     }
 
     @Override
-    public void switchToHome() {
-
-    }
-
-    @Override
     public void prepareSuccessView(ViewRecipeOutputData outputData) {
         final RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
         recipeDetailState.setRecipe(outputData.getRecipe());
@@ -108,7 +104,12 @@ public class HomePagePresenter implements ExploreIngredientOutputBoundary, ViewR
     }
 
     @Override
-    public void switchToHomeView() {
+    public void updateBookmarksView(BookmarkRecipeOutputData outputData) {
+
+    }
+
+    @Override
+    public void switchToHomePageView() {
         viewManagerModel.setState(homePageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

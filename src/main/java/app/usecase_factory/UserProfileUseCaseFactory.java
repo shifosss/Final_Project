@@ -48,11 +48,8 @@ public final class UserProfileUseCaseFactory {
                 homePageViewModel, userProfileViewModel, recipeDetailViewModel, viewManagerModel);
         final UserProfileInputBoundary userProfileInteractor = new UserProfileInteractor(
                 userProfilePresenter, userDataAccessObject);
-        final ViewRecipeInputBoundary viewRecipeInteractor = new ViewRecipeInteractor(
-                cocktailDataAccessObject, userDataAccessObject, userProfilePresenter
-        );
 
-        return new UserProfileController(userProfileInteractor, viewRecipeInteractor);
+        return new UserProfileController(userProfileInteractor);
     }
 
 }

@@ -40,7 +40,7 @@ public class CustomRecipePresenter implements CustomRecipeOutputBoundary {
     }
 
     @Override
-    public void switchToHomeView() {
+    public void switchToHomePageView() {
         viewManagerModel.setState(homePageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

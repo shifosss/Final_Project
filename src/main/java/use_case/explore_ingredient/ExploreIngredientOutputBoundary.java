@@ -27,5 +27,5 @@ public interface ExploreIngredientOutputBoundary {
     /**
      * Switches to the home view.
      */
-    void switchToHome();
+    void switchToHomePageView();
 }

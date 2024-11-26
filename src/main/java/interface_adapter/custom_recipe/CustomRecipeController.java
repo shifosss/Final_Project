@@ -2,7 +2,6 @@ package interface_adapter.custom_recipe;
 
 import use_case.create_recipe.CustomRecipeInputBoundary;
 import use_case.create_recipe.CustomRecipeInputData;
-import use_case.view_recipe.ViewRecipeInputData;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class CustomRecipeController {
      * Switches to the home view.
      */
     public void switchToHome() {
-        customRecipeInteractor.switchToHomePage();
+        customRecipeInteractor.switchToHomePageView();
     }
 
     /**

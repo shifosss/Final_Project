@@ -51,50 +51,24 @@ public final class SearchRecipeUseCaseFactory {
                                           CocktailDataAccessObject cocktailDataAccessObject,
                                           UserDataAccessObject userDataAccessObject,
                                           ServiceManager serviceManager) {
-        final SearchRecipeController searchRecipeController = createSearchRecipeUseCase(viewManagerModel,
+        final SearchRecipeController searchRecipeController = createSearchRecipeUseCases(viewManagerModel,
                 searchRecipeViewModel, recipeDetailViewModel, homePageViewModel,
                 cocktailDataAccessObject, userDataAccessObject);
-        final RecipeDetailController recipeDetailController = createViewRecipeUseCase(
-                viewManagerModel, searchRecipeViewModel, recipeDetailViewModel,
-                cocktailDataAccessObject, userDataAccessObject);
-        return new SearchRecipeView(searchRecipeViewModel,
-                searchRecipeController, recipeDetailController,
-                serviceManager);
+        return new SearchRecipeView(searchRecipeViewModel, searchRecipeController, serviceManager);
     }
 
-    private static RecipeDetailController createViewRecipeUseCase(
-            ViewManagerModel viewManagerModel,
-            SearchRecipeViewModel searchRecipeViewModel,
-            RecipeDetailViewModel recipeDetailViewModel,
-            ViewRecipeDataAccessInterface viewRecipeDataAccessObject,
-            BookmarkRecipeDataAccessInterface bookmarkRecipeDataAccessObject) {
-        final ViewRecipeOutputBoundary viewRecipeOutputBoundary = new RecipeDetailPresenter(
-                recipeDetailViewModel, searchRecipeViewModel, viewManagerModel);
-        final ViewRecipeInputBoundary viewRecipeInteractor = new ViewRecipeInteractor(
-                viewRecipeDataAccessObject, bookmarkRecipeDataAccessObject, viewRecipeOutputBoundary
-        );
-
-        final BookmarkRecipeInputBoundary bookmarkRecipeInteractor = new BookmarkRecipeInteractor(
-                bookmarkRecipeDataAccessObject, (SearchRecipeDataAccessInterface) viewRecipeDataAccessObject,
-                viewRecipeOutputBoundary);
-
-        return new RecipeDetailController(viewRecipeInteractor, bookmarkRecipeInteractor);
+    private static SearchRecipeController createSearchRecipeUseCases(ViewManagerModel viewManagerModel,
+                                                                     SearchRecipeViewModel searchRecipeViewModel,
+                                                                     RecipeDetailViewModel recipeDetailViewModel,
+                                                                     HomePageViewModel homePageViewModel,
+                                                                     CocktailDataAccessObject cocktailDataAccessObject,
+                                                                     UserDataAccessObject userDataAccessObject) {
+        final SearchRecipePresenter searchRecipePresenter = new SearchRecipePresenter(
+                viewManagerModel, searchRecipeViewModel, recipeDetailViewModel, homePageViewModel);
+        final SearchRecipeInteractor searchRecipeInteractor = new SearchRecipeInteractor(
+                cocktailDataAccessObject, userDataAccessObject, searchRecipePresenter);
+        final ViewRecipeInputBoundary recipeDetailInteractor = new ViewRecipeInteractor(
+                cocktailDataAccessObject, userDataAccessObject, searchRecipePresenter);
+        return new SearchRecipeController(searchRecipeInteractor, recipeDetailInteractor);
     }
-
-    private static SearchRecipeController createSearchRecipeUseCase(
-            ViewManagerModel viewManagerModel,
-            SearchRecipeViewModel searchRecipeViewModel,
-            RecipeDetailViewModel recipeDetailViewModel,
-            HomePageViewModel homepageViewModel,
-            SearchRecipeDataAccessInterface searchRecipeDataAccessObject,
-            BookmarkRecipeDataAccessInterface bookmarkRecipeDataAccessObject) {
-
-        final SearchRecipeOutputBoundary searchRecipeOutputBoundary = new SearchRecipePresenter(viewManagerModel,
-                searchRecipeViewModel, recipeDetailViewModel, homepageViewModel);
-        final SearchRecipeInputBoundary searchRecipeInteractor = new SearchRecipeInteractor(
-                searchRecipeDataAccessObject, bookmarkRecipeDataAccessObject, searchRecipeOutputBoundary);
-
-        return new SearchRecipeController(searchRecipeInteractor);
-    }
-
 }

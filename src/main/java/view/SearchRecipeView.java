@@ -35,15 +35,12 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
     private final SearchRecipeViewModel searchRecipeViewModel;
     private final ServiceManager serviceManager;
     private final SearchRecipeController searchRecipeController;
-    private final RecipeDetailController recipeDetailController;
 
     public SearchRecipeView(SearchRecipeViewModel searchRecipeViewModel,
                             SearchRecipeController searchRecipeController,
-                            RecipeDetailController recipeDetailController,
                             ServiceManager serviceManager) {
         this.searchRecipeViewModel = searchRecipeViewModel;
         this.searchRecipeController = searchRecipeController;
-        this.recipeDetailController = recipeDetailController;
         this.serviceManager = serviceManager;
 
         this.searchRecipeViewModel.addPropertyChangeListener(this);
@@ -53,7 +50,7 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
 
         // Create RecipeScrollPanel firsts
         thumbnailContainerPanel = new ThumbnailsContainerPanel(
-                searchRecipeViewModel, searchRecipeController, recipeDetailController,
+                searchRecipeViewModel, searchRecipeController,
                 serviceManager);
 
         // Create SearchPanel with all four parameters

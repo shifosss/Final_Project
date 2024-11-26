@@ -55,4 +55,19 @@ public interface CustomRecipeDataAccessInterface {
      * @param isAlcoholic alcohol state.
      */
     void createCustomRecipe(String username, String recipeName, String recipeInstruction, List<String> ingredients, List<String> measurements, String isAlcoholic);
+
+    /**
+     * Gets the custom recipe associated with the recipe id.
+     * @param recipeId the recipe id.
+     * @return a recipe entity.
+     */
+    Recipe getRecipeById(int recipeId);
+
+    /**
+     * Checks if the user has bookmarked the recipe.
+     * @param username the username.
+     * @param recipeId the recipe id.
+     * @return true if the user bookmarked the recipe. Otherwise, return false.
+     */
+    boolean isBookmarked(String username, int recipeId);
 }

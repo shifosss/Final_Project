@@ -20,8 +20,8 @@ public class CustomRecipeInteractor implements CustomRecipeInputBoundary {
     }
 
     @Override
-    public void switchToHomePage() {
-        customRecipePresenter.switchToHomeView();
+    public void switchToHomePageView() {
+        customRecipePresenter.switchToHomePageView();
     }
 
     @Override

@@ -53,7 +53,7 @@ public class ExploreIngredientInteractor implements ExploreIngredientInputBounda
     }
 
     @Override
-    public void switchToHome() {
-        ingredientPresenter.switchToHome();
+    public void switchToHomePageView() {
+        ingredientPresenter.switchToHomePageView();
     }
 }

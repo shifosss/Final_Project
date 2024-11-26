@@ -12,5 +12,5 @@ public interface CustomRecipeOutputBoundary {
     /**
      * Switches to the Home page view.
      */
-    void switchToHomeView();
+    void switchToHomePageView();
 }

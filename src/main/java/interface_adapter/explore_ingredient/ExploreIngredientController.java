@@ -30,6 +30,6 @@ public class ExploreIngredientController {
      * Switches to the home view.
      */
     public void switchToHome() {
-        exploreIngredientUseCaseInteractor.switchToHome();
+        exploreIngredientUseCaseInteractor.switchToHomePageView();
     }
 }

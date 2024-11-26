@@ -4,6 +4,7 @@ import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailState;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
+import use_case.bookmark_recipe.BookmarkRecipeOutputData;
 import use_case.view_recipe.ViewRecipeOutputBoundary;
 import use_case.view_recipe.ViewRecipeOutputData;
 import use_case.search_recipes.SearchRecipeOutputBoundary;
@@ -77,7 +78,12 @@ public class SearchRecipePresenter implements SearchRecipeOutputBoundary, ViewRe
     }
 
     @Override
-    public void switchToHomePageView(SearchRecipeOutputData outputData) {
+    public void updateBookmarksView(BookmarkRecipeOutputData outputData) {
+
+    }
+
+    @Override
+    public void switchToHomePageView() {
         this.viewManagerModel.setState(homePageViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }

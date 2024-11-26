@@ -1,6 +1,7 @@
 package interface_adapter.search_recipe;
 
 import entities.recipe.Recipe;
+import use_case.view_recipe.ViewRecipeInputBoundary;
 import use_case.view_recipe.ViewRecipeInputData;
 import use_case.search_recipes.SearchRecipeInputBoundary;
 import use_case.search_recipes.SearchRecipeInputData;
@@ -13,9 +14,12 @@ import java.util.List;
 public class SearchRecipeController {
 
     private final SearchRecipeInputBoundary searchRecipeUseCaseInteractor;
+    private final ViewRecipeInputBoundary viewRecipeUseCaseInteractor;
 
-    public SearchRecipeController(SearchRecipeInputBoundary searchRecipeUseCaseInteractor) {
+    public SearchRecipeController(SearchRecipeInputBoundary searchRecipeUseCaseInteractor,
+                                  ViewRecipeInputBoundary viewRecipeUseCaseInteractor) {
         this.searchRecipeUseCaseInteractor = searchRecipeUseCaseInteractor;
+        this.viewRecipeUseCaseInteractor = viewRecipeUseCaseInteractor;
     }
 
     /**
@@ -45,9 +49,5 @@ public class SearchRecipeController {
     public void switchToRecipeView(int recipeId) {
         final ViewRecipeInputData recipeDetailInputData = new ViewRecipeInputData(recipeId);
         searchRecipeUseCaseInteractor.switchToRecipeDetailView(recipeDetailInputData);
-    }
-
-    public void switchToSearchRecipeView() {
-
     }
 }

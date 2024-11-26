@@ -4,6 +4,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
+import use_case.bookmark_recipe.BookmarkRecipeOutputData;
 import use_case.view_recipe.ViewRecipeOutputBoundary;
 import use_case.view_recipe.ViewRecipeOutputData;
 
@@ -13,13 +14,16 @@ import use_case.view_recipe.ViewRecipeOutputData;
 public class RecipeDetailPresenter implements ViewRecipeOutputBoundary {
     private final RecipeDetailViewModel recipeDetailViewModel;
     private final SearchRecipeViewModel searchRecipeViewModel;
+    private final HomePageViewModel homePageViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public RecipeDetailPresenter(RecipeDetailViewModel recipeDetailViewModel,
                                  SearchRecipeViewModel searchRecipeViewModel,
+                                 HomePageViewModel homePageViewModel,
                                  ViewManagerModel viewManagerModel) {
         this.recipeDetailViewModel = recipeDetailViewModel;
         this.searchRecipeViewModel = searchRecipeViewModel;
+        this.homePageViewModel = homePageViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
@@ -54,5 +58,14 @@ public class RecipeDetailPresenter implements ViewRecipeOutputBoundary {
     public void switchToSearchRecipeView() {
         viewManagerModel.setState(searchRecipeViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void updateBookmarksView(BookmarkRecipeOutputData outputData) {
+        final HomePageState state = homePageViewModel.getState();
+
+        state.setBookmarkedRecipes(outputData.getBookmarkedRecipes());
+        this.homePageViewModel.setState(state);
+        this.homePageViewModel.firePropertyChanged();
     }
 }

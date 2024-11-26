@@ -1,9 +1,7 @@
 package interface_adapter.user_profile;
 
-import entities.user.User;
 import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInputData;
-import use_case.user_profile.UserProfileInteractor;
 import use_case.view_recipe.ViewRecipeInputBoundary;
 import use_case.view_recipe.ViewRecipeInputData;
 
@@ -12,12 +10,9 @@ import use_case.view_recipe.ViewRecipeInputData;
  */
 public class UserProfileController {
     private final UserProfileInputBoundary userProfileInteractor;
-    private final ViewRecipeInputBoundary viewRecipeInteractor;
 
-    public UserProfileController(UserProfileInputBoundary userProfileInteractor,
-                                 ViewRecipeInputBoundary viewRecipeInteractor) {
+    public UserProfileController(UserProfileInputBoundary userProfileInteractor) {
         this.userProfileInteractor = userProfileInteractor;
-        this.viewRecipeInteractor = viewRecipeInteractor;
     }
 
     /**
@@ -33,7 +28,7 @@ public class UserProfileController {
      * Switches to the home page.
      */
     public void switchToHomePage() {
-        userProfileInteractor.switchToHomePage();
+        userProfileInteractor.switchToHomePageView();
     }
 
     /**
@@ -42,6 +37,6 @@ public class UserProfileController {
      */
     public void showRecipe(int id) {
         final ViewRecipeInputData inputData = new ViewRecipeInputData(id);
-        viewRecipeInteractor.execute(inputData);
+        userProfileInteractor.viewRecipeDetail(inputData);
     }
 }

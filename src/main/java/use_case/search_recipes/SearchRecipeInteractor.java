@@ -56,12 +56,7 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
 
     @Override
     public void switchToHomeView(SearchRecipeInputData searchRecipeInputData) {
-
-        final SearchRecipeOutputData recipeOutputData = new SearchRecipeOutputData(
-                searchRecipeInputData.getSearchQuery(),
-                searchRecipeInputData.getRecipes(),
-                false);
-        recipePresenter.switchToHomePageView(recipeOutputData);
+        recipePresenter.switchToHomePageView();
     }
 
     @Override

@@ -106,7 +106,7 @@ public class MainApp {
         views.add(searchRecipeView, searchRecipeView.getViewName());
 
         final RecipeDetailView recipeDetailView = RecipeDetailUseCaseFactory.create(viewManagerModel,
-                recipeDetailViewModel, searchRecipeViewModel,
+                recipeDetailViewModel, searchRecipeViewModel, homePageViewModel,
                 cocktailDataAccessObject, userDataAccessObject, serviceManager);
         views.add(recipeDetailView, recipeDetailView.getViewName());
 
