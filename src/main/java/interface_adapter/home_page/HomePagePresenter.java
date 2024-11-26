@@ -115,6 +115,11 @@ public class HomePagePresenter implements ExploreIngredientOutputBoundary, ViewR
     }
 
     @Override
+    public void updateCustomRecipeView(UserProfileOutputData outputData) {
+
+    }
+
+    @Override
     public void switchToProfileView(UserProfileOutputData outputData) {
         final UserProfileState state = userProfileViewModel.getState();
         state.setUsername(outputData.getUsername());

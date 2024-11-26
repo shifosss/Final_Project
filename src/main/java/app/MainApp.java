@@ -122,7 +122,7 @@ public class MainApp {
         views.add(userProfileView, userProfileView.getViewName());
 
         final CustomRecipeView customRecipeView = CustomRecipeUseCaseFactory.create(
-                viewManagerModel, homePageViewModel, customRecipeViewModel,
+                viewManagerModel, homePageViewModel, customRecipeViewModel, userProfileViewModel,
                 cocktailDataAccessObject, userDataAccessObject, serviceManager);
         views.add(customRecipeView, customRecipeView.getViewName());
 

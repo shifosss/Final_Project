@@ -27,11 +27,12 @@ public final class CustomRecipeUseCaseFactory {
     public static CustomRecipeView create(ViewManagerModel viewManagerModel,
                                    HomePageViewModel homePageViewModel,
                                    CustomRecipeViewModel customRecipeViewModel,
+                                   UserProfileViewModel userProfileViewModel,
                                    CocktailDataAccessObject cocktailDataAccessObject,
                                    UserDataAccessObject userDataAccessObject,
                                    ServiceManager serviceManager) {
         final CustomRecipeController customRecipeController = createCustomRecipeUseCases(
-                viewManagerModel, homePageViewModel, customRecipeViewModel,
+                viewManagerModel, homePageViewModel, customRecipeViewModel, userProfileViewModel,
                 cocktailDataAccessObject, userDataAccessObject);
         return new CustomRecipeView(customRecipeViewModel, customRecipeController, serviceManager);
     }
@@ -39,10 +40,11 @@ public final class CustomRecipeUseCaseFactory {
     private static CustomRecipeController createCustomRecipeUseCases(ViewManagerModel viewManagerModel,
                                                               HomePageViewModel homePageViewModel,
                                                               CustomRecipeViewModel customRecipeViewModel,
+                                                              UserProfileViewModel userProfileViewModel,
                                                               CocktailDataAccessObject cocktailDataAccessObject,
                                                               UserDataAccessObject userDataAccessObject) {
         final CustomRecipeOutputBoundary customRecipeOutputBoundary = new CustomRecipePresenter(
-                homePageViewModel, customRecipeViewModel, viewManagerModel);
+                homePageViewModel, customRecipeViewModel, userProfileViewModel, viewManagerModel);
         final CustomRecipeInputBoundary customRecipeInteractor = new CustomRecipeInteractor(
                 userDataAccessObject, customRecipeOutputBoundary
         );

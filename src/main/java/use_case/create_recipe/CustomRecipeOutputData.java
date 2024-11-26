@@ -8,19 +8,13 @@ import java.util.List;
  * Output data for the custom recipe usecase.
  */
 public class CustomRecipeOutputData {
-    private final List<Recipe> bookmarkedRecipes;
-    private final List<Recipe> randomRecipes;
+    private final List<Recipe> customRecipes;
 
-    public CustomRecipeOutputData(List<Recipe> bookmarkedRecipes, List<Recipe> randomRecipes) {
-        this.bookmarkedRecipes = bookmarkedRecipes;
-        this.randomRecipes = randomRecipes;
+    public CustomRecipeOutputData(List<Recipe> customRecipes) {
+        this.customRecipes = customRecipes;
     }
 
-    public List<Recipe> getBookmarkedRecipes() {
-        return bookmarkedRecipes;
-    }
-
-    public List<Recipe> getRandomRecipes() {
-        return randomRecipes;
+    public List<Recipe> getCustomRecipes() {
+        return customRecipes;
     }
 }

@@ -2,6 +2,7 @@ package use_case.create_recipe;
 
 import entities.recipe.Recipe;
 import use_case.random_recipes.RandomRecipeDataAccessInterface;
+import use_case.user_profile.UserProfileOutputData;
 
 import java.util.List;
 
@@ -39,5 +40,9 @@ public class CustomRecipeInteractor implements CustomRecipeInputBoundary {
                 inputData.getMeasurements(),
                 inputData.getIsAlcoholic()
         );
+        final String username = customRecipeDataAccessObject.getCurrentUser();
+        final List<Recipe> customRecipes = customRecipeDataAccessObject.getCustomRecipes(username);
+        final UserProfileOutputData outputData = new UserProfileOutputData(username, customRecipes);
+        customRecipePresenter.updateCustomRecipeView(outputData);
     }
 }
