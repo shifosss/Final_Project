@@ -11,7 +11,6 @@ import interface_adapter.user_profile.UserProfileState;
 import interface_adapter.user_profile.UserProfileViewModel;
 import use_case.bookmark_recipe.BookmarkRecipeOutputData;
 import use_case.create_recipe.CustomRecipeOutputBoundary;
-import use_case.create_recipe.CustomRecipeOutputData;
 import use_case.explore_ingredient.ExploreIngredientOutputBoundary;
 import use_case.explore_ingredient.ExploreIngredientOutputData;
 import use_case.search_recipes.SearchRecipeOutputData;

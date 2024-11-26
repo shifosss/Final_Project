@@ -1,12 +1,11 @@
 package interface_adapter.search_recipe;
 
-import entities.recipe.Recipe;
-import use_case.view_recipe.ViewRecipeInputBoundary;
-import use_case.view_recipe.ViewRecipeInputData;
+import java.util.List;
+
 import use_case.search_recipes.SearchRecipeInputBoundary;
 import use_case.search_recipes.SearchRecipeInputData;
-
-import java.util.List;
+import use_case.view_recipe.ViewRecipeInputBoundary;
+import use_case.view_recipe.ViewRecipeInputData;
 
 /**
  * The controller for the search recipe use case.
@@ -25,10 +24,10 @@ public class SearchRecipeController {
     /**
      * Executes the Search Recipe Use Case.
      * @param query user input to be searched.
-     * @param recipes the input list of recipe.
+     * @param recipeIds the input list of recipe ids.
      */
-    public void execute(String query, List<Recipe> recipes) {
-        final SearchRecipeInputData inputData = new SearchRecipeInputData(query, recipes);
+    public void execute(String query, List<Integer> recipeIds) {
+        final SearchRecipeInputData inputData = new SearchRecipeInputData(query, recipeIds);
 
         searchRecipeUseCaseInteractor.execute(inputData);
     }
@@ -39,7 +38,7 @@ public class SearchRecipeController {
      */
     public void switchToHomeView(String query) {
         final SearchRecipeInputData inputData = new SearchRecipeInputData(query, List.of());
-        searchRecipeUseCaseInteractor.switchToHomeView(inputData);
+        searchRecipeUseCaseInteractor.switchToHomePageView(inputData);
     }
 
     /**
@@ -48,6 +47,6 @@ public class SearchRecipeController {
      */
     public void switchToRecipeView(int recipeId) {
         final ViewRecipeInputData recipeDetailInputData = new ViewRecipeInputData(recipeId);
-        searchRecipeUseCaseInteractor.switchToRecipeDetailView(recipeDetailInputData);
+        viewRecipeUseCaseInteractor.execute(recipeDetailInputData);
     }
 }

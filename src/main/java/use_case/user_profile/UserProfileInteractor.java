@@ -1,11 +1,11 @@
 package use_case.user_profile;
 
+import java.util.List;
+
 import entities.recipe.Recipe;
 import use_case.create_recipe.CustomRecipeDataAccessInterface;
 import use_case.view_recipe.ViewRecipeInputData;
 import use_case.view_recipe.ViewRecipeOutputData;
-
-import java.util.List;
 
 /**
  * Interactor for the user profile usecase.

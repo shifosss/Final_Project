@@ -1,9 +1,9 @@
 package interface_adapter.preference;
 
+import java.util.List;
+
 import use_case.change_preference.ChangePreferenceInputBoundary;
 import use_case.change_preference.ChangePreferenceInputData;
-
-import java.util.List;
 
 /**
  * Controller for the preference view.

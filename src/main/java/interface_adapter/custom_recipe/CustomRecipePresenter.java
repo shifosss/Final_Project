@@ -1,15 +1,13 @@
 package interface_adapter.custom_recipe;
 
+import java.util.ArrayList;
+
 import interface_adapter.ViewManagerModel;
-import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.user_profile.UserProfileState;
 import interface_adapter.user_profile.UserProfileViewModel;
 import use_case.create_recipe.CustomRecipeOutputBoundary;
-import use_case.create_recipe.CustomRecipeOutputData;
 import use_case.user_profile.UserProfileOutputData;
-
-import java.util.ArrayList;
 
 /**
  * Output boundary for creating custom recipes view.

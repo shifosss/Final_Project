@@ -1,7 +1,5 @@
 package use_case.bookmark_recipe;
 
-import entities.recipe.Recipe;
-
 import java.util.List;
 
 /**

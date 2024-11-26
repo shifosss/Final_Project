@@ -1,8 +1,8 @@
 package use_case.login;
 
-import entities.user.User;
-
 import java.util.List;
+
+import entities.user.User;
 
 /**
  * DAO for the login use case.

@@ -2,7 +2,6 @@ package interface_adapter.user_profile;
 
 import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInputData;
-import use_case.view_recipe.ViewRecipeInputBoundary;
 import use_case.view_recipe.ViewRecipeInputData;
 
 /**

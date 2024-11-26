@@ -1,7 +1,6 @@
 package use_case.create_recipe;
 
 import entities.recipe.Recipe;
-import use_case.random_recipes.RandomRecipeDataAccessInterface;
 import use_case.user_profile.UserProfileOutputData;
 
 import java.util.List;

@@ -1,10 +1,9 @@
 package use_case.login;
 
+import java.util.List;
+
 import entities.recipe.Recipe;
 import entities.user.User;
-import use_case.random_recipes.RandomRecipeDataAccessInterface;
-
-import java.util.List;
 
 /**
  * The interactor for the login usecase.

@@ -1,8 +1,8 @@
-package use_case.random_recipes;
-
-import entities.recipe.Recipe;
+package use_case.login;
 
 import java.util.List;
+
+import entities.recipe.Recipe;
 
 /**
  * DAO for the random recipe usecase.

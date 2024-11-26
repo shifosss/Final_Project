@@ -1,5 +1,8 @@
 package use_case.login;
 
+/**
+ * Input boundary for the login usecase.
+ */
 public interface LoginInputBoundary {
     /**
      * Attempts to log in the user.

@@ -1,17 +1,13 @@
 package data_access;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import entities.recipe.Ingredient;
 import entities.recipe.Recipe;
-import entities.recipe.factory.CocktailFactory;
 import entities.recipe.factory.RecipeFactory;
 import entities.user.User;
-import entities.user.factory.CommonUserFactory;
 import entities.user.factory.UserFactory;
 import exceptions.RecipeNotFound;
 import exceptions.UserNotFound;
@@ -22,10 +18,11 @@ import use_case.create_recipe.CustomRecipeDataAccessInterface;
 import use_case.login.LoginDataAccessInterface;
 import use_case.signup.SignupDataAccessInterface;
 import use_case.user_profile.UserProfileDataAccessInterface;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 
 /**
  * The Data Access Object for users.

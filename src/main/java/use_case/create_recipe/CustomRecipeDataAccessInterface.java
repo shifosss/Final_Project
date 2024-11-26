@@ -1,14 +1,13 @@
 package use_case.create_recipe;
 
-import entities.recipe.Recipe;
-
 import java.util.List;
+
+import entities.recipe.Recipe;
 
 /**
  * DAO for the creation of custom recipe usecase.
  */
 public interface CustomRecipeDataAccessInterface {
-
 
     /**
      * Removes the custom recipe associated with the given id from the user.
@@ -46,7 +45,7 @@ public interface CustomRecipeDataAccessInterface {
     String getCurrentUser();
 
     /**
-     * creates the custom recipe.
+     * Creates the custom recipe.
      * @param username the user username.
      * @param recipeName name of recipe.
      * @param recipeInstruction instruction recipe.
@@ -54,7 +53,9 @@ public interface CustomRecipeDataAccessInterface {
      * @param measurements measurement of ingredients
      * @param isAlcoholic alcohol state.
      */
-    void createCustomRecipe(String username, String recipeName, String recipeInstruction, List<String> ingredients, List<String> measurements, String isAlcoholic);
+    void createCustomRecipe(String username, String recipeName,
+                            String recipeInstruction, List<String> ingredients, List<String> measurements,
+                            String isAlcoholic);
 
     /**
      * Gets the custom recipe associated with the recipe id.

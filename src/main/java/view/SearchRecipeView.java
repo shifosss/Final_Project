@@ -10,8 +10,9 @@ import java.beans.PropertyChangeEvent;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.stream.Collectors;
 
-import interface_adapter.recipe_detail.RecipeDetailController;
+import entities.recipe.Recipe;
 import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.search_recipe.SearchRecipeState;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
@@ -68,7 +69,10 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
         final ActionListener searchRecipeListener = event -> {
             if (event.getSource().equals(searchButton) || event.getSource().equals(searchTextField)) {
                 final SearchRecipeState currentState = searchRecipeViewModel.getState();
-                searchRecipeController.execute(currentState.getQuery(), currentState.getRecipes());
+                searchRecipeController.execute(
+                        currentState.getQuery(), currentState.getRecipes().stream()
+                                .map(Recipe::getId)
+                                .collect(Collectors.toList()));
             }
         };
 
@@ -76,7 +80,6 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
         searchButton.addActionListener(searchRecipeListener);
 
         setLayout(new BorderLayout());
-        // this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         searchTextField.addActionListener(searchRecipeListener);
         addSearchTextFieldListener();

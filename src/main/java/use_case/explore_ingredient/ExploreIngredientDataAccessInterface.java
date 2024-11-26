@@ -3,9 +3,10 @@ package use_case.explore_ingredient;
 import java.util.List;
 
 import entities.recipe.Recipe;
-import entities.recipe.SimpleRecipe;
-import entities.recipe.Ingredient;
 
+/**
+ * Explores recipes by ingredients DAO.
+ */
 public interface ExploreIngredientDataAccessInterface {
     /**
      * Gets a simplified list of recipes containing the specified ingredient.

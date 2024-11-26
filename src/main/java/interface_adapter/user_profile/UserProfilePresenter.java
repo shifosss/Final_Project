@@ -1,8 +1,6 @@
 package interface_adapter.user_profile;
 
-
 import interface_adapter.ViewManagerModel;
-import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailState;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
