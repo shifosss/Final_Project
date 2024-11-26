@@ -334,11 +334,11 @@ public class UserDataAccessObject implements
     public Recipe getRecipeById(int recipeId) {
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
         final MongoCollection<Document> recipesCollection = database.getCollection(RECIPES_COLLECTION_NAME);
-        final Document recipeObject = recipesCollection.find(Filters.eq("id", recipeId)).first();
+        final Document recipeObject = recipesCollection.find(Filters.eq(RECIPE_ID, recipeId)).first();
         final String recipeName = recipeObject.getString(RECIPE_NAME);
         final String recipeInstruction = recipeObject.getString(INSTRUCTIONS);
         final List<Ingredient> recipeIngredients = getIngredientsEntity(recipeObject);
-        final String recipeIsAlcoholic = recipeObject.getString("isAlcoholic");
+        final String recipeIsAlcoholic = recipeObject.getString(IS_ALCOHOLIC);
 
         return recipeFactory.create(recipeName, recipeId,
                 recipeInstruction, recipeIngredients,

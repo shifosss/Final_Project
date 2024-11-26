@@ -71,6 +71,12 @@ public class ExploreIngredientPresenter implements ExploreIngredientOutputBounda
     }
 
     @Override
+    public void switchToHome() {
+        this.viewManagerModel.setState(homePageViewModel.getViewName());
+        this.viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
     public void prepareFailView(SearchRecipeOutputData outputData, String errorMessage) {
         final SearchRecipeState searchRecipeState = searchRecipeViewModel.getState();
         searchRecipeState.setQuery(searchRecipeState.getQuery());

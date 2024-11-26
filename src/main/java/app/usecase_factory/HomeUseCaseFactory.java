@@ -106,7 +106,7 @@ public final class HomeUseCaseFactory {
                 homePagePresenter, userDataAccessObject
         );
         final CustomRecipeInputBoundary customRecipeInteractor = new CustomRecipeInteractor(
-                userDataAccessObject, cocktailDataAccessObject, homePagePresenter
+                userDataAccessObject, homePagePresenter
         );
 
         return new HomePageController(viewRecipeInteractor, exploreIngredientInteractor,

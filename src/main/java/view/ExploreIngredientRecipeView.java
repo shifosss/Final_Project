@@ -85,9 +85,8 @@ public class ExploreIngredientRecipeView extends JPanel implements PageView, Act
     }
 
     private void setupActionListeners() {
-        backButton.addActionListener(e -> {
-            viewManagerModel.setState("main menu");
-            viewManagerModel.firePropertyChanged();
+        backButton.addActionListener(event -> {
+            exploreController.switchToHome();
         });
     }
 

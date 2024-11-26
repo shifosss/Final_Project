@@ -82,6 +82,11 @@ public class HomePagePresenter implements ExploreIngredientOutputBoundary, ViewR
     }
 
     @Override
+    public void switchToHome() {
+
+    }
+
+    @Override
     public void prepareSuccessView(ViewRecipeOutputData outputData) {
         final RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
         recipeDetailState.setRecipe(outputData.getRecipe());
@@ -106,11 +111,6 @@ public class HomePagePresenter implements ExploreIngredientOutputBoundary, ViewR
     public void switchToHomeView() {
         viewManagerModel.setState(homePageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
-    }
-
-    @Override
-    public void switchToHomeView(CustomRecipeOutputData outputData) {
-
     }
 
     @Override

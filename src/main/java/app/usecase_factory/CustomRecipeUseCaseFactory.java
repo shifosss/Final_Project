@@ -44,7 +44,7 @@ public final class CustomRecipeUseCaseFactory {
         final CustomRecipeOutputBoundary customRecipeOutputBoundary = new CustomRecipePresenter(
                 homePageViewModel, customRecipeViewModel, viewManagerModel);
         final CustomRecipeInputBoundary customRecipeInteractor = new CustomRecipeInteractor(
-                userDataAccessObject, cocktailDataAccessObject, customRecipeOutputBoundary
+                userDataAccessObject, customRecipeOutputBoundary
         );
         return new CustomRecipeController(customRecipeInteractor);
     }

@@ -25,4 +25,11 @@ public class ExploreIngredientController {
     public void switchToExploreIngredients() {
         exploreIngredientUseCaseInteractor.switchToExploreIngredients();
     }
+
+    /**
+     * Switches to the home view.
+     */
+    public void switchToHome() {
+        exploreIngredientUseCaseInteractor.switchToHome();
+    }
 }

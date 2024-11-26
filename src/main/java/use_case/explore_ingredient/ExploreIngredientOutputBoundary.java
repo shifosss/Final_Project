@@ -23,4 +23,9 @@ public interface ExploreIngredientOutputBoundary {
      * @param outputData the output data.
      */
     void prepareSuccessView(SearchRecipeOutputData outputData);
+
+    /**
+     * Switches to the home view.
+     */
+    void switchToHome();
 }

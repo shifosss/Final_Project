@@ -51,4 +51,9 @@ public class ExploreIngredientInteractor implements ExploreIngredientInputBounda
                 ingredientList, false);
         ingredientPresenter.prepareIngredientsListView(outputData);
     }
+
+    @Override
+    public void switchToHome() {
+        ingredientPresenter.switchToHome();
+    }
 }

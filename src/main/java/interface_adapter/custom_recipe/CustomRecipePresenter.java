@@ -40,14 +40,7 @@ public class CustomRecipePresenter implements CustomRecipeOutputBoundary {
     }
 
     @Override
-    public void switchToHomeView(CustomRecipeOutputData outputData) {
-        final HomePageState state = homePageViewModel.getState();
-        state.setBookmarkedRecipes(outputData.getBookmarkedRecipes());
-        state.setRandomRecipes(outputData.getRandomRecipes());
-
-        homePageViewModel.setState(state);
-        homePageViewModel.firePropertyChanged();
-
+    public void switchToHomeView() {
         viewManagerModel.setState(homePageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
