@@ -1,6 +1,5 @@
 package app.usecase_factory;
 
-import data_access.CocktailDataAccessObject;
 import data_access.UserDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.home_page.HomePageViewModel;
@@ -11,9 +10,6 @@ import interface_adapter.user_profile.UserProfilePresenter;
 import interface_adapter.user_profile.UserProfileViewModel;
 import use_case.user_profile.UserProfileInputBoundary;
 import use_case.user_profile.UserProfileInteractor;
-import use_case.user_profile.UserProfileOutputBoundary;
-import use_case.view_recipe.ViewRecipeInputBoundary;
-import use_case.view_recipe.ViewRecipeInteractor;
 import view.views_placeholder.UserProfileView;
 
 /**
@@ -23,16 +19,25 @@ public final class UserProfileUseCaseFactory {
     private UserProfileUseCaseFactory() {
     }
 
+    /**
+     * Creates the User profile view.
+     * @param viewManagerModel the ViewManagerModel to be injected into the View.
+     * @param userProfileViewModel the UserProfileViewModel to be injected into the View.
+     * @param homePageViewModel the HomePageViewModel to be injected into the View.
+     * @param recipeDetailViewModel the RecipeDetailViewModel to be injected into the View.
+     * @param userDataAccessObject the UserDAO to be injected into the View.
+     * @param serviceManager the ServiceManager to be injected into the View.
+     * @return the view.
+     */
     public static UserProfileView create(ViewManagerModel viewManagerModel,
                                          UserProfileViewModel userProfileViewModel,
                                          HomePageViewModel homePageViewModel,
                                          RecipeDetailViewModel recipeDetailViewModel,
                                          UserDataAccessObject userDataAccessObject,
-                                         CocktailDataAccessObject cocktailDataAccessObject,
                                          ServiceManager serviceManager) {
         final UserProfileController userProfileController = createUserProfileUseCases(
                 viewManagerModel, userProfileViewModel, recipeDetailViewModel,
-                userDataAccessObject, cocktailDataAccessObject, homePageViewModel);
+                userDataAccessObject, homePageViewModel);
 
         return new UserProfileView(userProfileViewModel, userProfileController, serviceManager);
     }
@@ -42,7 +47,6 @@ public final class UserProfileUseCaseFactory {
             UserProfileViewModel userProfileViewModel,
             RecipeDetailViewModel recipeDetailViewModel,
             UserDataAccessObject userDataAccessObject,
-            CocktailDataAccessObject cocktailDataAccessObject,
             HomePageViewModel homePageViewModel) {
         final UserProfilePresenter userProfilePresenter = new UserProfilePresenter(
                 homePageViewModel, userProfileViewModel, recipeDetailViewModel, viewManagerModel);

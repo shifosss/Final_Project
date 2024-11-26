@@ -36,13 +36,6 @@ public class HomePageController {
     }
 
     /**
-     * Switches to the search recipes view when textfield is clicked.
-     */
-    public void switchToSearchRecipeView() {
-        recipeDetailInteractor.switchToSearchView();
-    }
-
-    /**
      * Switches to the search view.
      */
     public void switchToSearchView() {

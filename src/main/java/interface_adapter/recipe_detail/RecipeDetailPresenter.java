@@ -56,7 +56,7 @@ public class RecipeDetailPresenter implements ViewRecipeOutputBoundary {
 
     @Override
     public void switchToSearchRecipeView() {
-        viewManagerModel.setState(searchRecipeViewModel.getViewName());
+        viewManagerModel.setState(homePageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 

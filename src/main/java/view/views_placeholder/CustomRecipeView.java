@@ -7,7 +7,6 @@ import view.PageView;
 import view.ui_components.custom_recipe.*;
 
 import javax.swing.*;
-import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

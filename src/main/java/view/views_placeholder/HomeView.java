@@ -1,13 +1,9 @@
 package view.views_placeholder;
 
-import interface_adapter.explore_ingredient.ExploreIngredientController;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
-import interface_adapter.recipe_detail.RecipeDetailController;
-import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.services.ServiceManager;
-import okhttp3.internal.framed.Header;
 import view.PageView;
 import view.ui_components.main_page.ContentPanel;
 import view.ui_components.main_page.HeaderPanel;

@@ -1,7 +1,6 @@
 package view.views_placeholder;
 
 import entities.recipe.Recipe;
-import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.user_profile.UserProfileController;
 import interface_adapter.user_profile.UserProfileState;
@@ -13,7 +12,6 @@ import view.ui_components.user_profile.ReturnButtonPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;

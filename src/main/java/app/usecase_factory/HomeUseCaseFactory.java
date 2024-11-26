@@ -4,44 +4,26 @@ import data_access.CocktailDataAccessObject;
 import data_access.UserDataAccessObject;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.custom_recipe.CustomRecipeViewModel;
-import interface_adapter.explore_ingredient.ExploreIngredientController;
-import interface_adapter.explore_ingredient.ExploreIngredientPresenter;
 import interface_adapter.explore_ingredient.ExploreIngredientViewModel;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePagePresenter;
 import interface_adapter.home_page.HomePageViewModel;
-import interface_adapter.recipe_detail.RecipeDetailController;
-import interface_adapter.recipe_detail.RecipeDetailPresenter;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
-import interface_adapter.search_recipe.SearchRecipeController;
-import interface_adapter.search_recipe.SearchRecipePresenter;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.user_profile.UserProfileViewModel;
-import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
-import use_case.bookmark_recipe.BookmarkRecipeInputBoundary;
-import use_case.bookmark_recipe.BookmarkRecipeInteractor;
 import use_case.create_recipe.CustomRecipeInputBoundary;
 import use_case.create_recipe.CustomRecipeInteractor;
-import use_case.explore_ingredient.ExploreIngredientDataAccessInterface;
 import use_case.explore_ingredient.ExploreIngredientInputBoundary;
 import use_case.explore_ingredient.ExploreIngredientInteractor;
-import use_case.explore_ingredient.ExploreIngredientOutputBoundary;
-import use_case.search_recipes.SearchRecipeDataAccessInterface;
-import use_case.search_recipes.SearchRecipeInputBoundary;
-import use_case.search_recipes.SearchRecipeInteractor;
-import use_case.search_recipes.SearchRecipeOutputBoundary;
 import use_case.user_profile.UserProfileInputBoundary;
-import use_case.user_profile.UserProfileInputData;
 import use_case.user_profile.UserProfileInteractor;
-import use_case.view_recipe.ViewRecipeDataAccessInterface;
 import use_case.view_recipe.ViewRecipeInputBoundary;
 import use_case.view_recipe.ViewRecipeInteractor;
-import use_case.view_recipe.ViewRecipeOutputBoundary;
 import view.views_placeholder.HomeView;
 
 /**
- * home page factory that creates necessary usecases.
+ * Home page factory that creates necessary usecase.
  */
 public final class HomeUseCaseFactory {
     private HomeUseCaseFactory() {

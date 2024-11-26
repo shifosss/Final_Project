@@ -8,15 +8,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.util.List;
 
-import entities.recipe.Ingredient;
-import entities.recipe.Recipe;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.explore_ingredient.ExploreIngredientController;
 import interface_adapter.explore_ingredient.ExploreIngredientViewModel;
 import interface_adapter.explore_ingredient.ExploreIngredientState;
 import interface_adapter.services.ServiceManager;
-import view.ui_components.explore_ingredient.SimpleRecipePanel;
-import view.ui_components.explore_ingredient.SimpleRecipeScrollPanel;
 
 /**
  * Explore ingredient recipe view.

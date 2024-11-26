@@ -118,7 +118,7 @@ public class MainApp {
 
         final UserProfileView userProfileView = UserProfileUseCaseFactory.create(
                 viewManagerModel, userProfileViewModel, homePageViewModel, recipeDetailViewModel,
-                userDataAccessObject, cocktailDataAccessObject, serviceManager);
+                userDataAccessObject, serviceManager);
         views.add(userProfileView, userProfileView.getViewName());
 
         final CustomRecipeView customRecipeView = CustomRecipeUseCaseFactory.create(

@@ -69,10 +69,9 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
         final ActionListener searchRecipeListener = event -> {
             if (event.getSource().equals(searchButton) || event.getSource().equals(searchTextField)) {
                 final SearchRecipeState currentState = searchRecipeViewModel.getState();
+                JOptionPane.showMessageDialog(this, currentState.getRecipes());
                 searchRecipeController.execute(
-                        currentState.getQuery(), currentState.getRecipes().stream()
-                                .map(Recipe::getId)
-                                .collect(Collectors.toList()));
+                        currentState.getQuery(), null);
             }
         };
 
