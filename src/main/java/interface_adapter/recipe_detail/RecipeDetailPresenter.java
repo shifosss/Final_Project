@@ -4,6 +4,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
+import use_case.bookmark_recipe.BookmarkRecipeOutputData;
 import use_case.view_recipe.ViewRecipeOutputBoundary;
 import use_case.view_recipe.ViewRecipeOutputData;
 
@@ -13,13 +14,16 @@ import use_case.view_recipe.ViewRecipeOutputData;
 public class RecipeDetailPresenter implements ViewRecipeOutputBoundary {
     private final RecipeDetailViewModel recipeDetailViewModel;
     private final SearchRecipeViewModel searchRecipeViewModel;
+    private final HomePageViewModel homePageViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public RecipeDetailPresenter(RecipeDetailViewModel recipeDetailViewModel,
                                  SearchRecipeViewModel searchRecipeViewModel,
+                                 HomePageViewModel homePageViewModel,
                                  ViewManagerModel viewManagerModel) {
         this.recipeDetailViewModel = recipeDetailViewModel;
         this.searchRecipeViewModel = searchRecipeViewModel;
+        this.homePageViewModel = homePageViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
@@ -52,7 +56,23 @@ public class RecipeDetailPresenter implements ViewRecipeOutputBoundary {
 
     @Override
     public void switchToSearchRecipeView() {
-        viewManagerModel.setState(searchRecipeViewModel.getViewName());
+        viewManagerModel.setState(homePageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void updateBookmarksView(BookmarkRecipeOutputData outputData) {
+        final RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
+        recipeDetailState.setIsBookmarked(outputData.isBookmarked());
+
+        recipeDetailViewModel.firePropertyChanged("bookmark");
+
+        recipeDetailViewModel.setState(recipeDetailState);
+        recipeDetailViewModel.firePropertyChanged();
+
+        final HomePageState homePageState = homePageViewModel.getState();
+        homePageState.setBookmarkedRecipes(outputData.getBookmarkedRecipes());
+        this.homePageViewModel.setState(homePageState);
+        this.homePageViewModel.firePropertyChanged();
     }
 }

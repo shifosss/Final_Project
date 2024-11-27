@@ -1,13 +1,13 @@
 package view.views_placeholder;
 
 import interface_adapter.custom_recipe.CustomRecipeController;
+import interface_adapter.custom_recipe.CustomRecipeState;
 import interface_adapter.custom_recipe.CustomRecipeViewModel;
 import interface_adapter.services.ServiceManager;
 import view.PageView;
 import view.ui_components.custom_recipe.*;
 
 import javax.swing.*;
-import javax.swing.text.View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,9 +15,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * custom recipe view
+ * Custom recipe view.
  */
-public class CustomRecipeView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
+public class CustomRecipeView extends JPanel implements PageView<CustomRecipeState>,
+        ActionListener, PropertyChangeListener {
     private final String viewName = "create recipe";
     // initialize panel
     private final CustomIngredientsPanel ingredientsPanel;
@@ -25,6 +26,9 @@ public class CustomRecipeView extends JPanel implements PageView, ActionListener
     // initialize other panel
     private final CustomRecipeNamePanel namePanel;
     private final CustomAlcoholOptionPanel alcoholOptionPanel;
+    private final JPanel topPanel;
+    private final JPanel centerPanel;
+    private final GridBagConstraints gbc;
 
     private final JButton goHomeButton = new JButton("Go Home");
     private final JButton createRecipeButton = new JButton("Create Recipe");
@@ -36,7 +40,7 @@ public class CustomRecipeView extends JPanel implements PageView, ActionListener
         setBackground(new Color(255, 165, 0));
 
         // top title
-        final JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         topPanel.setBackground(new Color(255, 165, 0));
         final JLabel titleLabel = new JLabel("Create Your Custom Recipe");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
@@ -46,9 +50,9 @@ public class CustomRecipeView extends JPanel implements PageView, ActionListener
         add(topPanel, BorderLayout.NORTH);
 
         // middle area
-        final JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel = new JPanel(new GridBagLayout());
         centerPanel.setBackground(new Color(255, 165, 0));
-        final GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
         // ingredients name
@@ -77,9 +81,7 @@ public class CustomRecipeView extends JPanel implements PageView, ActionListener
         alcoholOptionPanel = new CustomAlcoholOptionPanel();
         add(alcoholOptionPanel, BorderLayout.SOUTH);
 
-        goHomeButton.addActionListener(event -> {
-            customRecipeController.switchToHome();
-        });
+        goHomeButton.addActionListener(event -> customRecipeController.switchToHome());
     }
 
     @Override
@@ -92,8 +94,12 @@ public class CustomRecipeView extends JPanel implements PageView, ActionListener
 
     }
 
-    @Override
     public String getViewName() {
         return viewName;
+    }
+
+    @Override
+    public void update(CustomRecipeState state) {
+
     }
 }

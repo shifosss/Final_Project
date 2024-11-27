@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class BookmarkedPanel extends JPanel {
     private final JPanel recipesPanel;
+    private final JScrollPane scrollPane;
 
     private final HomePageViewModel homePageViewModel;
     private final ServiceManager serviceManager;
@@ -43,10 +44,19 @@ public class BookmarkedPanel extends JPanel {
         this.add(Box.createRigidArea(new Dimension(0, 20)));
 
         // Panel for recommendation recipes
-        this.recipesPanel = new JPanel(new GridLayout(1, 3, 10, 10));
+        this.recipesPanel = new JPanel(new GridLayout(0, 3, 10, 10));
         recipesPanel.setBackground(Color.WHITE);
 
         this.add(recipesPanel);
+
+        scrollPane = new JScrollPane(recipesPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBackground(Color.WHITE);
+        scrollPane.getViewport().setBackground(Color.WHITE);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+
+        add(scrollPane);
     }
 
     /**

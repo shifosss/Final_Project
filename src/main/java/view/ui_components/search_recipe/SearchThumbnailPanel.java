@@ -39,16 +39,13 @@ public class SearchThumbnailPanel extends JPanel {
 
     private final SearchRecipeController searchRecipeController;
     private final SearchRecipeViewModel searchRecipeViewModel;
-    private final RecipeDetailController recipeDetailController;
     private final ServiceManager serviceManager;
 
     public SearchThumbnailPanel(SearchRecipeViewModel searchRecipeViewModel,
                                 SearchRecipeController searchRecipeController,
-                                RecipeDetailController recipeDetailController,
                                 ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
         this.searchRecipeController = searchRecipeController;
-        this.recipeDetailController = recipeDetailController;
         this.searchRecipeViewModel = searchRecipeViewModel;
         // Sets Layout
         setLayout(new BorderLayout(H_GAP, V_GAP));

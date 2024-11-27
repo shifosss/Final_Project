@@ -1,6 +1,8 @@
 package use_case.view_recipe;
 
 
+import use_case.bookmark_recipe.BookmarkRecipeOutputData;
+
 /**
  * The output boundary for the recipe detail use case.
  */
@@ -22,4 +24,10 @@ public interface ViewRecipeOutputBoundary {
      * Switches to the Search Recipe View, usually triggered when back button is clicked.
      */
     void switchToSearchRecipeView();
+
+    /**
+     * Updates the bookmarked recipes in the home page.
+     * @param outputData the output data.
+     */
+    void updateBookmarksView(BookmarkRecipeOutputData outputData);
 }

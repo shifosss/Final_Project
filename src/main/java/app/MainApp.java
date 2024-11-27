@@ -3,7 +3,6 @@ package app;
 import app.usecase_factory.*;
 import data_access.CocktailDataAccessObject;
 import data_access.UserDataAccessObject;
-import entities.recipe.factory.CocktailFactory;
 import entities.recipe.factory.RecipeFactory;
 import entities.user.factory.CommonUserFactory;
 import entities.user.factory.UserFactory;
@@ -23,10 +22,7 @@ import interface_adapter.services.video_service.VideoServiceInterface;
 import interface_adapter.services.video_service.WebVideoService;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.user_profile.UserProfileViewModel;
-import view.ExploreIngredientRecipeView;
-import view.RecipeDetailView;
-import view.SearchRecipeView;
-import view.ViewManager;
+import view.*;
 import view.views_placeholder.*;
 
 import javax.swing.*;
@@ -64,7 +60,7 @@ public class MainApp {
                 webVideoService);
 
         // Entity Factories
-        final RecipeFactory recipeFactory = new CocktailFactory();
+        final RecipeFactory recipeFactory = new RecipeFactory();
         final UserFactory userFactory = new CommonUserFactory();
 
         // api/database initialization
@@ -93,6 +89,11 @@ public class MainApp {
                 userDataAccessObject, cocktailDataAccessObject);
         views.add(loginView, loginView.getViewName());
 
+        final PreferenceView preferenceView = ChangePreferenceUseCaseFactory.create(
+                viewManagerModel, homePageViewModel, preferenceViewModel,
+                cocktailDataAccessObject, userDataAccessObject, serviceManager);
+        views.add(preferenceView, preferenceView.getViewName());
+
         // SearchRecipeView initialization
         final HomeView homeView = HomeUseCaseFactory.create(viewManagerModel,
                 homePageViewModel, searchRecipeViewModel, recipeDetailViewModel, exploreIngredientViewModel,
@@ -106,7 +107,7 @@ public class MainApp {
         views.add(searchRecipeView, searchRecipeView.getViewName());
 
         final RecipeDetailView recipeDetailView = RecipeDetailUseCaseFactory.create(viewManagerModel,
-                recipeDetailViewModel, searchRecipeViewModel,
+                recipeDetailViewModel, searchRecipeViewModel, homePageViewModel,
                 cocktailDataAccessObject, userDataAccessObject, serviceManager);
         views.add(recipeDetailView, recipeDetailView.getViewName());
 
@@ -117,11 +118,12 @@ public class MainApp {
         views.add(exploreIngredientRecipeView, exploreIngredientRecipeView.getViewName());
 
         final UserProfileView userProfileView = UserProfileUseCaseFactory.create(
-                viewManagerModel, userProfileViewModel, homePageViewModel, userDataAccessObject, serviceManager);
+                viewManagerModel, userProfileViewModel, homePageViewModel, recipeDetailViewModel,
+                userDataAccessObject, serviceManager);
         views.add(userProfileView, userProfileView.getViewName());
 
         final CustomRecipeView customRecipeView = CustomRecipeUseCaseFactory.create(
-                viewManagerModel, homePageViewModel, customRecipeViewModel,
+                viewManagerModel, homePageViewModel, customRecipeViewModel, userProfileViewModel,
                 cocktailDataAccessObject, userDataAccessObject, serviceManager);
         views.add(customRecipeView, customRecipeView.getViewName());
 

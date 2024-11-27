@@ -29,6 +29,7 @@ public final class LoginUseCaseFactory {
      * @param homePageViewModel the HomePageViewModel to be injected into the view.
      * @param preferenceViewModel the PreferenceViewModel to be injected into the view.
      * @param userDataAccessObject the user DAO to be injected into the view.
+     * @param cocktailDataAccessObject the cocktail DAO to be injected into the view.
      * @return the login view.
      */
     public static LoginView create(ViewManagerModel viewManagerModel,

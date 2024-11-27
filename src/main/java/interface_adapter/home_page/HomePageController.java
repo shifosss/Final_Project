@@ -36,13 +36,6 @@ public class HomePageController {
     }
 
     /**
-     * Switches to the search recipes view when textfield is clicked.
-     */
-    public void switchToSearchRecipeView() {
-        recipeDetailInteractor.switchToSearchView();
-    }
-
-    /**
      * Switches to the search view.
      */
     public void switchToSearchView() {
@@ -58,11 +51,9 @@ public class HomePageController {
 
     /**
      * Switches to the user profile view.
-     * @param username the username of the user to be viewed.
      */
-    public void switchToUserButton(String username) {
-        final UserProfileInputData inputData = new UserProfileInputData(username);
-        userInteractor.switchToUserView(inputData);
+    public void switchToUserButton() {
+        userInteractor.switchToUserView();
     }
 
     /**

@@ -3,10 +3,12 @@ package interface_adapter.signup;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
-import interface_adapter.preference.PreferenceViewModel;
 import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupOutputData;
 
+/**
+ * The presenter for the sign-up view.
+ */
 public class SignupPresenter implements SignupOutputBoundary {
     // View models for this usecase.
     private final SignupViewModel signupViewModel;
@@ -29,6 +31,7 @@ public class SignupPresenter implements SignupOutputBoundary {
         loginState.setPassword("");
         this.loginViewModel.setState(loginState);
         loginViewModel.firePropertyChanged();
+        loginViewModel.firePropertyChanged("successful signup");
 
         viewManagerModel.setState(loginViewModel.getViewName());
         viewManagerModel.firePropertyChanged();

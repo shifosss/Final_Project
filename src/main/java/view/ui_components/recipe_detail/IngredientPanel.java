@@ -2,6 +2,9 @@ package view.ui_components.recipe_detail;
 
 import entities.recipe.Ingredient;
 import entities.recipe.Recipe;
+import interface_adapter.recipe_detail.RecipeDetailState;
+import view.AbstractViewDecorator;
+import view.PageView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,10 +13,11 @@ import java.util.List;
 /**
  * Contains the ingredients of a recipe.
  */
-public class IngredientPanel extends JPanel {
-    final JPanel ingredientsListPanel;
+public class IngredientPanel extends AbstractViewDecorator<RecipeDetailState> {
+    private final JPanel ingredientsListPanel;
 
-    public IngredientPanel() {
+    public IngredientPanel(PageView<RecipeDetailState> view) {
+        super(view);
         ingredientsListPanel = new JPanel();
         ingredientsListPanel.setLayout(new BoxLayout(ingredientsListPanel, BoxLayout.Y_AXIS));
 
@@ -25,11 +29,13 @@ public class IngredientPanel extends JPanel {
         add(headerLabel, BorderLayout.NORTH);
     }
 
-    /**
-     * Updates components.
-     * @param recipe the recipe entity.
-     */
-    public void updateComponents(Recipe recipe) {
+    @Override
+    public void update(RecipeDetailState state) {
+        super.update(state);
+        updateComponents(state.getRecipe());
+    }
+
+    private void updateComponents(Recipe recipe) {
         ingredientsListPanel.removeAll();
 
         final List<Ingredient> ingredients = recipe.getIngredients();

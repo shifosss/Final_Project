@@ -1,7 +1,5 @@
 package use_case.search_recipes;
 
-import entities.recipe.Recipe;
-
 import java.util.List;
 
 /**
@@ -9,18 +7,18 @@ import java.util.List;
  */
 public class SearchRecipeInputData {
     private final String searchQuery;
-    private final List<Recipe> recipes;
+    private final List<Integer> recipeIds;
 
-    public SearchRecipeInputData(String searchQuery, List<Recipe> recipes) {
+    public SearchRecipeInputData(String searchQuery, List<Integer> recipeIds) {
         this.searchQuery = searchQuery;
-        this.recipes = recipes;
+        this.recipeIds = recipeIds;
     }
 
     String getSearchQuery() {
         return searchQuery;
     }
 
-    public List<Recipe> getRecipes() {
-        return recipes;
+    public List<Integer> getRecipes() {
+        return recipeIds;
     }
 }

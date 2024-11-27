@@ -12,14 +12,13 @@ import view.ui_components.user_profile.ReturnButtonPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-public class UserProfileView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
+public class UserProfileView extends JPanel implements PageView<UserProfileState>, ActionListener, PropertyChangeListener {
     private final String viewName = "account";
 
     private final UserProfileViewModel userProfileViewModel;
@@ -44,12 +43,13 @@ public class UserProfileView extends JPanel implements PageView, ActionListener,
         userProfileViewModel.addPropertyChangeListener(this);
 
         // user name
-        userIconPanel = new UserIconPanel("");
+        userIconPanel = new UserIconPanel();
         add(userIconPanel, BorderLayout.NORTH);
 
         // custom recipe panel
-        customRecipePanel = new CustomRecipePanel();
-        add(customRecipePanel, BorderLayout.CENTER);
+        customRecipePanel = new CustomRecipePanel(
+                userProfileViewModel, userProfileController, serviceManager);
+        add(customRecipePanel.getScrollPane(), BorderLayout.CENTER);
 
         // back to homepage button
         returnButtonPanel = new ReturnButtonPanel(returnButton);
@@ -74,10 +74,15 @@ public class UserProfileView extends JPanel implements PageView, ActionListener,
         final String username = state.getUsername();
         final List<Recipe> createdrecipes = state.getCreatedRecipes();
         userIconPanel.updateComponents(username);
+        customRecipePanel.updateComponents(createdrecipes);
+    }
+
+    public String getViewName() {
+        return viewName;
     }
 
     @Override
-    public String getViewName() {
-        return viewName;
+    public void update(UserProfileState state) {
+
     }
 }

@@ -9,8 +9,8 @@ import interface_adapter.recipe_detail.RecipeDetailViewModel;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import interface_adapter.user_profile.UserProfileState;
 import interface_adapter.user_profile.UserProfileViewModel;
+import use_case.bookmark_recipe.BookmarkRecipeOutputData;
 import use_case.create_recipe.CustomRecipeOutputBoundary;
-import use_case.create_recipe.CustomRecipeOutputData;
 import use_case.explore_ingredient.ExploreIngredientOutputBoundary;
 import use_case.explore_ingredient.ExploreIngredientOutputData;
 import use_case.search_recipes.SearchRecipeOutputData;
@@ -103,13 +103,18 @@ public class HomePagePresenter implements ExploreIngredientOutputBoundary, ViewR
     }
 
     @Override
-    public void switchToHomeView() {
+    public void updateBookmarksView(BookmarkRecipeOutputData outputData) {
+
+    }
+
+    @Override
+    public void switchToHomePageView() {
         viewManagerModel.setState(homePageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 
     @Override
-    public void switchToHomeView(CustomRecipeOutputData outputData) {
+    public void updateCustomRecipeView(UserProfileOutputData outputData) {
 
     }
 

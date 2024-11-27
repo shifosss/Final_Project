@@ -12,7 +12,7 @@ public class HomePageState {
     private String username = "";
     private String query = "";
     private List<Recipe> randomRecipe = new ArrayList<>();
-    private List<Integer> ingredientsToAvoidId = new ArrayList<>();
+    private List<String> ingredientsToAvoidId = new ArrayList<>();
     private List<Recipe> bookmarkedRecipes = new ArrayList<>();
 
     public void setUsername(String username) {
@@ -31,11 +31,11 @@ public class HomePageState {
         return query;
     }
 
-    public void setIngredientsToAvoidId(List<Integer> ingredientsToAvoidId) {
+    public void setIngredientsToAvoidId(List<String> ingredientsToAvoidId) {
         this.ingredientsToAvoidId = ingredientsToAvoidId;
     }
 
-    public List<Integer> getIngredientsToAvoidId() {
+    public List<String> getIngredientsToAvoidId() {
         return ingredientsToAvoidId;
     }
 

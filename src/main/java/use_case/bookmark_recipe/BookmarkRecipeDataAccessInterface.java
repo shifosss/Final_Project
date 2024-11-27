@@ -1,7 +1,5 @@
 package use_case.bookmark_recipe;
 
-import entities.recipe.Recipe;
-
 import java.util.List;
 
 /**
@@ -36,4 +34,11 @@ public interface BookmarkRecipeDataAccessInterface {
      * @return list of recipe ids.
      */
     List<Integer> getBookmarkedRecipes(String username);
+
+    /**
+     * Gets the ingredients the user should avoid.
+     * @param username the username
+     * @return the list of ingredients id.
+     */
+    List<String> getIngredientsToAvoid(String username);
 }

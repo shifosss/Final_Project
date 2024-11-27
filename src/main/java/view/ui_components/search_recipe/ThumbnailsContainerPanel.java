@@ -24,17 +24,14 @@ public class ThumbnailsContainerPanel extends JPanel {
     private final JPanel recipePanel;
     private final SearchRecipeController searchRecipeController;
     private final SearchRecipeViewModel searchRecipeViewModel;
-    private final RecipeDetailController recipeDetailController;
     private final ServiceManager serviceManager;
 
     public ThumbnailsContainerPanel(SearchRecipeViewModel searchRecipeViewModel,
                                     SearchRecipeController searchRecipeController,
-                                    RecipeDetailController recipeDetailController,
                                     ServiceManager serviceManager) {
         this.serviceManager = serviceManager;
         this.searchRecipeController = searchRecipeController;
         this.searchRecipeViewModel = searchRecipeViewModel;
-        this.recipeDetailController = recipeDetailController;
         // Set layout for main panel
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
@@ -98,8 +95,7 @@ public class ThumbnailsContainerPanel extends JPanel {
         final List<JPanel> panels = new ArrayList<>();
         for (Recipe recipe : recipes) {
             final SearchThumbnailPanel srp = new SearchThumbnailPanel(
-                    searchRecipeViewModel, searchRecipeController, recipeDetailController,
-                    serviceManager);
+                    searchRecipeViewModel, searchRecipeController, serviceManager);
             srp.addRecipe(recipe);
             panels.add(srp);
         }
