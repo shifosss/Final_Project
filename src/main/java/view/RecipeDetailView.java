@@ -1,10 +1,10 @@
 package view;
 
-import entities.recipe.Recipe;
 import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.recipe_detail.RecipeDetailState;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
 import interface_adapter.services.ServiceManager;
+import view.concrete_page.RecipeDetailConcrete;
 import view.ui_components.recipe_detail.*;
 
 import javax.swing.*;
@@ -17,19 +17,13 @@ import java.beans.PropertyChangeListener;
 /**
  * Recipe Detail View that shows the information about a selected recipe.
  */
-public class RecipeDetailView extends JPanel implements
-        PageView, ActionListener, PropertyChangeListener {
+public class RecipeDetailView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String view_name = "recipe detail";
 
     private final JButton backButton = new JButton("<");
     private final JButton bookmarkButton = new JButton("Bookmark!");
 
-    private final JScrollPane scrollPane;
-    private final RecipeTitlePanel recipeTitlePanel;
-    private final IngredientPanel ingredientPanel;
-    private final InstructionPanel instructionPanel;
-    private final VideoPanel videoPanel;
-    private final IsAlcoholicPanel alcholicPanel;
+    private final PageView<RecipeDetailState> pageHandler;
 
     private final RecipeDetailViewModel recipeDetailViewModel;
     private final ServiceManager serviceManager;
@@ -44,18 +38,17 @@ public class RecipeDetailView extends JPanel implements
 
         this.recipeDetailViewModel.addPropertyChangeListener(this);
 
+        final RecipeDetailConcrete recipeDetailConcrete = new RecipeDetailConcrete();
+        final VideoPanel videoPanel = new VideoPanel(recipeDetailConcrete, serviceManager);
+        final IsAlcoholicPanel alcoholicPanel = new IsAlcoholicPanel(videoPanel);
+        final InstructionPanel instructionPanel = new InstructionPanel(alcoholicPanel);
+        final IngredientPanel ingredientPanel = new IngredientPanel(instructionPanel);
+        final RecipeTitlePanel recipeTitlePanel = new RecipeTitlePanel(ingredientPanel);
         final NavigationActionPanel navigationActionPanel = new NavigationActionPanel(
-                backButton, bookmarkButton
-        );
-        recipeTitlePanel = new RecipeTitlePanel(
-        );
-        videoPanel = new VideoPanel(
-                serviceManager
+                recipeTitlePanel, backButton, bookmarkButton
         );
 
-        ingredientPanel = new IngredientPanel();
-        instructionPanel = new InstructionPanel();
-        alcholicPanel = new IsAlcoholicPanel();
+        pageHandler = navigationActionPanel;
 
         final ActionListener switchToSearchListener = event -> {
             if (event.getSource().equals(backButton)) {
@@ -84,39 +77,39 @@ public class RecipeDetailView extends JPanel implements
 
         // Center section
         final JPanel centerPanel = new JPanel();
-        scrollPane = new JScrollPane(centerPanel);
+        final JScrollPane scrollPane = new JScrollPane(centerPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
         centerPanel.add(recipeTitlePanel);
         centerPanel.add(videoPanel);
         centerPanel.add(ingredientPanel);
         centerPanel.add(instructionPanel);
-        centerPanel.add(alcholicPanel);
+        centerPanel.add(alcoholicPanel);
         add(scrollPane, BorderLayout.CENTER);
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
+
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
         final RecipeDetailState state = (RecipeDetailState) event.getNewValue();
-        setFields(state);
+        if (event.getPropertyName().equals("state")) {
+            pageHandler.update(state);
+        }
+        else if (event.getPropertyName().equals("bookmark")) {
+            String message = "bookmarked";
+            if (!state.getIsBookmarked()) {
+                message = "un-" + message;
+            }
+            JOptionPane.showMessageDialog(null,
+                    String.format("Recipe: %s successfully %s",
+                            state.getRecipe().getName(), message));
+        }
     }
 
-    private void setFields(RecipeDetailState state) {
-        // Updates the Recipe detail view.
-        final Recipe recipe = state.getRecipe();
-        // sets the recipe title
-        recipeTitlePanel.updateComponents(recipe);
-        videoPanel.updateComponents(recipe);
-        ingredientPanel.updateComponents(recipe);
-        instructionPanel.updateComponents(recipe);
-        alcholicPanel.updateComponents(recipe);
-    }
-
-    @Override
     public String getViewName() {
         return view_name;
     }

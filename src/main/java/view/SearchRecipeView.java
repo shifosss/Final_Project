@@ -23,7 +23,7 @@ import view.ui_components.search_recipe.SearchHeaderPanel;
 /**
  * The view when the user searches for a recipe through some text field.
  */
-public class SearchRecipeView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
+public class SearchRecipeView extends JPanel implements PageView<SearchRecipeState>, ActionListener, PropertyChangeListener {
     private final String viewName = "search recipe";
 
     private final JTextField searchTextField = new JTextField(15);
@@ -69,7 +69,6 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
         final ActionListener searchRecipeListener = event -> {
             if (event.getSource().equals(searchButton) || event.getSource().equals(searchTextField)) {
                 final SearchRecipeState currentState = searchRecipeViewModel.getState();
-                JOptionPane.showMessageDialog(this, currentState.getRecipes());
                 searchRecipeController.execute(
                         currentState.getQuery(), null);
             }
@@ -123,9 +122,13 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
         setFields(state);
     }
 
-    @Override
     public String getViewName() {
         return viewName;
+    }
+
+    @Override
+    public void update(SearchRecipeState state) {
+
     }
 
     private void setFields(SearchRecipeState state) {

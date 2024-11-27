@@ -17,7 +17,8 @@ import interface_adapter.services.ServiceManager;
 /**
  * Explore ingredient recipe view.
  */
-public class ExploreIngredientRecipeView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
+public class ExploreIngredientRecipeView extends JPanel implements PageView<ExploreIngredientState>,
+        ActionListener, PropertyChangeListener {
     private static final Color BACKGROUND_COLOR = new Color(248, 249, 250);
     private static final int GRID_COLUMNS = 3;
 
@@ -124,8 +125,12 @@ public class ExploreIngredientRecipeView extends JPanel implements PageView, Act
         System.out.println("Click " + event.getActionCommand());
     }
 
-    @Override
     public String getViewName() {
         return viewName;
+    }
+
+    @Override
+    public void update(ExploreIngredientState state) {
+
     }
 }

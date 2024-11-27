@@ -3,7 +3,6 @@ package app;
 import app.usecase_factory.*;
 import data_access.CocktailDataAccessObject;
 import data_access.UserDataAccessObject;
-import entities.recipe.factory.CocktailFactory;
 import entities.recipe.factory.RecipeFactory;
 import entities.user.factory.CommonUserFactory;
 import entities.user.factory.UserFactory;
@@ -64,7 +63,7 @@ public class MainApp {
                 webVideoService);
 
         // Entity Factories
-        final RecipeFactory recipeFactory = new CocktailFactory();
+        final RecipeFactory recipeFactory = new RecipeFactory();
         final UserFactory userFactory = new CommonUserFactory();
 
         // api/database initialization

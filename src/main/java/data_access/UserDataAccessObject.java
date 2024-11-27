@@ -339,7 +339,7 @@ public class UserDataAccessObject implements
 
         return recipeFactory.create(recipeName, recipeId,
                 recipeInstruction, recipeIngredients,
-                "", "", recipeIsAlcoholic);
+                "", "", recipeIsAlcoholic, "cocktail");
 
     }
 }

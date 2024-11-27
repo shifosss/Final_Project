@@ -18,7 +18,7 @@ import java.beans.PropertyChangeListener;
 /**
  * View for the home page.
  */
-public class HomeView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
+public class HomeView extends JPanel implements PageView<HomePageState>, ActionListener, PropertyChangeListener {
     private JPanel recommendationsPanel;
     private JPanel recommendedRecipesPanel;
     private String currentUser = "";
@@ -77,9 +77,13 @@ public class HomeView extends JPanel implements PageView, ActionListener, Proper
         setFields(state);
     }
 
-    @Override
     public String getViewName() {
         return viewName;
+    }
+
+    @Override
+    public void update(HomePageState state) {
+
     }
 
     private void setFields(HomePageState state) {

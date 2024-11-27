@@ -9,12 +9,18 @@ import java.util.List;
  */
 public class BookmarkRecipeOutputData {
     private final List<Recipe> bookmarkedRecipes;
+    private final boolean isBookmarked;
 
-    public BookmarkRecipeOutputData(List<Recipe> bookmarkedRecipes) {
+    public BookmarkRecipeOutputData(List<Recipe> bookmarkedRecipes, boolean isBookmarked) {
         this.bookmarkedRecipes = bookmarkedRecipes;
+        this.isBookmarked = isBookmarked;
     }
 
     public List<Recipe> getBookmarkedRecipes() {
         return bookmarkedRecipes;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
     }
 }

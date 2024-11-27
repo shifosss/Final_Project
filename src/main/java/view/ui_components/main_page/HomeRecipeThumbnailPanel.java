@@ -3,8 +3,6 @@ package view.ui_components.main_page;
 import entities.recipe.Recipe;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePageViewModel;
-import interface_adapter.recipe_detail.RecipeDetailController;
-import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.services.ServiceManager;
 import interface_adapter.services.image_service.ImageServiceInterface;
 

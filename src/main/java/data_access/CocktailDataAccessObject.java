@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entities.recipe.Ingredient;
-import entities.recipe.factory.CocktailFactory;
 import entities.recipe.factory.RecipeFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,10 +30,10 @@ public class CocktailDataAccessObject implements
     private static final String COCKTAIL_API_URL = "http://thecocktaildb.com/api/json/v1/1";
     private static final int START = 1;
     private static final int END = 15;
-    private final RecipeFactory cocktailFactory;
+    private final RecipeFactory recipeFactory;
 
-    public CocktailDataAccessObject(RecipeFactory cocktailFactory) {
-        this.cocktailFactory = cocktailFactory;
+    public CocktailDataAccessObject(RecipeFactory recipeFactory) {
+        this.recipeFactory = recipeFactory;
     }
 
     @Override
@@ -161,7 +160,8 @@ public class CocktailDataAccessObject implements
         final String videoLink = getVideoLink(raw);
         final String isAlcoholic = getIsAlcoholic(raw);
 
-        return cocktailFactory.create(name, id, instruction, ingredients, imageLink, videoLink, isAlcoholic);
+        return recipeFactory.create(name, id, instruction, ingredients,
+                imageLink, videoLink, isAlcoholic, "cocktail");
     }
 
     private String getIsAlcoholic(JSONObject raw) {
@@ -220,16 +220,5 @@ public class CocktailDataAccessObject implements
         catch (IOException | JSONException exception) {
             throw new RuntimeException(exception);
         }
-    }
-
-    public static void main(String[] args) {
-        final List<String> ingredientsToAvoid = List.of("Salt");
-        final RecipeFactory recipeFactory = new CocktailFactory();
-        final CocktailDataAccessObject cocktailDataAccessObject = new CocktailDataAccessObject(recipeFactory);
-
-        final List<Recipe> recipes = cocktailDataAccessObject.searchRecipeByKeyword("egg");
-        System.out.println("Before: \n" + recipes);
-        cocktailDataAccessObject.filterRecipes(recipes, ingredientsToAvoid);
-        System.out.println("After: \n" + recipes);
     }
 }

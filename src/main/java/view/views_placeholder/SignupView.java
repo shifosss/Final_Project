@@ -17,7 +17,7 @@ import java.beans.PropertyChangeListener;
 /**
  * View for sign up with enhanced design.
  */
-public class SignupView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
+public class SignupView extends JPanel implements PageView<SignupState>, ActionListener, PropertyChangeListener {
     private final JButton signupButton = new JButton("Sign up");
     private final JButton loginButton = new JButton("Switch to Login");
     private final JTextField usernameField = new JTextField(20);
@@ -30,14 +30,16 @@ public class SignupView extends JPanel implements PageView, ActionListener, Prop
     public SignupView(SignupController signupController, SignupViewModel signupViewModel) {
         this.signupController = signupController;
         this.signupViewModel = signupViewModel;
+        
+        signupViewModel.addPropertyChangeListener(this);
 
         setLayout(new GridBagLayout());
-        setOpaque(false); // 背景透明以显示自定义背景图
+        setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
         // add title
-        JLabel titleLabel = new JLabel("Cocktail lab");
+        final JLabel titleLabel = new JLabel("Cocktail lab");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;
@@ -132,20 +134,26 @@ public class SignupView extends JPanel implements PageView, ActionListener, Prop
         g.fillRect(0, 0, getWidth(), getHeight());
 
         // load png image
-        ImageIcon cocktail1 = new ImageIcon(getClass().getResource("/image/cocktail1.png"));
+        final ImageIcon cocktail1 = new ImageIcon(getClass().getResource("/image/cocktail1.png"));
         g.drawImage(cocktail1.getImage(), 50, 50, 200, 300, this);
 
-        ImageIcon cocktail2 = new ImageIcon(getClass().getResource("/image/cocktail2.png"));
+        final ImageIcon cocktail2 = new ImageIcon(getClass().getResource("/image/cocktail2.png"));
         g.drawImage(cocktail2.getImage(), 550, 50, 100, 150, this);
     }
 
-    @Override
     public String getViewName() {
         return "sign up";
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {}
+    public void update(SignupState state) {
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

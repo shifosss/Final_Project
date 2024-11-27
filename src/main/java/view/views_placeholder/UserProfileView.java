@@ -18,7 +18,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-public class UserProfileView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
+public class UserProfileView extends JPanel implements PageView<UserProfileState>, ActionListener, PropertyChangeListener {
     private final String viewName = "account";
 
     private final UserProfileViewModel userProfileViewModel;
@@ -77,8 +77,12 @@ public class UserProfileView extends JPanel implements PageView, ActionListener,
         customRecipePanel.updateComponents(createdrecipes);
     }
 
-    @Override
     public String getViewName() {
         return viewName;
+    }
+
+    @Override
+    public void update(UserProfileState state) {
+
     }
 }

@@ -62,10 +62,17 @@ public class RecipeDetailPresenter implements ViewRecipeOutputBoundary {
 
     @Override
     public void updateBookmarksView(BookmarkRecipeOutputData outputData) {
-        final HomePageState state = homePageViewModel.getState();
+        final RecipeDetailState recipeDetailState = recipeDetailViewModel.getState();
+        recipeDetailState.setIsBookmarked(outputData.isBookmarked());
 
-        state.setBookmarkedRecipes(outputData.getBookmarkedRecipes());
-        this.homePageViewModel.setState(state);
+        recipeDetailViewModel.firePropertyChanged("bookmark");
+
+        recipeDetailViewModel.setState(recipeDetailState);
+        recipeDetailViewModel.firePropertyChanged();
+
+        final HomePageState homePageState = homePageViewModel.getState();
+        homePageState.setBookmarkedRecipes(outputData.getBookmarkedRecipes());
+        this.homePageViewModel.setState(homePageState);
         this.homePageViewModel.firePropertyChanged();
     }
 }

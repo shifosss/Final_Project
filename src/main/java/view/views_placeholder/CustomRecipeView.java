@@ -1,6 +1,7 @@
 package view.views_placeholder;
 
 import interface_adapter.custom_recipe.CustomRecipeController;
+import interface_adapter.custom_recipe.CustomRecipeState;
 import interface_adapter.custom_recipe.CustomRecipeViewModel;
 import interface_adapter.services.ServiceManager;
 import view.PageView;
@@ -16,7 +17,8 @@ import java.beans.PropertyChangeListener;
 /**
  * custom recipe view
  */
-public class CustomRecipeView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
+public class CustomRecipeView extends JPanel implements PageView<CustomRecipeState>,
+        ActionListener, PropertyChangeListener {
     private final String viewName = "create recipe";
     // initialize panel
     private final CustomIngredientsPanel ingredientsPanel;
@@ -91,8 +93,12 @@ public class CustomRecipeView extends JPanel implements PageView, ActionListener
 
     }
 
-    @Override
     public String getViewName() {
         return viewName;
+    }
+
+    @Override
+    public void update(CustomRecipeState state) {
+
     }
 }

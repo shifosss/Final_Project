@@ -19,7 +19,7 @@ import java.beans.PropertyChangeListener;
 /**
  * Login view with background and cocktail images.
  */
-public class LoginView extends JPanel implements PageView, ActionListener, PropertyChangeListener {
+public class LoginView extends JPanel implements PageView<LoginState>, ActionListener, PropertyChangeListener {
     private final String viewName = "log in";
     private final JTextField usernameTextField = new JTextField(20);
     private final JPasswordField passwordTextField = new JPasswordField(20);
@@ -32,6 +32,8 @@ public class LoginView extends JPanel implements PageView, ActionListener, Prope
     public LoginView(LoginViewModel loginViewModel, LoginController loginController) {
         this.loginViewModel = loginViewModel;
         this.loginController = loginController;
+
+        loginViewModel.addPropertyChangeListener(this);
 
         setLayout(new GridBagLayout());
         setOpaque(false);
@@ -121,11 +123,26 @@ public class LoginView extends JPanel implements PageView, ActionListener, Prope
     public void actionPerformed(ActionEvent e) {}
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {}
+    public void propertyChange(PropertyChangeEvent evt) {
+        final LoginState state = loginViewModel.getState();
+        setFields(state);
+    }
 
-    @Override
+    private void setFields(LoginState state) {
+        usernameTextField.setText(state.getUsername());
+        passwordTextField.setText(state.getPassword());
+        if (state.getLoginError() != null) {
+            JOptionPane.showMessageDialog(this, state.getLoginError());
+        }
+    }
+
     public String getViewName() {
         return viewName;
+    }
+
+    @Override
+    public void update(LoginState state) {
+
     }
 
     private void addUsernameListener() {

@@ -27,9 +27,11 @@ public class BookmarkRecipeInteractor implements BookmarkRecipeInputBoundary {
         final String username = bookmarkRecipeDataAccessObject.getCurrentUser();
         final int recipeId = bookmarkRecipeInputData.getRecipeId();
         bookmarkRecipeDataAccessObject.bookmarkRecipe(username, recipeId);
+
         final List<Integer> bookmarkedRecipeIds = bookmarkRecipeDataAccessObject.getBookmarkedRecipes(username);
         final List<Recipe> bookmarkedRecipes = searchRecipeDataAccessObject.getRecipesByIdList(bookmarkedRecipeIds);
-        final BookmarkRecipeOutputData outputData = new BookmarkRecipeOutputData(bookmarkedRecipes);
+        final BookmarkRecipeOutputData outputData = new BookmarkRecipeOutputData(
+                bookmarkedRecipes, bookmarkRecipeDataAccessObject.isBookmarked(username, recipeId));
 
         viewRecipePresenter.updateBookmarksView(outputData);
     }
