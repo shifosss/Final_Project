@@ -11,6 +11,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Custom ingredients panel that contains the users input (ingredient and measurements)
+ */
 public class CustomIngredientsPanel extends JPanel {
     private final CustomRecipeController controller;
     private final CustomRecipeViewModel viewModel;
@@ -22,7 +25,6 @@ public class CustomIngredientsPanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(new Color(255, 165, 0));
         setBorder(createRoundedBorder("Ingredients and Measurements", new Color(255, 87, 34)));
-
         // Initialize the interface
         refreshIngredients();
     }

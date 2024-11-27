@@ -15,7 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * custom recipe view
+ * Custom recipe view.
  */
 public class CustomRecipeView extends JPanel implements PageView<CustomRecipeState>,
         ActionListener, PropertyChangeListener {
@@ -26,6 +26,9 @@ public class CustomRecipeView extends JPanel implements PageView<CustomRecipeSta
     // initialize other panel
     private final CustomRecipeNamePanel namePanel;
     private final CustomAlcoholOptionPanel alcoholOptionPanel;
+    private final JPanel topPanel;
+    private final JPanel centerPanel;
+    private final GridBagConstraints gbc;
 
     private final JButton goHomeButton = new JButton("Go Home");
     private final JButton createRecipeButton = new JButton("Create Recipe");
@@ -37,7 +40,7 @@ public class CustomRecipeView extends JPanel implements PageView<CustomRecipeSta
         setBackground(new Color(255, 165, 0));
 
         // top title
-        final JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         topPanel.setBackground(new Color(255, 165, 0));
         final JLabel titleLabel = new JLabel("Create Your Custom Recipe");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
@@ -47,9 +50,9 @@ public class CustomRecipeView extends JPanel implements PageView<CustomRecipeSta
         add(topPanel, BorderLayout.NORTH);
 
         // middle area
-        final JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel = new JPanel(new GridBagLayout());
         centerPanel.setBackground(new Color(255, 165, 0));
-        final GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
         // ingredients name
@@ -78,9 +81,7 @@ public class CustomRecipeView extends JPanel implements PageView<CustomRecipeSta
         alcoholOptionPanel = new CustomAlcoholOptionPanel();
         add(alcoholOptionPanel, BorderLayout.SOUTH);
 
-        goHomeButton.addActionListener(event -> {
-            customRecipeController.switchToHome();
-        });
+        goHomeButton.addActionListener(event -> customRecipeController.switchToHome());
     }
 
     @Override
