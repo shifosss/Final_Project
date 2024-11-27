@@ -91,7 +91,7 @@ class ViewRecipeInteractorTest {
         when(bookmarkDataAccess.isBookmarked(username, recipeId)).thenReturn(true);
 
         // Act
-        interactor.bookmarkRecipe(inputData);
+        interactor.execute(inputData);
 
         // Assert
         verify(bookmarkDataAccess).getCurrentUser();
@@ -108,7 +108,7 @@ class ViewRecipeInteractorTest {
         when(recipeDataAccess.getRecipeById(recipeId)).thenReturn(null);
 
         // Act & Assert
-        assertThrows(RecipeNotFound.class, () -> interactor.bookmarkRecipe(inputData));
+        assertThrows(RecipeNotFound.class, () -> interactor.execute(inputData));
         verify(recipeDataAccess).getRecipeById(recipeId);
         verify(presenter, never()).prepareSuccessView(any());
         verify(bookmarkDataAccess, never()).bookmarkRecipe(anyString(), anyInt());

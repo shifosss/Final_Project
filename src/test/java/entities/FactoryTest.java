@@ -1,8 +1,7 @@
 package entities;
 
 import entities.recipe.*;
-import entities.recipe.factory.CocktailFactory;
-import entities.recipe.factory.MealFactory;
+import entities.recipe.factory.RecipeFactory;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
@@ -192,7 +191,7 @@ class CocktailFactoryTest {
     @Test
     void testCreate() {
         // Arrange
-        CocktailFactory factory = new CocktailFactory();
+        RecipeFactory factory = new RecipeFactory();
         String name = "Margarita";
         int id = 123;
         String instruction = "Mix tequila";
@@ -206,7 +205,7 @@ class CocktailFactoryTest {
 
         // Act
         Recipe recipe = factory.create(name, id, instruction, ingredients,
-                imageLink, videoLink, isAlcoholic);
+                imageLink, videoLink, isAlcoholic, "cocktail");
 
         // Assert
         assertInstanceOf(CocktailRecipe.class, recipe);
@@ -224,7 +223,7 @@ class MealFactoryTest {
     @Test
     void testCreate() {
         // Arrange
-        MealFactory factory = new MealFactory();
+        RecipeFactory factory = new RecipeFactory();
         String name = "Pizza";
         int id = 456;
         String instruction = "Bake in oven";
@@ -238,7 +237,7 @@ class MealFactoryTest {
 
         // Act
         Recipe recipe = factory.create(name, id, instruction, ingredients,
-                imageLink, videoLink, isAlcoholic);
+                imageLink, videoLink, isAlcoholic, "meal");
 
         // Assert
         assertInstanceOf(CocktailRecipe.class, recipe);  // Note: This seems like a bug in MealFactory

@@ -10,6 +10,7 @@ import use_case.change_preference.ChangePreferenceInputData;
 import use_case.change_preference.ChangePreferenceOutputBoundary;
 import use_case.change_preference.ChangePreferenceInteractor;
 import use_case.change_preference.ChangePreferenceOutputData;
+import use_case.explore_ingredient.ExploreIngredientDataAccessInterface;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,12 +21,13 @@ class ChangePreferenceInteractorTest {
     private ChangePreferenceDataAccessInterface dataAccess;
     private ChangePreferenceOutputBoundary presenter;
     private ChangePreferenceInteractor interactor;
+    private ExploreIngredientDataAccessInterface ingredientDataAccess;
 
     @BeforeEach
     void setUp() {
         dataAccess = mock(ChangePreferenceDataAccessInterface.class);
         presenter = mock(ChangePreferenceOutputBoundary.class);
-        interactor = new ChangePreferenceInteractor(presenter, dataAccess);
+        interactor = new ChangePreferenceInteractor(presenter, dataAccess, ingredientDataAccess);
     }
 
     @Test
@@ -64,10 +66,10 @@ class ChangePreferenceInteractorTest {
     @Test
     void testSwitchToHome() {
         // Act
-        interactor.switchToHome();
+        interactor.switchToHomePageView();
 
         // Assert
-        verify(presenter).switchToHomeView();
+        verify(presenter).switchToHomePageView();
     }
 
     @Test
@@ -93,9 +95,10 @@ class ChangePreferenceOutputDataTest {
     void testConstructorAndGetter_Failure() {
         // Arrange
         boolean useCaseFailed = true;
+        List<String> ingredientsList = Arrays.asList("Peanuts", "Dairy");
 
         // Act
-        ChangePreferenceOutputData outputData = new ChangePreferenceOutputData(useCaseFailed);
+        ChangePreferenceOutputData outputData = new ChangePreferenceOutputData(ingredientsList, useCaseFailed);
 
         // Assert
         assertTrue(outputData.isUseCaseFailed(), "Expected useCaseFailed to be true");
@@ -105,9 +108,10 @@ class ChangePreferenceOutputDataTest {
     void testConstructorAndGetter_Success() {
         // Arrange
         boolean useCaseFailed = false;
+        List<String> ingredientsList = Arrays.asList("Peanuts", "Dairy");
 
         // Act
-        ChangePreferenceOutputData outputData = new ChangePreferenceOutputData(useCaseFailed);
+        ChangePreferenceOutputData outputData = new ChangePreferenceOutputData(ingredientsList, useCaseFailed);
 
         // Assert
         assertFalse(outputData.isUseCaseFailed(), "Expected useCaseFailed to be false");

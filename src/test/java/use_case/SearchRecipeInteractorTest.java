@@ -35,14 +35,15 @@ class SearchRecipeInteractorTest {
         // Arrange
         String query = "pasta";
         List<Recipe> recipes = Arrays.asList(mock(Recipe.class), mock(Recipe.class));
+        List<String> ingredientsToAvoid = Arrays.asList(mock(String.class), mock(String.class));
         SearchRecipeInputData inputData = new SearchRecipeInputData(query, null);
-        when(recipeDataAccess.searchRecipeByKeyword(query)).thenReturn(recipes);
+        when(recipeDataAccess.searchRecipeByKeyword(query, ingredientsToAvoid)).thenReturn(recipes);
 
         // Act
         interactor.execute(inputData);
 
         // Assert
-        verify(recipeDataAccess).searchRecipeByKeyword(query);
+        verify(recipeDataAccess).searchRecipeByKeyword(query, ingredientsToAvoid);
         verify(presenter).prepareSuccessView(any(SearchRecipeOutputData.class));
         verify(presenter, never()).prepareFailView(any(SearchRecipeOutputData.class), anyString());
     }
@@ -53,13 +54,14 @@ class SearchRecipeInteractorTest {
         String query = "nonexistent";
         List<Recipe> emptyList = new ArrayList<>();
         SearchRecipeInputData inputData = new SearchRecipeInputData(query, null);
-        when(recipeDataAccess.searchRecipeByKeyword(query)).thenReturn(emptyList);
+        List<String> ingredientsToAvoid = Arrays.asList(mock(String.class), mock(String.class));
+        when(recipeDataAccess.searchRecipeByKeyword(query, ingredientsToAvoid)).thenReturn(emptyList);
 
         // Act
         interactor.execute(inputData);
 
         // Assert
-        verify(recipeDataAccess).searchRecipeByKeyword(query);
+        verify(recipeDataAccess).searchRecipeByKeyword(query, ingredientsToAvoid);
         verify(presenter).prepareFailView(
                 any(SearchRecipeOutputData.class),
                 eq("Search does not match any recipes.")
@@ -71,14 +73,14 @@ class SearchRecipeInteractorTest {
     void switchToHomeView_Success() {
         // Arrange
         String query = "pasta";
-        List<Recipe> recipes = Arrays.asList(mock(Recipe.class), mock(Recipe.class));
+        List<Integer> recipes = Arrays.asList(mock(Integer.class), mock(Integer.class));
         SearchRecipeInputData inputData = new SearchRecipeInputData(query, recipes);
 
         // Act
-        interactor.switchToHomeView(inputData);
+        interactor.switchToHomePageView(inputData);
 
         // Assert
-        verify(presenter).switchToHomePageView(any(SearchRecipeOutputData.class));
+        verify(presenter).switchToHomePageView();
     }
 
     @Test
@@ -94,7 +96,7 @@ class SearchRecipeInteractorTest {
         when(recipeDataAccess.getRecipeById(recipeId)).thenReturn(recipe);
 
         // Act
-        interactor.switchToRecipeDetailView(inputData);
+        interactor.execute(inputData);
 
         // Assert
         verify(bookmarkDataAccess).getCurrentUser();
@@ -116,7 +118,7 @@ class SearchRecipeInteractorTest {
         when(recipeDataAccess.getRecipeById(recipeId)).thenReturn(null);
 
         // Act
-        interactor.switchToRecipeDetailView(inputData);
+        interactor.execute(inputData);
 
         // Assert
         verify(bookmarkDataAccess).getCurrentUser();
@@ -135,7 +137,7 @@ class SearchRecipeInputDataTest {
     void testConstructorAndGetters() {
         // Arrange
         String query = "pasta";
-        List<Recipe> recipes = Arrays.asList(mock(Recipe.class), mock(Recipe.class));
+        List<Integer> recipes = Arrays.asList(mock(Integer.class), mock(Integer.class));
 
         // Act
         SearchRecipeInputData inputData = new SearchRecipeInputData(query, recipes);
@@ -149,7 +151,7 @@ class SearchRecipeInputDataTest {
     void testConstructorWithEmptyValues() {
         // Arrange
         String query = "";
-        List<Recipe> recipes = new ArrayList<>();
+        List<Integer> recipes = new ArrayList<>();
 
         // Act
         SearchRecipeInputData inputData = new SearchRecipeInputData(query, recipes);
@@ -163,7 +165,7 @@ class SearchRecipeInputDataTest {
     void testConstructorWithNullRecipes() {
         // Arrange
         String query = "pasta";
-        List<Recipe> recipes = null;
+        List<Integer> recipes = null;
 
         // Act
         SearchRecipeInputData inputData = new SearchRecipeInputData(query, recipes);

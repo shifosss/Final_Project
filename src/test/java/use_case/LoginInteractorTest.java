@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import entities.user.User;
 import use_case.login.*;
-import use_case.random_recipes.RandomRecipeDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +47,7 @@ class LoginInteractorTest {
 
         when(userDataAccess.existsByName(username)).thenReturn(true);
         when(userDataAccess.getUser(username)).thenReturn(mockUser);
-        List<Integer> ingredients = Arrays.asList(1, 2, 3);
+        List<String> ingredients = Arrays.asList();
         when(userDataAccess.getIngredientsToAvoid(username)).thenReturn(ingredients);
         List<Recipe> recipes = Arrays.asList(mock(Recipe.class), mock(Recipe.class), mock(Recipe.class));
         when(recipeDataAccess.getRandomRecipes(3)).thenReturn(recipes);
@@ -208,12 +207,15 @@ class LoginOutputDataTest {
     void testConstructorAndGetters() {
         // Arrange
         String username = "testUser";
-        List<Integer> ingredients = Arrays.asList(1, 2, 3);
+        List<String> ingredientsToAvoid = Arrays.asList();
+        List<String> ingredients = Arrays.asList();
         List<Recipe> recipes = Arrays.asList(mock(Recipe.class), mock(Recipe.class));
+        List<Recipe> bookmarkedRecipes = Arrays.asList(mock(Recipe.class), mock(Recipe.class));
         boolean useCaseFailed = false;
 
         // Act
-        LoginOutputData outputData = new LoginOutputData(username, ingredients, recipes, useCaseFailed);
+        LoginOutputData outputData = new LoginOutputData(username, ingredientsToAvoid,
+                recipes, bookmarkedRecipes, ingredients, useCaseFailed);
 
         // Assert
         assertEquals(username, outputData.getUsername());
@@ -226,12 +228,15 @@ class LoginOutputDataTest {
     void testConstructorWithEmptyLists() {
         // Arrange
         String username = "testUser";
-        List<Integer> ingredients = new ArrayList<>();
-        List<Recipe> recipes = new ArrayList<>();
+        List<String> ingredientsToAvoid = Arrays.asList();
+        List<String> ingredients = Arrays.asList();
+        List<Recipe> recipes = Arrays.asList(mock(Recipe.class), mock(Recipe.class));
+        List<Recipe> bookmarkedRecipes = Arrays.asList(mock(Recipe.class), mock(Recipe.class));
         boolean useCaseFailed = true;
 
         // Act
-        LoginOutputData outputData = new LoginOutputData(username, ingredients, recipes, useCaseFailed);
+        LoginOutputData outputData = new LoginOutputData(username, ingredientsToAvoid,
+                recipes, bookmarkedRecipes, ingredients, useCaseFailed);
 
         // Assert
         assertEquals(username, outputData.getUsername());
@@ -244,12 +249,15 @@ class LoginOutputDataTest {
     void testConstructorWithNullLists() {
         // Arrange
         String username = null;
-        List<Integer> ingredients = null;
+        List<String> ingredientsToAvoid = null;
+        List<String> ingredients = null;
         List<Recipe> recipes = null;
+        List<Recipe> bookmarkedRecipes = null;
         boolean useCaseFailed = false;
 
         // Act
-        LoginOutputData outputData = new LoginOutputData(username, ingredients, recipes, useCaseFailed);
+        LoginOutputData outputData = new LoginOutputData(username, ingredientsToAvoid,
+                recipes, bookmarkedRecipes, ingredients, useCaseFailed);
 
         // Assert
         assertNull(outputData.getUsername());
