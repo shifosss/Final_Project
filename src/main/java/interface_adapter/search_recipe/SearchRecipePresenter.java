@@ -60,6 +60,7 @@ public class SearchRecipePresenter implements SearchRecipeOutputBoundary, ViewRe
 
         this.searchRecipeViewModel.setState(searchRecipeState);
         this.searchRecipeViewModel.firePropertyChanged();
+        this.searchRecipeViewModel.firePropertyChanged("usecaseFailed");
 
         this.viewManagerModel.setState(searchRecipeViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
@@ -67,7 +68,7 @@ public class SearchRecipePresenter implements SearchRecipeOutputBoundary, ViewRe
 
     @Override
     public void prepareFailView(ViewRecipeOutputData outputData, String errorMessage) {
-        // TODO: Implement prepare fail view for viewing recipe detail use case.
+        // This case would most likely not fail.
     }
 
     @Override
