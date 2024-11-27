@@ -6,7 +6,7 @@ import use_case.change_preference.ChangePreferenceInputBoundary;
 import use_case.change_preference.ChangePreferenceInputData;
 
 /**
- * Controller for the preference view.
+ * Controller for managing user preferences related to excluded ingredients.
  */
 public class PreferenceController {
     private final ChangePreferenceInputBoundary changePreferenceInteractor;
@@ -16,8 +16,9 @@ public class PreferenceController {
     }
 
     /**
-     * Changes the preference info of current logged-in user.
-     * @param ingredientsToAvoid the list of ingredient names to be avoided.
+     * Updates the user's preferences by avoiding specific ingredients.
+     *
+     * @param ingredientsToAvoid the list of ingredients to avoid.
      */
     public void changePreference(List<String> ingredientsToAvoid) {
         final ChangePreferenceInputData inputData = new ChangePreferenceInputData(ingredientsToAvoid);
@@ -25,7 +26,7 @@ public class PreferenceController {
     }
 
     /**
-     * Switches to the home view.
+     * Switch to the home view after updating preferences.
      */
     public void switchToHomePageView() {
 

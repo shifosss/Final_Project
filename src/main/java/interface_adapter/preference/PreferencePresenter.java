@@ -6,7 +6,7 @@ import use_case.change_preference.ChangePreferenceOutputBoundary;
 import use_case.change_preference.ChangePreferenceOutputData;
 
 /**
- * Presenter for the preference view.
+ * Presenter for managing preference update results.
  */
 public class PreferencePresenter implements ChangePreferenceOutputBoundary {
     private final ViewManagerModel viewManagerModel;

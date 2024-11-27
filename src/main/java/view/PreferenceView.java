@@ -44,6 +44,7 @@ public class PreferenceView extends JPanel implements ActionListener, PropertyCh
 
         preferenceViewModel.addPropertyChangeListener(this);
         setLayout(new BorderLayout());
+        setBackground(new Color(40, 40, 40)); // Dark gray background
 
         goHomeButton = new JButton("Go Home");
         updatePreferenceButton = new JButton("Update Preference");

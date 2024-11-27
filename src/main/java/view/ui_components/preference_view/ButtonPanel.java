@@ -7,7 +7,7 @@ import view.PageView;
 import javax.swing.*;
 
 /**
- * The button panel for the preference view.
+ * ButtonPanel creates a panel with "Save" and "Back to Home" buttons.
  */
 public class ButtonPanel extends AbstractViewDecorator<PreferenceState> {
 

@@ -10,7 +10,7 @@ public class ExploreIngredientInputData {
         this.ingredientName = ingredientName;
     }
 
-    String getIngredientName() {
+    public String getIngredientName() {
         return ingredientName;
     }
 }
