@@ -80,16 +80,26 @@ public class CocktailDataAccessObject implements
     }
 
     @Override
+    public List<Recipe> getRecipesByIdList(List<Integer> bookmarkedRecipeIds) {
+        final List<Recipe> recipes = new ArrayList<>();
+
+        for (Integer recipeId: bookmarkedRecipeIds) {
+            recipes.add(getRecipeById(recipeId));
+        }
+
+        return recipes;
+    }
+
+    @Override
     public List<Recipe> exploreRecipeByIngredients(String ingredient) {
         // https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin
         final List<Recipe> recipes = new ArrayList<>();
         final JSONObject responseBody = makeApiRequest(String.format("%s/filter.php?i=%s", API_URL, ingredient));
         final JSONArray cocktails = getCocktails(responseBody);
 
-        for (int i = 0; i < cocktails.length() && i < 10; i++) {
+        for (int i = 0; i < cocktails.length(); i++) {
             final JSONObject raw = cocktails.getJSONObject(i);
             final int recipeId = getRecipeId(raw);
-            System.out.println(recipeId);
             recipes.add(getRecipeById(recipeId));
         }
         return recipes;
@@ -138,6 +148,10 @@ public class CocktailDataAccessObject implements
         return cocktailFactory.create(name, id, instruction, ingredients, imageLink, videoLink, isAlcoholic);
     }
 
+    private String getIsAlcoholic(JSONObject raw) {
+        return raw.optString("strAlcoholic", "");
+    }
+
     private String getRecipeName(JSONObject raw) {
         return raw.getString("strDrink");
     }
@@ -154,10 +168,6 @@ public class CocktailDataAccessObject implements
         return raw.getString("strDrinkThumb");
     }
 
-    private String getIsAlcoholic(JSONObject raw) {
-        return raw.getString("strAlcoholic");
-    }
-
     private List<Ingredient> getIngredients(JSONObject raw) {
         final List<Ingredient> ingredients = new ArrayList<>();
         for (int i = START; i <= END; i++) {
@@ -172,7 +182,7 @@ public class CocktailDataAccessObject implements
         return ingredients;
     }
 
-    protected JSONObject makeApiRequest(String apiUrl) throws JSONException {
+    private JSONObject makeApiRequest(String apiUrl) throws JSONException {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         final Request request = new Request.Builder()

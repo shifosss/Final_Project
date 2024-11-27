@@ -7,6 +7,8 @@ import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.recipe_detail.RecipeDetailPresenter;
 import interface_adapter.recipe_detail.RecipeDetailViewModel;
 import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
+import use_case.bookmark_recipe.BookmarkRecipeInputBoundary;
+import use_case.bookmark_recipe.BookmarkRecipeInteractor;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeInputBoundary;
 import use_case.search_recipes.SearchRecipeInteractor;
@@ -45,7 +47,7 @@ public final class SearchRecipeUseCaseFactory {
     public static SearchRecipeView create(ViewManagerModel viewManagerModel,
                                           SearchRecipeViewModel searchRecipeViewModel,
                                           RecipeDetailViewModel recipeDetailViewModel,
-                                          interface_adapter.home_page.HomePageViewModel homePageViewModel,
+                                          HomePageViewModel homePageViewModel,
                                           CocktailDataAccessObject cocktailDataAccessObject,
                                           UserDataAccessObject userDataAccessObject,
                                           ServiceManager serviceManager) {
@@ -72,7 +74,11 @@ public final class SearchRecipeUseCaseFactory {
                 viewRecipeDataAccessObject, bookmarkRecipeDataAccessObject, viewRecipeOutputBoundary
         );
 
-        return new RecipeDetailController(viewRecipeInteractor);
+        final BookmarkRecipeInputBoundary bookmarkRecipeInteractor = new BookmarkRecipeInteractor(
+                bookmarkRecipeDataAccessObject, (SearchRecipeDataAccessInterface) viewRecipeDataAccessObject,
+                viewRecipeOutputBoundary);
+
+        return new RecipeDetailController(viewRecipeInteractor, bookmarkRecipeInteractor);
     }
 
     private static SearchRecipeController createSearchRecipeUseCase(

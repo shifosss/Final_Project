@@ -1,5 +1,7 @@
 package use_case.bookmark_recipe;
 
+import java.util.List;
+
 /**
  * DAO for the bookmark recipe usecase.
  */
@@ -25,4 +27,11 @@ public interface BookmarkRecipeDataAccessInterface {
      * @return the username of the user.
      */
     String getCurrentUser();
+
+    /**
+     * Returns the list of recipes bookmarked by the user.
+     * @param username the username of the user.
+     * @return list of recipe ids.
+     */
+    List<Integer> getBookmarkedRecipes(String username);
 }

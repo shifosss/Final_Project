@@ -62,5 +62,8 @@ public class CocktailRecipe implements Recipe {
     }
 
     @Override
-    public String getIsAlcoholic() {return isAlcoholic;}
+    public String getIsAlcoholic() {
+        return isAlcoholic;
+    }
+
 }

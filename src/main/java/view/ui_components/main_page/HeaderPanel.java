@@ -8,18 +8,11 @@ import java.awt.*;
  */
 public class HeaderPanel extends JPanel {
 
-    public HeaderPanel(String title, Component additionalComponent) {
-        setLayout(new BorderLayout());
+    public HeaderPanel(JButton searchButton, JButton exploreIngredientButton, JButton userButton) {
+        setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
-        // Title label
-        final JLabel titleLabel = new JLabel(title, JLabel.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
-        setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        add(titleLabel, BorderLayout.CENTER);
-
-        // Add additional component (e.g., button) to the right
-        if (additionalComponent != null) {
-            add(additionalComponent, BorderLayout.EAST);
-        }
+        add(exploreIngredientButton);
+        add(searchButton);
+        add(userButton);
     }
 }

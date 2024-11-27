@@ -17,12 +17,12 @@ import use_case.view_recipe.ViewRecipeInputData;
  */
 public class ExploreIngredientInteractor implements ExploreIngredientInputBoundary {
     private final ExploreIngredientDataAccessInterface ingredientDataAccessObject;
-    private final ExploreIngredientPresenter ingredientPresenter;
+    private final ExploreIngredientOutputBoundary ingredientPresenter;
 
     public ExploreIngredientInteractor(ExploreIngredientDataAccessInterface ingredientDataAccessObject,
                                        ExploreIngredientOutputBoundary ingredientPresenter) {
         this.ingredientDataAccessObject = ingredientDataAccessObject;
-        this.ingredientPresenter = (ExploreIngredientPresenter) ingredientPresenter;
+        this.ingredientPresenter = ingredientPresenter;
     }
 
     @Override

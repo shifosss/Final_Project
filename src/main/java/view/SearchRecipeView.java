@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
@@ -77,13 +78,14 @@ public class SearchRecipeView extends JPanel implements PageView, ActionListener
         backButton.addActionListener(switchToHomeViewListener);
         searchButton.addActionListener(searchRecipeListener);
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new BorderLayout());
+        // this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         searchTextField.addActionListener(searchRecipeListener);
         addSearchTextFieldListener();
 
-        this.add(searchBar);
-        this.add(thumbnailContainerPanel);
+        this.add(searchBar, BorderLayout.NORTH);
+        this.add(thumbnailContainerPanel, BorderLayout.CENTER);
     }
 
     private void addSearchTextFieldListener() {

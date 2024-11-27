@@ -21,4 +21,11 @@ public interface SearchRecipeDataAccessInterface {
      * @return the recipe.
      */
     Recipe getRecipeById(int id);
+
+    /**
+     * Returns a list of recipes associated with each id.
+     * @param bookmarkedIds the list of recipe ids.
+     * @return a list of recipes.
+     */
+    List<Recipe> getRecipesByIdList(List<Integer> bookmarkedIds);
 }

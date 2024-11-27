@@ -1,4 +1,4 @@
-package view.ViewPlaceholder;
+package view.views_placeholder;
 
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
@@ -40,7 +40,7 @@ public class LoginView extends JPanel implements PageView, ActionListener, Prope
         gbc.insets = new Insets(10, 10, 10, 10);
 
         // add title
-        JLabel titleLabel = new JLabel("Cocktail Lab");
+        final JLabel titleLabel = new JLabel("Cocktail Lab");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
         gbc.gridx = 0;

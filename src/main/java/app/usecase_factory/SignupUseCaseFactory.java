@@ -11,7 +11,7 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.ViewPlaceholder.SignupView;
+import view.views_placeholder.SignupView;
 
 /**
  * Factory for the signup usecase.

@@ -9,12 +9,6 @@ import java.util.List;
  */
 public interface CustomRecipeDataAccessInterface {
 
-    /**
-     * Creates the custom recipe created by the user and links it from the user collection.
-     * @param username the username of the user.
-     * @param recipe the custom recipe to be saved into user.
-     */
-    void createCustomRecipe(String username, Recipe recipe);
 
     /**
      * Removes the custom recipe associated with the given id from the user.
@@ -30,4 +24,35 @@ public interface CustomRecipeDataAccessInterface {
      * @return a list of Recipes created by the user.
      */
     List<Recipe> getCustomRecipes(String username);
+
+    /**
+     * Checks if the user exists within the database.
+     * @param username the user.
+     * @return true if user exists. Otherwise, return false.
+     */
+    boolean existsByName(String username);
+
+    /**
+     * Gets a list of recipe ids the user has bookmarked.
+     * @param username the username.
+     * @return the list of recipe ids.
+     */
+    List<Integer> getBookmarkedRecipes(String username);
+
+    /**
+     * Gets the current user of the app.
+     * @return the username
+     */
+    String getCurrentUser();
+
+    /**
+     * creates the custom recipe.
+     * @param username the user username.
+     * @param recipeName name of recipe.
+     * @param recipeInstruction instruction recipe.
+     * @param ingredients ingredient names
+     * @param measurements measurement of ingredients
+     * @param isAlcoholic alcohol state.
+     */
+    void createCustomRecipe(String username, String recipeName, String recipeInstruction, List<String> ingredients, List<String> measurements, String isAlcoholic);
 }

@@ -1,4 +1,4 @@
-package view.ViewPlaceholder;
+package view.views_placeholder;
 
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupState;

@@ -17,7 +17,7 @@ import interface_adapter.services.ServiceManager;
  */
 public class ThumbnailsContainerPanel extends JPanel {
     private static final int ROW = 0;
-    private static final int COL = 2;
+    private static final int COL = 3;
     private static final int H_GAP = 10;
     private static final int V_GAP = 10;
 
