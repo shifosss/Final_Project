@@ -32,9 +32,6 @@ import java.awt.*;
  * Main Application Interface.
  */
 public class MainApp {
-    private static final int WIDTH = 500;
-    private static final int HEIGHT = 500;
-    private static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     /**
      * Main that runs the app.
      * @param args user command input.
@@ -43,10 +40,6 @@ public class MainApp {
         final JFrame application = new JFrame("Recipe Lookup");
         application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         application.setLayout(new BorderLayout());
-        application.setSize(WIDTH, HEIGHT);
-        application.setLocation(
-                (SCREEN_SIZE.width / 2) - (WIDTH / 2),
-                (SCREEN_SIZE.height / 2) - (HEIGHT / 2));
 
         final CardLayout cardLayout = new CardLayout();
 

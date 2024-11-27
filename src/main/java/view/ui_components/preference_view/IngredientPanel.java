@@ -26,9 +26,6 @@ public class IngredientPanel extends AbstractViewDecorator<PreferenceState> {
         listModel = new DefaultListModel<>();
         ingredientList = new JList<>(listModel);
         ingredientList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        ingredientList.addListSelectionListener(event -> {
-            System.out.println(event.getSource());
-        });
 
         final JScrollPane listScrollPane = new JScrollPane(ingredientList);
 
