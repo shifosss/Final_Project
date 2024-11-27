@@ -22,4 +22,10 @@ public interface RandomRecipeDataAccessInterface {
      * @return the list of recipe.
      */
     List<Recipe> getRecipesByIdList(List<Integer> bookmarkedRecipeIds);
+
+    /**
+     * Returns the list of ingredient names.
+     * @return list of ingredients.
+     */
+    List<String> getIngredientsList();
 }

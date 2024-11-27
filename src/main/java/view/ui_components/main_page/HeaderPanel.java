@@ -8,11 +8,13 @@ import java.awt.*;
  */
 public class HeaderPanel extends JPanel {
 
-    public HeaderPanel(JButton searchButton, JButton exploreIngredientButton, JButton userButton) {
+    public HeaderPanel(JButton searchButton, JButton exploreIngredientButton,
+                       JButton customRecipeButton, JButton userButton) {
         setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
         add(exploreIngredientButton);
         add(searchButton);
+        add(customRecipeButton);
         add(userButton);
     }
 }

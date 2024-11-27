@@ -10,6 +10,7 @@ import view.ui_components.preference_view.IngredientPanel;
 import view.ui_components.preference_view.TitlePanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -42,24 +43,25 @@ public class PreferenceView extends JPanel implements ActionListener, PropertyCh
         this.serviceManager = serviceManager;
 
         preferenceViewModel.addPropertyChangeListener(this);
+        setLayout(new BorderLayout());
+        setBackground(new Color(40, 40, 40)); // Dark gray background
 
         goHomeButton = new JButton("Go Home");
         updatePreferenceButton = new JButton("Update Preference");
 
         final PreferenceConcrete preferenceConcrete = new PreferenceConcrete();
         final TitlePanel titlePanel = new TitlePanel(preferenceConcrete);
-        final IngredientPanel ingredientPanel = new IngredientPanel(titlePanel);
+        final IngredientPanel ingredientPanel = new IngredientPanel(
+                titlePanel, preferenceController, updatePreferenceButton);
         final ButtonPanel buttonPanel = new ButtonPanel(ingredientPanel, goHomeButton, updatePreferenceButton);
         pageHandler = buttonPanel;
 
         goHomeButton.addActionListener(event -> preferenceController.switchToHomePageView());
-        updatePreferenceButton.addActionListener(event -> {
-            preferenceController.changePreference(ingredientsChosen);
-        });
+        updatePreferenceButton.addActionListener(event -> preferenceController.changePreference(ingredientsChosen));
 
-        add(titlePanel);
-        add(ingredientPanel);
-        add(buttonPanel);
+        add(titlePanel, BorderLayout.NORTH);
+        add(ingredientPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 
     @Override

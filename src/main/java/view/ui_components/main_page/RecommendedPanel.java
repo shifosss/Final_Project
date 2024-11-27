@@ -2,8 +2,11 @@ package view.ui_components.main_page;
 
 import entities.recipe.Recipe;
 import interface_adapter.home_page.HomePageController;
+import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.services.ServiceManager;
+import view.AbstractViewDecorator;
+import view.PageView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,16 +16,10 @@ import java.util.List;
 /**
  * Panel that contains all the recommended recipes to the user.
  */
-public class RecommendedPanel extends JPanel {
-    private static final int STEP = 1;
-    private static final int SHOWN_RECIPE = 3;
-
-    private int currentIndex;
+public class RecommendedPanel extends AbstractViewDecorator<HomePageState> {
     private List<Recipe> recommendedRecipes = new ArrayList<>();
 
-    private final JButton prevButton = new JButton("Previous");
-    private final JButton nextButton = new JButton("Next");
-    private final JPanel recommendedRecipesPanel;
+    private final JPanel gridPanel;
 
     private final HomePageViewModel homePageViewModel;
     private final ServiceManager serviceManager;
@@ -30,56 +27,37 @@ public class RecommendedPanel extends JPanel {
 
     public RecommendedPanel(HomePageViewModel homePageViewModel,
                             HomePageController homePageController,
-                            ServiceManager serviceManager) {
+                            ServiceManager serviceManager, PageView<HomePageState> pageView) {
+        super(pageView);
         this.homePageViewModel = homePageViewModel;
         this.homePageController = homePageController;
         this.serviceManager = serviceManager;
 
-        // Recommendations section
-        setLayout(new GridLayout(1, 3));
+        setLayout(new BorderLayout(10, 10));
         this.setBackground(Color.WHITE);
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Panel for recommendation recipes
-        this.recommendedRecipesPanel = new JPanel(new GridLayout(1, 3, 10, 10));
-        recommendedRecipesPanel.setBackground(Color.WHITE);
+        final JLabel headerLabel = new JLabel("Recommended Recipes", JLabel.CENTER);
+        headerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        add(headerLabel, BorderLayout.NORTH);
 
-        prevButton.addActionListener(event -> {
-            currentIndex -= STEP;
-            updatePanel(recommendedRecipes);
-        });
+        gridPanel = new JPanel(new GridLayout(0, 3, 10, 10));
+        final JScrollPane scrollPane = new JScrollPane(gridPanel);
 
-        nextButton.addActionListener(event -> {
-            currentIndex += STEP;
-            updatePanel(recommendedRecipes);
-        });
-
-        this.add(new JPanel().add(prevButton), BorderLayout.WEST);
-        this.add(recommendedRecipesPanel, BorderLayout.CENTER);
-        this.add(new JPanel().add(nextButton), BorderLayout.EAST);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
-    /**
-     * Updates the panel fields.
-     * @param randomRecipes the randomRecipes to be recommended.
-     */
-    public void updatePanel(List<Recipe> randomRecipes) {
-        recommendedRecipes = randomRecipes;
+    @Override
+    public void update(HomePageState state) {
+        super.getTempPage().update(state);
+        gridPanel.removeAll();
+        final List<Recipe> recommendedRecipes = state.getRandomRecipe();
 
-        recommendedRecipesPanel.removeAll();
-        final int size = recommendedRecipes.size();
-        // Add random recipes
-        for (int i = currentIndex; i < currentIndex + SHOWN_RECIPE && i < size; i++) {
-            final HomeRecipeThumbnailPanel randomRecipeThumbnailPanel = new HomeRecipeThumbnailPanel(
-                    homePageViewModel,
-                    homePageController,
-                    serviceManager);
-
-            recommendedRecipesPanel.add(randomRecipeThumbnailPanel);
-            randomRecipeThumbnailPanel.addRecipe(randomRecipes.get((i % size + size) % size));
+        for (Recipe recipe : recommendedRecipes) {
+            final HomeRecipeThumbnailPanel homeRecipeThumbnailPanel = new HomeRecipeThumbnailPanel(
+                    homePageViewModel, homePageController, serviceManager);
+            homeRecipeThumbnailPanel.addRecipe(recipe);
+            gridPanel.add(homeRecipeThumbnailPanel);
         }
-
-        // Revalidate and repaint to update the UI
-        recommendedRecipesPanel.revalidate();
-        recommendedRecipesPanel.repaint();
     }
 }

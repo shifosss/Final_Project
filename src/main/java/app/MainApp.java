@@ -40,6 +40,7 @@ public class MainApp {
         final JFrame application = new JFrame("Recipe Lookup");
         application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         application.setLayout(new BorderLayout());
+
         final CardLayout cardLayout = new CardLayout();
 
         // Only one view at a time.
@@ -118,8 +119,8 @@ public class MainApp {
         views.add(exploreIngredientRecipeView, exploreIngredientRecipeView.getViewName());
 
         final UserProfileView userProfileView = UserProfileUseCaseFactory.create(
-                viewManagerModel, userProfileViewModel, homePageViewModel, recipeDetailViewModel,
-                userDataAccessObject, serviceManager);
+                viewManagerModel, userProfileViewModel, homePageViewModel, recipeDetailViewModel, preferenceViewModel,
+                userDataAccessObject, cocktailDataAccessObject, serviceManager);
         views.add(userProfileView, userProfileView.getViewName());
 
         final CustomRecipeView customRecipeView = CustomRecipeUseCaseFactory.create(

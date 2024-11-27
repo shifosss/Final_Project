@@ -3,7 +3,10 @@ package view.ui_components.main_page;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
+import interface_adapter.recipe_detail.RecipeDetailState;
 import interface_adapter.services.ServiceManager;
+import view.AbstractViewDecorator;
+import view.PageView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +17,7 @@ import java.awt.*;
  *  Recommended Recipes
  *  BookmarkedRecipes
  */
-public class ContentPanel extends JPanel {
-    private final RecommendedPanel recommendedPanel;
-    private final BookmarkedPanel bookmarkedPanel;
-
+public class ContentPanel extends AbstractViewDecorator<HomePageState> {
     private final JScrollPane scrollPane;
 
     private final HomePageViewModel homePageViewModel;
@@ -26,7 +26,8 @@ public class ContentPanel extends JPanel {
 
     public ContentPanel(HomePageViewModel homePageViewModel,
                         HomePageController homePageController,
-                        ServiceManager serviceManager) {
+                        ServiceManager serviceManager, PageView<HomePageState> pageView) {
+        super(pageView);
         this.homePageViewModel = homePageViewModel;
         this.homePageController = homePageController;
         this.serviceManager = serviceManager;
@@ -36,30 +37,11 @@ public class ContentPanel extends JPanel {
         scrollPane = new JScrollPane(this,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        recommendedPanel = new RecommendedPanel(homePageViewModel,
-                homePageController,
-                serviceManager);
-
-        bookmarkedPanel = new BookmarkedPanel(homePageViewModel,
-                homePageController,
-                serviceManager);
-
-        add(recommendedPanel);
-        add(bookmarkedPanel);
     }
 
-    public JScrollPane getScrollPane() {
-        return scrollPane;
-    }
-
-    /**
-     * Updates the panel.
-     * @param state the home page state.
-     */
-    public void updatePanel(HomePageState state) {
-        recommendedPanel.updatePanel(state.getRandomRecipe());
-        bookmarkedPanel.updatePanel(state.getBookmarkedRecipes());
+    @Override
+    public void update(HomePageState homePageState) {
+        super.getTempPage().update(homePageState);
     }
 
 }

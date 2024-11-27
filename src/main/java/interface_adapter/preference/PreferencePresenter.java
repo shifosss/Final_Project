@@ -6,7 +6,7 @@ import use_case.change_preference.ChangePreferenceOutputBoundary;
 import use_case.change_preference.ChangePreferenceOutputData;
 
 /**
- * Presenter for the preference view.
+ * Presenter for managing preference update results.
  */
 public class PreferencePresenter implements ChangePreferenceOutputBoundary {
     private final ViewManagerModel viewManagerModel;
@@ -36,6 +36,10 @@ public class PreferencePresenter implements ChangePreferenceOutputBoundary {
     public void switchToPreferenceView(ChangePreferenceOutputData outputData) {
         final PreferenceState state = preferenceViewModel.getState();
         state.setIngredients(outputData.getIngredients());
+
+        preferenceViewModel.setState(state);
+        preferenceViewModel.firePropertyChanged();
+
         viewManagerModel.setState(preferenceViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

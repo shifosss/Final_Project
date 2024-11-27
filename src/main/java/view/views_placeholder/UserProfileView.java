@@ -18,6 +18,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
+/**
+ * User profile view.
+ */
 public class UserProfileView extends JPanel implements PageView<UserProfileState>, ActionListener, PropertyChangeListener {
     private final String viewName = "account";
 
@@ -28,6 +31,8 @@ public class UserProfileView extends JPanel implements PageView<UserProfileState
     private final UserIconPanel userIconPanel;
     private final CustomRecipePanel customRecipePanel;
     private final ReturnButtonPanel returnButtonPanel;
+
+    private final JButton changePreference = new JButton("Change Settings");
     private final JButton returnButton = new JButton("Return to home.");
 
     public UserProfileView(UserProfileViewModel userProfileViewModel,
@@ -42,20 +47,18 @@ public class UserProfileView extends JPanel implements PageView<UserProfileState
 
         userProfileViewModel.addPropertyChangeListener(this);
 
-        // user name
-        userIconPanel = new UserIconPanel();
-        add(userIconPanel, BorderLayout.NORTH);
-
-        // custom recipe panel
+        userIconPanel = new UserIconPanel(changePreference);
         customRecipePanel = new CustomRecipePanel(
                 userProfileViewModel, userProfileController, serviceManager);
-        add(customRecipePanel.getScrollPane(), BorderLayout.CENTER);
-
-        // back to homepage button
         returnButtonPanel = new ReturnButtonPanel(returnButton);
-        returnButton.addActionListener(event -> {
-            userProfileController.switchToHomePage();
+
+        changePreference.addActionListener(event -> {
+            userProfileController.switchToPreferenceView();
         });
+        returnButton.addActionListener(event -> userProfileController.switchToHomePage());
+
+        add(userIconPanel, BorderLayout.NORTH);
+        add(customRecipePanel.getScrollPane(), BorderLayout.CENTER);
         add(returnButtonPanel, BorderLayout.SOUTH);
     }
 
@@ -72,9 +75,9 @@ public class UserProfileView extends JPanel implements PageView<UserProfileState
 
     private void setFields(UserProfileState state) {
         final String username = state.getUsername();
-        final List<Recipe> createdrecipes = state.getCreatedRecipes();
+        final List<Recipe> createdRecipes = state.getCreatedRecipes();
         userIconPanel.updateComponents(username);
-        customRecipePanel.updateComponents(createdrecipes);
+        customRecipePanel.updateComponents(createdRecipes);
     }
 
     public String getViewName() {

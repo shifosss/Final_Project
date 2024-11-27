@@ -118,8 +118,15 @@ public class SearchRecipeView extends JPanel implements PageView<SearchRecipeSta
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         // We pop up a JOptionPane to the user.
-        final SearchRecipeState state = (SearchRecipeState) evt.getNewValue();
-        setFields(state);
+        if (evt.getPropertyName().equals("state")) {
+            final SearchRecipeState state = (SearchRecipeState) evt.getNewValue();
+            setFields(state);
+        }
+        else if (evt.getPropertyName().equals("usecaseFailed")) {
+            JOptionPane.showMessageDialog(this,
+                    String.format("No recipes found with recipe for: %s",
+                            searchRecipeViewModel.getState().getQuery()));
+        }
     }
 
     public String getViewName() {

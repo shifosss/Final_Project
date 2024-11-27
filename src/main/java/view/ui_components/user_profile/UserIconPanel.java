@@ -10,11 +10,13 @@ import java.awt.image.BufferedImage;
 public class UserIconPanel extends JPanel {
     private final JLabel userLabel;
     private final JLabel photoLabel;
+    private final JButton preferenceButton;
 
-    public UserIconPanel() {
+    public UserIconPanel(JButton preferenceButton) {
         setLayout(new FlowLayout(FlowLayout.LEFT));
         setBackground(new Color(169, 169, 169));
 
+        this.preferenceButton = preferenceButton;
         // add user icon
         photoLabel = new JLabel();
         final ImageIcon userPhoto = new ImageIcon(getClass().getResource("/image/icon.jpg"));
@@ -29,6 +31,7 @@ public class UserIconPanel extends JPanel {
 
         add(photoLabel);
         add(userLabel);
+        add(preferenceButton);
     }
 
     private ImageIcon createRoundedImage(ImageIcon imageIcon) {

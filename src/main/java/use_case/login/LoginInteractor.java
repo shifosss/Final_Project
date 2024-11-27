@@ -45,6 +45,7 @@ public class LoginInteractor implements LoginInputBoundary {
                     final List<Integer> bookmarkedRecipeIds = loginDataAccessObject.getBookmarkedRecipes(username);
                     final List<Recipe> bookmarkedRecipes = randomRecipeDataAccessObject
                             .getRecipesByIdList(bookmarkedRecipeIds);
+                    final List<String> ingredients = randomRecipeDataAccessObject.getIngredientsList();
 
                     final List<String> ingredientsToAvoid = loginDataAccessObject.getIngredientsToAvoid(username);
                     final LoginOutputData outputData = new LoginOutputData(
@@ -52,6 +53,7 @@ public class LoginInteractor implements LoginInputBoundary {
                             ingredientsToAvoid,
                             randomRecipes,
                             bookmarkedRecipes,
+                            ingredients,
                             false);
                     if (ingredientsToAvoid.isEmpty()) {
                         loginPresenter.preparePreferenceView(outputData);
