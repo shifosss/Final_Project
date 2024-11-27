@@ -13,5 +13,10 @@ public interface ChangePreferenceInputBoundary {
     /**
      * Switches to the home view.
      */
-    void switchToHome();
+    void switchToHomePageView();
+
+    /**
+     * Switches to the preference view.
+     */
+    void switchToPreferenceView();
 }

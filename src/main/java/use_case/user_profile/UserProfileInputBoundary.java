@@ -8,9 +8,8 @@ import use_case.view_recipe.ViewRecipeInputData;
 public interface UserProfileInputBoundary {
     /**
      * Switches to the user profile view.
-     * @param userProfileInputData the input data.
      */
-    void switchToUserView(UserProfileInputData userProfileInputData);
+    void switchToUserView();
 
     /**
      * Switches to the homepage view.

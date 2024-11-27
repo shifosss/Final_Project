@@ -22,10 +22,7 @@ import interface_adapter.services.video_service.VideoServiceInterface;
 import interface_adapter.services.video_service.WebVideoService;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.user_profile.UserProfileViewModel;
-import view.ExploreIngredientRecipeView;
-import view.RecipeDetailView;
-import view.SearchRecipeView;
-import view.ViewManager;
+import view.*;
 import view.views_placeholder.*;
 
 import javax.swing.*;
@@ -91,6 +88,11 @@ public class MainApp {
                 signupViewModel, loginViewModel, preferenceViewModel, homePageViewModel,
                 userDataAccessObject, cocktailDataAccessObject);
         views.add(loginView, loginView.getViewName());
+
+        final PreferenceView preferenceView = ChangePreferenceUseCaseFactory.create(
+                viewManagerModel, homePageViewModel, preferenceViewModel,
+                cocktailDataAccessObject, userDataAccessObject, serviceManager);
+        views.add(preferenceView, preferenceView.getViewName());
 
         // SearchRecipeView initialization
         final HomeView homeView = HomeUseCaseFactory.create(viewManagerModel,

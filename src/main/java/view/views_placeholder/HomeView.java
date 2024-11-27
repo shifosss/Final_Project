@@ -21,7 +21,6 @@ import java.beans.PropertyChangeListener;
 public class HomeView extends JPanel implements PageView<HomePageState>, ActionListener, PropertyChangeListener {
     private JPanel recommendationsPanel;
     private JPanel recommendedRecipesPanel;
-    private String currentUser = "";
 
     private final String viewName = "home page";
 
@@ -51,9 +50,7 @@ public class HomeView extends JPanel implements PageView<HomePageState>, ActionL
 
         searchButton.addActionListener(event -> homePageController.switchToSearchView());
         exploreByIngredientButton.addActionListener(event -> homePageController.switchToExploreIngredients());
-        userButton.addActionListener(event -> {
-            homePageController.switchToUserButton(currentUser);
-        });
+        userButton.addActionListener(event -> homePageController.switchToUserButton());
         customRecipeButton.addActionListener(event -> {
             homePageController.switchToCustomRecipeView();
         });
@@ -87,7 +84,6 @@ public class HomeView extends JPanel implements PageView<HomePageState>, ActionL
     }
 
     private void setFields(HomePageState state) {
-        currentUser = state.getUsername();
         contentPanel.updatePanel(state);
     }
 }

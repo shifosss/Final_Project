@@ -21,8 +21,8 @@ public class UserProfileInteractor implements UserProfileInputBoundary {
     }
 
     @Override
-    public void switchToUserView(UserProfileInputData userProfileInputData) {
-        final String username = userProfileInputData.getUsername();
+    public void switchToUserView() {
+        final String username = customRecipeDataAccessObject.getCurrentUser();
         if (!customRecipeDataAccessObject.existsByName(username)) {
             userProfilePresenter.presentUserNotFound("User does not exist", username);
         }

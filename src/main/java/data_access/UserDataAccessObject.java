@@ -14,6 +14,7 @@ import exceptions.UserNotFound;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
+import use_case.change_preference.ChangePreferenceDataAccessInterface;
 import use_case.create_recipe.CustomRecipeDataAccessInterface;
 import use_case.login.LoginDataAccessInterface;
 import use_case.signup.SignupDataAccessInterface;
@@ -32,7 +33,8 @@ public class UserDataAccessObject implements
         SignupDataAccessInterface,
         BookmarkRecipeDataAccessInterface,
         CustomRecipeDataAccessInterface,
-        UserProfileDataAccessInterface {
+        UserProfileDataAccessInterface,
+        ChangePreferenceDataAccessInterface {
     private static final String ACCESS_USERNAME = "appUser";
     private static final String ACCESS_PASSWORD = "myPassword123";
     private static final String CONNECTION_URL = String.format("mongodb+srv://%s:%s@cluster0.dvuik.mongodb.net/",
@@ -114,6 +116,25 @@ public class UserDataAccessObject implements
     }
 
     @Override
+    public void changeIngredientsToAvoid(String username, List<String> ingredientsToAvoid) {
+        if (!existsByName(username)) {
+            throw new UserNotFound(username);
+        }
+        final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
+        final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);
+
+        // Filter to find the document
+        final Document filter = new Document(USERNAME, username);
+
+        // New array to replace the existing array
+        final Document update = new Document("$set", new Document(INGREDIENTS_TO_AVOID, ingredientsToAvoid));
+
+        // Update the document
+        usersCollection.updateOne(filter, update);
+
+    }
+
+    @Override
     public String getCurrentUser() {
         return currentUser;
     }
@@ -143,7 +164,7 @@ public class UserDataAccessObject implements
         final String password = user.getPassword();
 
         if (existsByName(username)) {
-            throw new UserNotFound(String.format("User: %s, not found", username));
+            throw new UserNotFound(username);
         }
 
         if (!validatePassword(password) || !validateUsername(username)) {
@@ -178,7 +199,7 @@ public class UserDataAccessObject implements
     @Override
     public boolean isBookmarked(String username, int recipeId) {
         if (!existsByName(username)) {
-            throw new UserNotFound(String.format("User: %s, not found", username));
+            throw new UserNotFound(username);
         }
 
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
@@ -193,7 +214,7 @@ public class UserDataAccessObject implements
     @Override
     public void bookmarkRecipe(String username, int recipeId) {
         if (!existsByName(username)) {
-            throw new UserNotFound(String.format("User: %s, not found", username));
+            throw new UserNotFound(username);
         }
 
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
@@ -218,7 +239,7 @@ public class UserDataAccessObject implements
                                          String recipeInstruction, List<String> ingredients,
                                          List<String> measurements, String isAlcoholic) {
         if (!existsByName(username)) {
-            throw new UserNotFound(String.format("User: %s, not found", username));
+            throw new UserNotFound(username);
         }
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
         final MongoCollection<Document> recipesCollection = database.getCollection(RECIPES_COLLECTION_NAME);
@@ -244,7 +265,7 @@ public class UserDataAccessObject implements
     @Override
     public void removeCustomRecipe(String username, int id) {
         if (!existsByName(username)) {
-            throw new UserNotFound(String.format("User: %s, not found", username));
+            throw new UserNotFound(username);
         }
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
         final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);

@@ -27,7 +27,7 @@ public class PreferenceController {
     /**
      * Switches to the home view.
      */
-    public void switchToHome() {
-        changePreferenceInteractor.switchToHome();
+    public void switchToHomePageView() {
+        changePreferenceInteractor.switchToHomePageView();
     }
 }

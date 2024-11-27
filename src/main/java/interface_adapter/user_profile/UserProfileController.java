@@ -1,7 +1,6 @@
 package interface_adapter.user_profile;
 
 import use_case.user_profile.UserProfileInputBoundary;
-import use_case.user_profile.UserProfileInputData;
 import use_case.view_recipe.ViewRecipeInputData;
 
 /**
@@ -16,11 +15,9 @@ public class UserProfileController {
 
     /**
      * Switches to the user profile associated with the username.
-     * @param username the user.
      */
-    public void switchToUserView(String username) {
-        final UserProfileInputData inputData = new UserProfileInputData(username);
-        userProfileInteractor.switchToUserView(inputData);
+    public void switchToUserView() {
+        userProfileInteractor.switchToUserView();
     }
 
     /**

@@ -4,9 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * User Icon Panel that stores the username and photo of the user.
+ */
 public class UserIconPanel extends JPanel {
-    final private JLabel userLabel;
-    final private JLabel photoLabel;
+    private final JLabel userLabel;
+    private final JLabel photoLabel;
 
     public UserIconPanel() {
         setLayout(new FlowLayout(FlowLayout.LEFT));
