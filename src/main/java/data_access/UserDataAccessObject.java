@@ -360,7 +360,8 @@ public class UserDataAccessObject implements
 
         return recipeFactory.create(recipeName, recipeId,
                 recipeInstruction, recipeIngredients,
-                "", "", recipeIsAlcoholic, "cocktail");
+                "https://ih1.redbubble.net/image.2198823670.6447/st,small,507x507-pad,600x600,f8f8f8.jpg",
+                "", recipeIsAlcoholic, "cocktail");
 
     }
 }

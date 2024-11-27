@@ -119,11 +119,13 @@ public class LoginView extends JPanel implements PageView<LoginState>, ActionLis
 
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {}
-
     public String getViewName() {
         return viewName;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 
     @Override

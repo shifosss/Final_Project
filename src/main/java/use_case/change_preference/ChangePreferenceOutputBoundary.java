@@ -17,6 +17,7 @@ public interface ChangePreferenceOutputBoundary {
 
     /**
      * Switches to the Preference View.
+     * @param outputData the output data.
      */
     void switchToPreferenceView(ChangePreferenceOutputData outputData);
 }

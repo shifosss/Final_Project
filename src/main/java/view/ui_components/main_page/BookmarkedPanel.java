@@ -3,10 +3,13 @@ package view.ui_components.main_page;
 import entities.recipe.Recipe;
 import interface_adapter.explore_ingredient.ExploreIngredientController;
 import interface_adapter.home_page.HomePageController;
+import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.recipe_detail.RecipeDetailController;
 import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.services.ServiceManager;
+import view.AbstractViewDecorator;
+import view.PageView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +18,8 @@ import java.util.List;
 /**
  * The panel where the bookmarked recipes will show.
  */
-public class BookmarkedPanel extends JPanel {
-    private final JPanel recipesPanel;
-    private final JScrollPane scrollPane;
+public class BookmarkedPanel extends AbstractViewDecorator<HomePageState> {
+    private final JPanel gridPanel;
 
     private final HomePageViewModel homePageViewModel;
     private final ServiceManager serviceManager;
@@ -25,7 +27,8 @@ public class BookmarkedPanel extends JPanel {
 
     public BookmarkedPanel(HomePageViewModel homePageViewModel,
                            HomePageController homePageController,
-                           ServiceManager serviceManager) {
+                           ServiceManager serviceManager, PageView<HomePageState> pageView) {
+        super(pageView);
         this.homePageViewModel = homePageViewModel;
         this.homePageController = homePageController;
         this.serviceManager = serviceManager;
@@ -34,45 +37,29 @@ public class BookmarkedPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(Color.WHITE);
 
-        // Recommendations title
-        final JLabel title = new JLabel("Bookmarked Recipes");
-        title.setFont(new Font("SansSerif", Font.BOLD, 24));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(title);
+        setLayout(new BorderLayout(10, 10));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Add some vertical spacing
-        this.add(Box.createRigidArea(new Dimension(0, 20)));
+        final JLabel headerLabel = new JLabel("Recommended Recipes", JLabel.CENTER);
+        headerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        add(headerLabel, BorderLayout.NORTH);
 
-        // Panel for recommendation recipes
-        this.recipesPanel = new JPanel(new GridLayout(0, 3, 10, 10));
-        recipesPanel.setBackground(Color.WHITE);
+        gridPanel = new JPanel(new GridLayout(0, 3, 10, 10));
+        final JScrollPane scrollPane = new JScrollPane(gridPanel);
 
-        this.add(recipesPanel);
-
-        scrollPane = new JScrollPane(recipesPanel,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBackground(Color.WHITE);
-        scrollPane.getViewport().setBackground(Color.WHITE);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-        add(scrollPane);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
-    /**
-     * Updates the panel.
-     * @param bookmarkedRecipes the bookmarked recipes to be shown.
-     */
-    public void updatePanel(List<Recipe> bookmarkedRecipes) {
-        recipesPanel.removeAll();
-        // Add random recipes
+    @Override
+    public void update(HomePageState state) {
+        super.getTempPage().update(state);
+        final List<Recipe> bookmarkedRecipes = state.getBookmarkedRecipes();
+        gridPanel.removeAll();
         for (Recipe recipe : bookmarkedRecipes) {
-            final HomeRecipeThumbnailPanel randomRecipeThumbnailPanel = new HomeRecipeThumbnailPanel(
-                    homePageViewModel,
-                    homePageController,
-                    serviceManager);
-            recipesPanel.add(randomRecipeThumbnailPanel);
-            randomRecipeThumbnailPanel.addRecipe(recipe);
+            final HomeRecipeThumbnailPanel homeRecipeThumbnailPanel = new HomeRecipeThumbnailPanel(
+                    homePageViewModel, homePageController, serviceManager);
+            homeRecipeThumbnailPanel.addRecipe(recipe);
+            gridPanel.add(homeRecipeThumbnailPanel);
         }
     }
 }

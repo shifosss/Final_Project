@@ -1,5 +1,6 @@
 package interface_adapter.user_profile;
 
+import use_case.change_preference.ChangePreferenceInputBoundary;
 import use_case.user_profile.UserProfileInputBoundary;
 import use_case.view_recipe.ViewRecipeInputData;
 
@@ -8,9 +9,12 @@ import use_case.view_recipe.ViewRecipeInputData;
  */
 public class UserProfileController {
     private final UserProfileInputBoundary userProfileInteractor;
+    private final ChangePreferenceInputBoundary changePreferenceInteractor;
 
-    public UserProfileController(UserProfileInputBoundary userProfileInteractor) {
+    public UserProfileController(UserProfileInputBoundary userProfileInteractor,
+                                 ChangePreferenceInputBoundary changePreferenceInteractor) {
         this.userProfileInteractor = userProfileInteractor;
+        this.changePreferenceInteractor = changePreferenceInteractor;
     }
 
     /**
@@ -34,5 +38,12 @@ public class UserProfileController {
     public void showRecipe(int id) {
         final ViewRecipeInputData inputData = new ViewRecipeInputData(id);
         userProfileInteractor.viewRecipeDetail(inputData);
+    }
+
+    /**
+     * Switches to the preference view.
+     */
+    public void switchToPreferenceView() {
+        changePreferenceInteractor.switchToPreferenceView();
     }
 }

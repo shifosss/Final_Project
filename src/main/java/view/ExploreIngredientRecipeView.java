@@ -105,7 +105,6 @@ public class ExploreIngredientRecipeView extends JPanel implements PageView<Expl
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final ExploreIngredientState state = (ExploreIngredientState) evt.getNewValue();
-        System.out.println(String.format("\n%s\n", state.getIngredients().toString()));
 
         // updates fields
         displayIngredients(state.getIngredients());

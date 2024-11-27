@@ -20,6 +20,6 @@ public class ChangePreferenceOutputData {
     }
 
     public List<String> getIngredients() {
-        return null;
+        return ingredients;
     }
 }

@@ -36,6 +36,10 @@ public class PreferencePresenter implements ChangePreferenceOutputBoundary {
     public void switchToPreferenceView(ChangePreferenceOutputData outputData) {
         final PreferenceState state = preferenceViewModel.getState();
         state.setIngredients(outputData.getIngredients());
+
+        preferenceViewModel.setState(state);
+        preferenceViewModel.firePropertyChanged();
+
         viewManagerModel.setState(preferenceViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
