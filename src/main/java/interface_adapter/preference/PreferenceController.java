@@ -6,28 +6,31 @@ import use_case.change_preference.ChangePreferenceInputData;
 import java.util.List;
 
 /**
- * Controller for the preference view.
+ * Controller for managing user preferences related to excluded ingredients.
  */
 public class PreferenceController {
-    private final ChangePreferenceInputBoundary changePreferenceInteractor;
+    private final ChangePreferenceInputBoundary interactor;
+    private final PreferenceViewModel viewModel;
 
-    public PreferenceController(ChangePreferenceInputBoundary changePreferenceInteractor) {
-        this.changePreferenceInteractor = changePreferenceInteractor;
+    public PreferenceController(ChangePreferenceInputBoundary interactor, PreferenceViewModel viewModel) {
+        this.interactor = interactor;
+        this.viewModel = viewModel;
     }
 
     /**
-     * Changes the preference info of current logged-in user.
-     * @param ingredientsToAvoid the list of ingredient names to be avoided.
+     * Updates the user's preferences by avoiding specific ingredients.
+     *
+     * @param ingredientsToAvoid the list of ingredients to avoid.
      */
-    public void changePreference(List<String> ingredientsToAvoid) {
-        final ChangePreferenceInputData inputData = new ChangePreferenceInputData(ingredientsToAvoid);
-        changePreferenceInteractor.changeIngredientsToAvoid(inputData);
+    public void updatePreferences(List<String> ingredientsToAvoid) {
+        ChangePreferenceInputData inputData = new ChangePreferenceInputData(ingredientsToAvoid);
+        interactor.changeIngredientsToAvoid(inputData);
     }
 
     /**
-     * Switches to the home view.
+     * switch to the home view after updating preferences.
      */
-    public void switchToHome() {
-        changePreferenceInteractor.switchToHome();
+    public void navigateToHome() {
+        interactor.switchToHome();
     }
 }

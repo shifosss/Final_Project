@@ -32,7 +32,7 @@ public class SignupView extends JPanel implements PageView, ActionListener, Prop
         this.signupViewModel = signupViewModel;
 
         setLayout(new GridBagLayout());
-        setOpaque(false); // 背景透明以显示自定义背景图
+        setOpaque(false);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
