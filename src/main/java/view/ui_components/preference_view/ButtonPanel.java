@@ -1,37 +1,31 @@
 package view.ui_components.preference_view;
 
+import interface_adapter.preference.PreferenceState;
+import view.AbstractViewDecorator;
+import view.PageView;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
 
 /**
- * ButtonPanel creates a panel with "Save" and "Back to Home" buttons.
+ * The button panel for the preference view.
  */
-public class ButtonPanel extends JPanel {
+public class ButtonPanel extends AbstractViewDecorator<PreferenceState> {
 
-    public ButtonPanel(ActionListener saveAction, ActionListener backAction,
-                       Color saveButtonColor, Color backButtonColor) {
-        setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        setBackground(new Color(30, 30, 30)); // Slightly darker gray
-        setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+    private final JButton goHomeButton;
+    private final JButton updatePreferenceButton;
 
-        JButton saveButton = new JButton("Save Preferences");
-        styleButton(saveButton, saveButtonColor);
-        saveButton.addActionListener(saveAction);
-        add(saveButton);
+    public ButtonPanel(PageView<PreferenceState> tempPage, JButton goHomeButton, JButton updatePreferenceButton) {
+        super(tempPage);
 
-        JButton backButton = new JButton("Back to Home");
-        styleButton(backButton, backButtonColor);
-        backButton.addActionListener(backAction);
-        add(backButton);
+        this.goHomeButton = goHomeButton;
+        this.updatePreferenceButton = updatePreferenceButton;
+
+        add(goHomeButton);
+        add(updatePreferenceButton);
     }
-    private void styleButton(JButton button, Color bgColor) {
-        button.setBackground(bgColor);
-        button.setForeground(Color.WHITE);
-        button.setFocusPainted(false);
-        button.setFont(new Font("SansSerif", Font.BOLD, 16));
-        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // Hand cursor
+
+    @Override
+    public void update(PreferenceState state) {
+        super.getTempPage().update(state);
     }
 }

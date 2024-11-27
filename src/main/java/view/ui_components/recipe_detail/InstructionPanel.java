@@ -1,20 +1,23 @@
 package view.ui_components.recipe_detail;
 
 import entities.recipe.Recipe;
+import interface_adapter.recipe_detail.RecipeDetailState;
+import view.AbstractViewDecorator;
+import view.PageView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Contains instruction about the recipe.
  */
-public class InstructionPanel extends JPanel {
-    private JTextArea instructionsArea;
+public class InstructionPanel extends AbstractViewDecorator<RecipeDetailState> {
+    private final JTextArea instructionsArea;
 
-    public InstructionPanel() {
+    public InstructionPanel(PageView<RecipeDetailState> view) {
+        super(view);
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
@@ -30,11 +33,11 @@ public class InstructionPanel extends JPanel {
         add(instructionsArea, BorderLayout.CENTER);
     }
 
-    /**
-     * Updates components.
-     * @param recipe the recipe entity.
-     */
-    public void updateComponents(Recipe recipe) {
+    @Override
+    public void update(RecipeDetailState state) {
+        super.getTempPage().update(state);
+
+        final Recipe recipe = state.getRecipe();
         final String instructionsText = recipe.getInstruction();
         if (instructionsText == null || instructionsText.isEmpty()) {
             instructionsArea.setText("No instructions available");

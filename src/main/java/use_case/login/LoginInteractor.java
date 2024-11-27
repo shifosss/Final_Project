@@ -1,10 +1,10 @@
 package use_case.login;
 
+import java.util.List;
+
 import entities.recipe.Recipe;
 import entities.user.User;
-import use_case.random_recipes.RandomRecipeDataAccessInterface;
-
-import java.util.List;
+import exceptions.UserNotFound;
 
 /**
  * The interactor for the login usecase.
@@ -33,14 +33,11 @@ public class LoginInteractor implements LoginInputBoundary {
             loginPresenter.prepareFailView(username + ": Account does not exist.");
         }
         else {
-            final String pwd = loginDataAccessObject.getUser(username).getPassword();
-            if (!pwd.equals(password)) {
-                loginPresenter.prepareFailView(username + ": Wrong password.");
-            }
-            else {
+            try {
                 final User user = loginDataAccessObject.getUser(username);
-                if (user == null) {
-                    loginPresenter.prepareFailView(username + ": User not found.");
+                final String pwd = user.getPassword();
+                if (!pwd.equals(password)) {
+                    loginPresenter.prepareFailView(username + ": Wrong password.");
                 }
                 else {
                     loginDataAccessObject.setCurrentUser(user.getName());
@@ -48,13 +45,15 @@ public class LoginInteractor implements LoginInputBoundary {
                     final List<Integer> bookmarkedRecipeIds = loginDataAccessObject.getBookmarkedRecipes(username);
                     final List<Recipe> bookmarkedRecipes = randomRecipeDataAccessObject
                             .getRecipesByIdList(bookmarkedRecipeIds);
+                    final List<String> ingredients = randomRecipeDataAccessObject.getIngredientsList();
 
-                    final List<Integer> ingredientsToAvoid = loginDataAccessObject.getIngredientsToAvoid(username);
+                    final List<String> ingredientsToAvoid = loginDataAccessObject.getIngredientsToAvoid(username);
                     final LoginOutputData outputData = new LoginOutputData(
                             username,
                             ingredientsToAvoid,
                             randomRecipes,
                             bookmarkedRecipes,
+                            ingredients,
                             false);
                     if (ingredientsToAvoid.isEmpty()) {
                         loginPresenter.preparePreferenceView(outputData);
@@ -63,7 +62,9 @@ public class LoginInteractor implements LoginInputBoundary {
                         loginPresenter.prepareSuccessView(outputData);
                     }
                 }
-
+            }
+            catch (UserNotFound exception) {
+                loginPresenter.prepareFailView(exception.getMessage());
             }
         }
     }

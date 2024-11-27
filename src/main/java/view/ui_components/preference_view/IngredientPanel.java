@@ -1,54 +1,60 @@
 package view.ui_components.preference_view;
 
+import interface_adapter.preference.PreferenceController;
+import interface_adapter.preference.PreferenceState;
+import view.AbstractViewDecorator;
+import view.PageView;
+
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * IngredientPanel creates a grid of toggle buttons for ingredients.
+ * Ingredient panel that contains the list of ingredients.
  */
-public class IngredientPanel extends JPanel {
+public class IngredientPanel extends AbstractViewDecorator<PreferenceState> {
+    private final JList<String> ingredientList;
+    private final DefaultListModel<String> listModel;
 
-    private final List<JToggleButton> ingredientButtons;
+    public IngredientPanel(PageView<PreferenceState> tempPage,
+                           PreferenceController preferenceController,
+                           JButton updateButton) {
+        super(tempPage);
+        setLayout(new BorderLayout());
 
-    public IngredientPanel(List<String> ingredients, Color backgroundColor,
-                           Color borderColor, Color selectedColor, Color unselectedColor) {
-        this.ingredientButtons = new ArrayList<>();
-        setLayout(new GridLayout(0, 3, 15, 15)); // 3 columns, spacing
-        setBackground(backgroundColor);
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add padding
+        listModel = new DefaultListModel<>();
+        ingredientList = new JList<>(listModel);
+        ingredientList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        ingredientList.addListSelectionListener(event -> {
+            System.out.println(event.getSource());
+        });
 
-        for (String ingredient : ingredients) {
-            JToggleButton toggleButton = new JToggleButton(ingredient);
-            toggleButton.setBackground(unselectedColor); // Default background
-            toggleButton.setForeground(Color.WHITE);
-            toggleButton.setFocusPainted(false);
-            toggleButton.setBorder(new LineBorder(borderColor, 2, true)); // Border color
-            toggleButton.setFont(new Font("SansSerif", Font.PLAIN, 14));
-            toggleButton.setOpaque(true);
+        final JScrollPane listScrollPane = new JScrollPane(ingredientList);
 
-            // Change background color when selected/deselected
-            toggleButton.addActionListener(e -> {
-                if (toggleButton.isSelected()) {
-                    toggleButton.setBackground(selectedColor); // Bright color for selected
-                } else {
-                    toggleButton.setBackground(unselectedColor); // Default color for unselected
-                }
-            });
+        updateButton.addActionListener(event -> preferenceController.changePreference(getPreference()));
 
-            ingredientButtons.add(toggleButton);
-            add(toggleButton);
-        }
+        add(new JLabel("Select ingredients to avoid:"), BorderLayout.NORTH);
+        add(listScrollPane, BorderLayout.CENTER);
     }
-    public List<String> getSelectedIngredients() {
-        List<String> selectedIngredients = new ArrayList<>();
-        for (JToggleButton button : ingredientButtons) {
-            if (button.isSelected()) {
-                selectedIngredients.add(button.getText());
+
+    @Override
+    public void update(PreferenceState state) {
+        if (listModel.isEmpty()) {
+            final List<String> ingredients = state.getIngredients();
+            for (String ingredient : ingredients) {
+                listModel.addElement(ingredient);
             }
+            super.getTempPage().update(state);
         }
-        return selectedIngredients;
     }
+
+    private List<String> getPreference() {
+        final List<String> avoidedIngredients = new ArrayList<>();
+        avoidedIngredients.addAll(ingredientList.getSelectedValuesList());
+        JOptionPane.showMessageDialog(this, "Preferences updated: " + avoidedIngredients);
+        return avoidedIngredients;
+
+    }
+
 }

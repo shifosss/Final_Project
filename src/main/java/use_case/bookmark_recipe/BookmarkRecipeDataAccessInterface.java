@@ -34,4 +34,11 @@ public interface BookmarkRecipeDataAccessInterface {
      * @return list of recipe ids.
      */
     List<Integer> getBookmarkedRecipes(String username);
+
+    /**
+     * Gets the ingredients the user should avoid.
+     * @param username the username
+     * @return the list of ingredients id.
+     */
+    List<String> getIngredientsToAvoid(String username);
 }

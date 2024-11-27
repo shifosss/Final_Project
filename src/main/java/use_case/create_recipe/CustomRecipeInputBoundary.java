@@ -7,7 +7,7 @@ public interface CustomRecipeInputBoundary {
     /**
      * Switches to the home page view.
      */
-    void switchToHomePage();
+    void switchToHomePageView();
 
     /**
      * Switches to the custom recipe view.

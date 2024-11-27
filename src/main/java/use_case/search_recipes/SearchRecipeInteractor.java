@@ -6,7 +6,6 @@ import entities.recipe.Recipe;
 import interface_adapter.search_recipe.SearchRecipePresenter;
 import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
 import use_case.view_recipe.ViewRecipeInputData;
-import use_case.view_recipe.ViewRecipeOutputBoundary;
 import use_case.view_recipe.ViewRecipeOutputData;
 
 /**
@@ -22,17 +21,17 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
                                   SearchRecipeOutputBoundary recipePresenter) {
         this.recipeDataAccessObject = recipeDataAccessObject;
         this.bookmarkRecipeDataAccessObject = bookmarkRecipeDataAccessObject;
-        // TODO: is this casting allowed?? i mean interactor is not interface adapter specific so....
-        // my point being that interactor uses a presenter which implements more than one use cases output boundary.
         this.recipePresenter = (SearchRecipePresenter) recipePresenter;
     }
 
     @Override
     public void execute(SearchRecipeInputData searchRecipeInputData) {
         final String query = searchRecipeInputData.getSearchQuery();
+        final String username = bookmarkRecipeDataAccessObject.getCurrentUser();
+        final List<String> ingredientsToAvoid = bookmarkRecipeDataAccessObject.getIngredientsToAvoid(username);
 
-        final List<Recipe> recipeResults = recipeDataAccessObject.searchRecipeByKeyword(query);
-        // check if the list is empty
+        final List<Recipe> recipeResults = recipeDataAccessObject.searchRecipeByKeyword(
+                query, ingredientsToAvoid);
         if (recipeResults.isEmpty()) {
             final SearchRecipeOutputData recipeOutputData = new SearchRecipeOutputData(
                     query,
@@ -55,17 +54,7 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
     }
 
     @Override
-    public void switchToHomeView(SearchRecipeInputData searchRecipeInputData) {
-
-        final SearchRecipeOutputData recipeOutputData = new SearchRecipeOutputData(
-                searchRecipeInputData.getSearchQuery(),
-                searchRecipeInputData.getRecipes(),
-                false);
-        recipePresenter.switchToHomePageView(recipeOutputData);
-    }
-
-    @Override
-    public void switchToRecipeDetailView(ViewRecipeInputData recipeDetailInputData) {
+    public void execute(ViewRecipeInputData recipeDetailInputData) {
         final int recipeId = recipeDetailInputData.getId();
         final String currentUser = bookmarkRecipeDataAccessObject.getCurrentUser();
         final boolean isBookmarked = bookmarkRecipeDataAccessObject.isBookmarked(currentUser, recipeId);
@@ -88,5 +77,10 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
             );
             recipePresenter.prepareSuccessView(recipeDetailOutputData);
         }
+    }
+
+    @Override
+    public void switchToHomePageView(SearchRecipeInputData searchRecipeInputData) {
+        recipePresenter.switchToHomePageView();
     }
 }

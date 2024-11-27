@@ -1,8 +1,8 @@
-package use_case.random_recipes;
-
-import entities.recipe.Recipe;
+package use_case.login;
 
 import java.util.List;
+
+import entities.recipe.Recipe;
 
 /**
  * DAO for the random recipe usecase.
@@ -22,4 +22,10 @@ public interface RandomRecipeDataAccessInterface {
      * @return the list of recipe.
      */
     List<Recipe> getRecipesByIdList(List<Integer> bookmarkedRecipeIds);
+
+    /**
+     * Returns the list of ingredient names.
+     * @return list of ingredients.
+     */
+    List<String> getIngredientsList();
 }

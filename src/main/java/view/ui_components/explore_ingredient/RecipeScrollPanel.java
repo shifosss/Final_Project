@@ -19,7 +19,7 @@ public class RecipeScrollPanel extends JPanel {
     private final JPanel recipePanel;
     private final JScrollPane scrollPane;
     private final ServiceManager serviceManager;
-    private boolean isExploreMode = false;  // New flag to track mode
+    private boolean isExploreMode = false;
 
     private List<Recipe> currentRecipes = new ArrayList<>();
     private int currentRecipeIndex = -1;

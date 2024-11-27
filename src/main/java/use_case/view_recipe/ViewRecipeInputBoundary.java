@@ -15,10 +15,4 @@ public interface ViewRecipeInputBoundary {
      * Switches to the search view.
      */
     void switchToSearchView();
-
-    /**
-     * Bookmarks the recipe.
-     * @param recipeDetailInputData the input data.
-     */
-    void bookmarkRecipe(ViewRecipeInputData recipeDetailInputData);
 }

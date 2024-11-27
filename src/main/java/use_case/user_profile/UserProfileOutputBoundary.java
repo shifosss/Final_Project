@@ -1,5 +1,7 @@
 package use_case.user_profile;
 
+import use_case.view_recipe.ViewRecipeOutputData;
+
 /**
  * Output boundary for the user profile usecase.
  */
@@ -7,7 +9,7 @@ public interface UserProfileOutputBoundary {
     /**
      * Switches to the home view.
      */
-    void switchToHomeView();
+    void switchToHomePageView();
 
     /**
      * Prepares the profile view.
@@ -21,4 +23,10 @@ public interface UserProfileOutputBoundary {
      * @param username the username associated with the error.
      */
     void presentUserNotFound(String error, String username);
+
+    /**
+     * Prepares a success view for the recipe detail.
+     * @param outputData the output data.
+     */
+    void prepareSuccessView(ViewRecipeOutputData outputData);
 }

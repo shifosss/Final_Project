@@ -1,6 +1,5 @@
 package interface_adapter.recipe_detail;
 
-import entities.recipe.Recipe;
 import use_case.bookmark_recipe.BookmarkRecipeInputBoundary;
 import use_case.bookmark_recipe.BookmarkRecipeInputData;
 import use_case.view_recipe.ViewRecipeInputBoundary;
@@ -38,12 +37,11 @@ public class RecipeDetailController {
 
     /**
      * Attempts to bookmark the recipe.
-     * @param recipe the recipe entity.
+     * @param id the recipe id.
      */
-    public void bookmarkRecipe(Recipe recipe) {
+    public void bookmarkRecipe(int id) {
         final BookmarkRecipeInputData inputData = new BookmarkRecipeInputData(
-                recipe.getId(),
-                recipe
+                id
         );
         bookmarkRecipeInteractor.bookmarkRecipe(inputData);
     }

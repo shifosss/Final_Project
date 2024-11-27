@@ -12,7 +12,6 @@ import use_case.explore_ingredient.ExploreIngredientInputBoundary;
 import use_case.explore_ingredient.ExploreIngredientInteractor;
 import use_case.explore_ingredient.ExploreIngredientOutputBoundary;
 import view.ExploreIngredientRecipeView;
-import view.SearchRecipeView;
 
 /**
  * Creates the use cases needed for the xplore ingredients view.
@@ -23,11 +22,14 @@ public final class ExploreIngredientUseCaseFactory {
     }
 
     /**
-     * Creates the Search Recipe View.
-     * @param viewManagerModel the ViewManagerModel to be injected into the View.
-     * @param exploreIngredientViewModel the SearchRecipeViewModel to be injected into the View.
-     * @param exploreIngredientDataAccessObject the SearchRecipeDAO to be injected into the View.
-     * @return the SearchRecipeView given the arguments.
+     * Return the Explore Ingredient View.
+     * @param viewManagerModel  the ViewManagerModel to be injected into the View.
+     * @param homePageViewModel the HomePageViewModel to be injected into the View.
+     * @param searchRecipeViewModel the SearchRecipeViewModel to be injected into the View.
+     * @param exploreIngredientViewModel the ExploreIngredientViewModel to be injected into the View.
+     * @param exploreIngredientDataAccessObject the ExploreIngredientDAO to be injected into the View.
+     * @param serviceManager the ServiceManager to be injected into the View.
+     * @return the Explore by ingredient View.
      */
     public static ExploreIngredientRecipeView create(
             ViewManagerModel viewManagerModel,

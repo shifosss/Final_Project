@@ -48,8 +48,18 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     @Override
     public void preparePreferenceView(LoginOutputData loginOutputData) {
+        final HomePageState homePageState = homePageViewModel.getState();
+        homePageState.setUsername(loginOutputData.getUsername());
+        homePageState.setRandomRecipes(loginOutputData.getRandomRecipes());
+        homePageState.setBookmarkedRecipes(loginOutputData.getBookmarkedRecipes());
+        homePageState.setIngredientsToAvoidId(loginOutputData.getIngredientsToAvoidId());
+
+        homePageViewModel.setState(homePageState);
+        homePageViewModel.firePropertyChanged();
+
         final PreferenceState preferenceState = preferenceViewModel.getState();
         preferenceState.setUsername(loginOutputData.getUsername());
+        preferenceState.setIngredients(loginOutputData.getIngredients());
 
         preferenceViewModel.setState(preferenceState);
         preferenceViewModel.firePropertyChanged();
@@ -61,14 +71,12 @@ public class LoginPresenter implements LoginOutputBoundary {
     @Override
     public void prepareFailView(String errorMessage) {
         final LoginState loginState = loginViewModel.getState();
-        loginState.setUsername("");
+        loginState.setUsername(loginState.getUsername());
         loginState.setPassword("");
+        loginState.setLoginError(errorMessage);
 
         loginViewModel.setState(loginState);
         loginViewModel.firePropertyChanged();
-
-        viewManagerModel.setState(loginViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
     }
 
     @Override

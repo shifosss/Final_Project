@@ -1,12 +1,13 @@
 package interface_adapter.custom_recipe;
 
-import interface_adapter.ViewManagerModel;
-import interface_adapter.home_page.HomePageState;
-import interface_adapter.home_page.HomePageViewModel;
-import use_case.create_recipe.CustomRecipeOutputBoundary;
-import use_case.create_recipe.CustomRecipeOutputData;
-
 import java.util.ArrayList;
+
+import interface_adapter.ViewManagerModel;
+import interface_adapter.home_page.HomePageViewModel;
+import interface_adapter.user_profile.UserProfileState;
+import interface_adapter.user_profile.UserProfileViewModel;
+import use_case.create_recipe.CustomRecipeOutputBoundary;
+import use_case.user_profile.UserProfileOutputData;
 
 /**
  * Output boundary for creating custom recipes view.
@@ -14,13 +15,16 @@ import java.util.ArrayList;
 public class CustomRecipePresenter implements CustomRecipeOutputBoundary {
     private final HomePageViewModel homePageViewModel;
     private final CustomRecipeViewModel customRecipeViewModel;
+    private final UserProfileViewModel userProfileViewModel;
     private final ViewManagerModel viewManagerModel;
 
     public CustomRecipePresenter(HomePageViewModel homePageViewModel,
                                  CustomRecipeViewModel customRecipeViewModel,
+                                 UserProfileViewModel userProfileViewModel,
                                  ViewManagerModel viewManagerModel) {
         this.homePageViewModel = homePageViewModel;
         this.customRecipeViewModel = customRecipeViewModel;
+        this.userProfileViewModel = userProfileViewModel;
         this.viewManagerModel = viewManagerModel;
     }
 
@@ -40,15 +44,19 @@ public class CustomRecipePresenter implements CustomRecipeOutputBoundary {
     }
 
     @Override
-    public void switchToHomeView(CustomRecipeOutputData outputData) {
-        final HomePageState state = homePageViewModel.getState();
-        state.setBookmarkedRecipes(outputData.getBookmarkedRecipes());
-        state.setRandomRecipes(outputData.getRandomRecipes());
-
-        homePageViewModel.setState(state);
-        homePageViewModel.firePropertyChanged();
-
+    public void switchToHomePageView() {
         viewManagerModel.setState(homePageViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void updateCustomRecipeView(UserProfileOutputData outputData) {
+        customRecipeViewModel.firePropertyChanged("successful creation");
+
+        final UserProfileState userProfileState = userProfileViewModel.getState();
+        userProfileState.setCreatedRecipes(outputData.getCreatedRecipes());
+
+        userProfileViewModel.setState(userProfileState);
+        userProfileViewModel.firePropertyChanged();
     }
 }

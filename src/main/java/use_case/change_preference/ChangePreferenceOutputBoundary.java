@@ -13,5 +13,11 @@ public interface ChangePreferenceOutputBoundary {
     /**
      * Switches to the home view.
      */
-    void switchToHomeView();
+    void switchToHomePageView();
+
+    /**
+     * Switches to the Preference View.
+     * @param outputData the output data.
+     */
+    void switchToPreferenceView(ChangePreferenceOutputData outputData);
 }

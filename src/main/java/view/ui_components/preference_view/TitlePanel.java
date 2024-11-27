@@ -1,22 +1,26 @@
 package view.ui_components.preference_view;
 
+import interface_adapter.preference.PreferenceState;
+import view.AbstractViewDecorator;
+import view.PageView;
+
 import javax.swing.*;
-import java.awt.*;
 
 /**
- * TitlePanel is a reusable component for displaying a title in a JPanel.
+ * Title panel for the preference view.
  */
-public class TitlePanel extends JPanel {
+public class TitlePanel extends AbstractViewDecorator<PreferenceState> {
+    private final JLabel descriptionLabel;
 
-    public TitlePanel(String title, Color backgroundColor, Color textColor) {
-        setLayout(new BorderLayout());
-        setBackground(backgroundColor);
+    public TitlePanel(PageView<PreferenceState> tempPage) {
+        super(tempPage);
+        descriptionLabel = new JLabel("Update Preference");
+        add(descriptionLabel);
+    }
 
-        JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        titleLabel.setForeground(textColor);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Add padding
-        add(titleLabel, BorderLayout.CENTER);
+    @Override
+    public void update(PreferenceState state) {
+        super.getTempPage().update(state);
+        descriptionLabel.setText(String.format("Update Preference: %s", state.getUsername()));
     }
 }

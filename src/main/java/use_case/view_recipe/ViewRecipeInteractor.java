@@ -1,10 +1,7 @@
 package use_case.view_recipe;
 
-import data_access.UserDataAccessObject;
 import entities.recipe.Recipe;
-import exceptions.RecipeNotFound;
 import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
-import use_case.bookmark_recipe.BookmarkRecipeInputBoundary;
 
 /**
  * The Recipe Detail Interactor such that it processes the input data.
@@ -53,22 +50,5 @@ public class ViewRecipeInteractor implements ViewRecipeInputBoundary {
     @Override
     public void switchToSearchView() {
         recipeDetailPresenter.switchToSearchRecipeView();
-    }
-
-    @Override
-    public void bookmarkRecipe(ViewRecipeInputData recipeDetailInputData) {
-        final Recipe recipe = recipeDetailDataAccessObject.getRecipeById(recipeDetailInputData.getId());
-        if (recipe == null) {
-            throw new RecipeNotFound("Recipe not found.");
-        }
-        final String currentUser = bookmarkRecipeDataAccessObject.getCurrentUser();
-        bookmarkRecipeDataAccessObject.bookmarkRecipe(
-                currentUser, recipeDetailInputData.getId());
-
-        final ViewRecipeOutputData recipeDetailOutputData = new ViewRecipeOutputData(
-                recipe,
-                bookmarkRecipeDataAccessObject.isBookmarked(currentUser, recipeDetailInputData.getId()),
-                false);
-        recipeDetailPresenter.prepareSuccessView(recipeDetailOutputData);
     }
 }

@@ -15,4 +15,9 @@ public interface ExploreIngredientInputBoundary {
      * Switches to the explore ingredients.
      */
     void switchToExploreIngredients();
+
+    /**
+     * Switches to the home view.
+     */
+    void switchToHomePageView();
 }

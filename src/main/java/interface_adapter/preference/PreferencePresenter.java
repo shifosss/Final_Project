@@ -23,11 +23,24 @@ public class PreferencePresenter implements ChangePreferenceOutputBoundary {
 
     @Override
     public void prepareSuccess(ChangePreferenceOutputData outputData) {
-
+        preferenceViewModel.firePropertyChanged("successful change");
     }
 
     @Override
-    public void switchToHomeView() {
+    public void switchToHomePageView() {
+        viewManagerModel.setState(homePageViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
 
+    @Override
+    public void switchToPreferenceView(ChangePreferenceOutputData outputData) {
+        final PreferenceState state = preferenceViewModel.getState();
+        state.setIngredients(outputData.getIngredients());
+
+        preferenceViewModel.setState(state);
+        preferenceViewModel.firePropertyChanged();
+
+        viewManagerModel.setState(preferenceViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 }

@@ -20,7 +20,6 @@ public interface SearchRecipeOutputBoundary {
 
     /**
      * Switches to the home page view.
-     * @param outputData the output data (which we will need to keep the search text persistent).
      */
-    void switchToHomePageView(SearchRecipeOutputData outputData);
+    void switchToHomePageView();
 }
