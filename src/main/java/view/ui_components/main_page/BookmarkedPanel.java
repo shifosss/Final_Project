@@ -1,12 +1,9 @@
 package view.ui_components.main_page;
 
 import entities.recipe.Recipe;
-import interface_adapter.explore_ingredient.ExploreIngredientController;
 import interface_adapter.home_page.HomePageController;
 import interface_adapter.home_page.HomePageState;
 import interface_adapter.home_page.HomePageViewModel;
-import interface_adapter.recipe_detail.RecipeDetailController;
-import interface_adapter.search_recipe.SearchRecipeController;
 import interface_adapter.services.ServiceManager;
 import view.AbstractViewDecorator;
 import view.PageView;
@@ -18,6 +15,13 @@ import java.util.List;
 /**
  * The panel where the bookmarked recipes will show.
  */
+public class BookmarkedPanel extends JPanel {
+    public static final int TITLE_FONT_SIZE = 24;
+    public static final int TITLE_BOX_HEIGHT = 20;
+    public static final int RECIPE_PANEL_COLS = 3;
+    public static final int RECIPE_PANEL_HORIZONTAL_GAP = 10;
+    public static final int RECIPE_PANEL_VERTICAL_GAP = 10;
+    private final JPanel recipesPanel;
 public class BookmarkedPanel extends AbstractViewDecorator<HomePageState> {
     private final JPanel gridPanel;
 

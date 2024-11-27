@@ -1,4 +1,4 @@
-package exceptions;
+package data_access.exceptions;
 
 /**
  * Throw this when there are duplicates with identifiers.

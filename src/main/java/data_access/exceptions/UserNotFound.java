@@ -1,4 +1,4 @@
-package exceptions;
+package data_access.exceptions;
 
 /**
  * Throws when user not found.

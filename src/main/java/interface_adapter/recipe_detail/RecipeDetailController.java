@@ -1,7 +1,7 @@
 package interface_adapter.recipe_detail;
 
-import use_case.bookmark_recipe.BookmarkRecipeInputBoundary;
-import use_case.bookmark_recipe.BookmarkRecipeInputData;
+import use_case.bookmarkRecipe.BookmarkRecipeInputBoundary;
+import use_case.bookmarkRecipe.BookmarkRecipeInputData;
 import use_case.view_recipe.ViewRecipeInputBoundary;
 import use_case.view_recipe.ViewRecipeInputData;
 

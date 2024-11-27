@@ -1,8 +1,6 @@
 package interface_adapter.recipe_detail;
 
 import interface_adapter.ViewManagerModel;
-import interface_adapter.home_page.HomePageState;
-import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.search_recipe.SearchRecipeViewModel;
 import use_case.bookmark_recipe.BookmarkRecipeOutputData;
 import use_case.view_recipe.ViewRecipeOutputBoundary;
