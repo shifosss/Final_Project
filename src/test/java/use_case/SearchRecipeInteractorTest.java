@@ -4,138 +4,120 @@ import interface_adapter.search_recipe.SearchRecipePresenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import entities.recipe.Recipe;
+import entities.recipe.CocktailRecipe;
 import use_case.bookmark_recipe.BookmarkRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
 import use_case.search_recipes.SearchRecipeInputData;
 import use_case.search_recipes.SearchRecipeInteractor;
 import use_case.search_recipes.SearchRecipeOutputData;
-import use_case.view_recipe.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class SearchRecipeInteractorTest {
-    private SearchRecipeDataAccessInterface recipeDataAccess;
-    private BookmarkRecipeDataAccessInterface bookmarkDataAccess;
-    private SearchRecipePresenter presenter;
+    private SearchRecipeDataAccessInterface recipeDataAccessMock;
+    private BookmarkRecipeDataAccessInterface bookmarkDataAccessMock;
+    private SearchRecipePresenter recipePresenterMock;
     private SearchRecipeInteractor interactor;
 
     @BeforeEach
     void setUp() {
-        recipeDataAccess = mock(SearchRecipeDataAccessInterface.class);
-        bookmarkDataAccess = mock(BookmarkRecipeDataAccessInterface.class);
-        presenter = mock(SearchRecipePresenter.class);
-        interactor = new SearchRecipeInteractor(recipeDataAccess, bookmarkDataAccess, presenter);
+        recipeDataAccessMock = mock(SearchRecipeDataAccessInterface.class);
+        bookmarkDataAccessMock = mock(BookmarkRecipeDataAccessInterface.class);
+        recipePresenterMock = mock(SearchRecipePresenter.class);
+        interactor = new SearchRecipeInteractor(recipeDataAccessMock, bookmarkDataAccessMock, recipePresenterMock);
     }
 
     @Test
-    void execute_Success() {
+    void testExecuteSearchWithResults() {
         // Arrange
-        String query = "pasta";
-        List<Recipe> recipes = Arrays.asList(mock(Recipe.class), mock(Recipe.class));
-        SearchRecipeInputData inputData = new SearchRecipeInputData(query, null);
-        when(recipeDataAccess.searchRecipeByKeyword(query)).thenReturn(recipes);
+        String query = "Mojito";
+        String username = "test_user";
+        List<String> ingredientsToAvoid = Arrays.asList("Salt", "Sugar");
+        Recipe recipe = new CocktailRecipe("Mojito", 101, "Mix ingredients", null, null, null, "Alcoholic");
+        List<Recipe> recipeResults = Arrays.asList(recipe);
+
+        when(bookmarkDataAccessMock.getCurrentUser()).thenReturn(username);
+        when(bookmarkDataAccessMock.getIngredientsToAvoid(username)).thenReturn(ingredientsToAvoid);
+        when(recipeDataAccessMock.searchRecipeByKeyword(query, ingredientsToAvoid)).thenReturn(recipeResults);
 
         // Act
-        interactor.execute(inputData);
+        interactor.execute(new SearchRecipeInputData(query, Collections.emptyList()));
 
         // Assert
-        verify(recipeDataAccess).searchRecipeByKeyword(query);
-        verify(presenter).prepareSuccessView(any(SearchRecipeOutputData.class));
-        verify(presenter, never()).prepareFailView(any(SearchRecipeOutputData.class), anyString());
+        verify(recipePresenterMock).prepareSuccessView(argThat((SearchRecipeOutputData outputData) ->
+                outputData.getQuery().equals(query) &&
+                        outputData.getRecipes().equals(recipeResults) &&
+                        !outputData.isUseCaseFailed()
+        ));
     }
 
     @Test
-    void execute_NoResults() {
+    void testExecuteSearchWithoutResults() {
         // Arrange
-        String query = "nonexistent";
-        List<Recipe> emptyList = new ArrayList<>();
-        SearchRecipeInputData inputData = new SearchRecipeInputData(query, null);
-        when(recipeDataAccess.searchRecipeByKeyword(query)).thenReturn(emptyList);
+        String query = "Nonexistent Recipe";
+        String username = "test_user";
+        List<String> ingredientsToAvoid = Arrays.asList("Salt", "Sugar");
+
+        when(bookmarkDataAccessMock.getCurrentUser()).thenReturn(username);
+        when(bookmarkDataAccessMock.getIngredientsToAvoid(username)).thenReturn(ingredientsToAvoid);
+        when(recipeDataAccessMock.searchRecipeByKeyword(query, ingredientsToAvoid)).thenReturn(Collections.emptyList());
 
         // Act
-        interactor.execute(inputData);
+        interactor.execute(new SearchRecipeInputData(query, Collections.emptyList()));
 
         // Assert
-        verify(recipeDataAccess).searchRecipeByKeyword(query);
-        verify(presenter).prepareFailView(
-                any(SearchRecipeOutputData.class),
-                eq("Search does not match any recipes.")
-        );
-        verify(presenter, never()).prepareSuccessView(any(SearchRecipeOutputData.class));
+        verify(recipePresenterMock).prepareFailView(argThat((SearchRecipeOutputData outputData) ->
+                outputData.getQuery().equals(query) &&
+                        outputData.getRecipes().isEmpty() &&
+                        outputData.isUseCaseFailed()
+        ), eq("Search does not match any recipes."));
     }
 
     @Test
-    void switchToHomeView_Success() {
+    void testExecuteSearchByRecipeIds() {
         // Arrange
-        String query = "pasta";
-        List<Recipe> recipes = Arrays.asList(mock(Recipe.class), mock(Recipe.class));
-        SearchRecipeInputData inputData = new SearchRecipeInputData(query, recipes);
+        String query = "";
+        List<Integer> recipeIds = Arrays.asList(101, 102);
+        Recipe recipe1 = new CocktailRecipe("Mojito", 101, "Mix ingredients", null, null, null, "Alcoholic");
+        Recipe recipe2 = new CocktailRecipe("Virgin Mojito", 102, "Mix ingredients", null, null, null, "Non-Alcoholic");
+        List<Recipe> recipeResults = Arrays.asList(recipe1, recipe2);
+
+        when(recipeDataAccessMock.getRecipesByIdList(recipeIds)).thenReturn(recipeResults);
 
         // Act
-        interactor.switchToHomeView(inputData);
+        interactor.execute(new SearchRecipeInputData(query, recipeIds));
 
         // Assert
-        verify(presenter).switchToHomePageView(any(SearchRecipeOutputData.class));
+        verify(recipePresenterMock).prepareSuccessView(argThat((SearchRecipeOutputData outputData) ->
+                outputData.getQuery().equals(query) &&
+                        outputData.getRecipes().equals(recipeResults) &&
+                        !outputData.isUseCaseFailed()
+        ));
     }
 
     @Test
-    void switchToRecipeDetailView_Success() {
+    void testSwitchToHomePageView() {
         // Arrange
-        int recipeId = 123;
-        String username = "testUser";
-        Recipe recipe = mock(Recipe.class);
-        ViewRecipeInputData inputData = new ViewRecipeInputData(recipeId);
-
-        when(bookmarkDataAccess.getCurrentUser()).thenReturn(username);
-        when(bookmarkDataAccess.isBookmarked(username, recipeId)).thenReturn(true);
-        when(recipeDataAccess.getRecipeById(recipeId)).thenReturn(recipe);
+        SearchRecipeInputData inputData = new SearchRecipeInputData("testQuery", Collections.emptyList());
 
         // Act
-        interactor.switchToRecipeDetailView(inputData);
+        interactor.switchToHomePageView(inputData);
 
         // Assert
-        verify(bookmarkDataAccess).getCurrentUser();
-        verify(bookmarkDataAccess).isBookmarked(username, recipeId);
-        verify(recipeDataAccess).getRecipeById(recipeId);
-        verify(presenter).prepareSuccessView(any(ViewRecipeOutputData.class));
-        verify(presenter, never()).prepareFailView(any(ViewRecipeOutputData.class), anyString());
+        verify(recipePresenterMock).switchToHomePageView();
     }
 
-    @Test
-    void switchToRecipeDetailView_RecipeNotFound() {
-        // Arrange
-        int recipeId = 123;
-        String username = "testUser";
-        ViewRecipeInputData inputData = new ViewRecipeInputData(recipeId);
-
-        when(bookmarkDataAccess.getCurrentUser()).thenReturn(username);
-        when(bookmarkDataAccess.isBookmarked(username, recipeId)).thenReturn(false);
-        when(recipeDataAccess.getRecipeById(recipeId)).thenReturn(null);
-
-        // Act
-        interactor.switchToRecipeDetailView(inputData);
-
-        // Assert
-        verify(bookmarkDataAccess).getCurrentUser();
-        verify(bookmarkDataAccess).isBookmarked(username, recipeId);
-        verify(recipeDataAccess).getRecipeById(recipeId);
-        verify(presenter).prepareFailView(
-                any(ViewRecipeOutputData.class),
-                eq("Recipe not found.")
-        );
-        verify(presenter, never()).prepareSuccessView(any(ViewRecipeOutputData.class));
-    }
 }
-
 class SearchRecipeInputDataTest {
     @Test
     void testConstructorAndGetters() {
         // Arrange
         String query = "pasta";
-        List<Recipe> recipes = Arrays.asList(mock(Recipe.class), mock(Recipe.class));
+        List<Integer> recipes = Arrays.asList(1,2,3);
 
         // Act
         SearchRecipeInputData inputData = new SearchRecipeInputData(query, recipes);
@@ -149,7 +131,7 @@ class SearchRecipeInputDataTest {
     void testConstructorWithEmptyValues() {
         // Arrange
         String query = "";
-        List<Recipe> recipes = new ArrayList<>();
+        List<Integer> recipes = new ArrayList<>();
 
         // Act
         SearchRecipeInputData inputData = new SearchRecipeInputData(query, recipes);
@@ -163,7 +145,7 @@ class SearchRecipeInputDataTest {
     void testConstructorWithNullRecipes() {
         // Arrange
         String query = "pasta";
-        List<Recipe> recipes = null;
+        List<Integer> recipes = null;
 
         // Act
         SearchRecipeInputData inputData = new SearchRecipeInputData(query, recipes);

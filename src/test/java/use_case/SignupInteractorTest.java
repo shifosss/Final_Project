@@ -95,6 +95,27 @@ class SignupInteractorTest {
         // Assert
         verify(presenter).switchToLoginView();
     }
+
+    @Test
+    void execute_UserFactoryThrowsIllegalArgumentException() {
+        // Arrange
+        String username = "newUser";
+        String password = "password123";
+        SignupInputData inputData = new SignupInputData(username, password, password);
+
+        when(dataAccess.existsByName(username)).thenReturn(false);
+        when(userFactory.create(username, password)).thenThrow(new IllegalArgumentException("Invalid user data"));
+
+        // Act
+        interactor.execute(inputData);
+
+        // Assert
+        verify(dataAccess).existsByName(username);
+        verify(userFactory).create(username, password);
+        verify(presenter).prepareFailView("Invalid user data");
+        verify(dataAccess, never()).signUp(any());
+        verify(presenter, never()).prepareSuccessView(any());
+    }
 }
 
 class SignupInputDataTest {

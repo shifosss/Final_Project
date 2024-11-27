@@ -71,6 +71,15 @@ class ExploreIngredientInteractorTest {
                 data.getIngredientsList().size() == 3 && !data.isUseCaseFailed()
         ));
     }
+
+    @Test
+    void testSwitchToHomePageView() {
+        // Act
+        interactor.switchToHomePageView();
+
+        // Assert
+        verify(presenter).switchToHomePageView();
+    }
 }
 
 class ExploreIngredientInputDataTest {

@@ -1,8 +1,7 @@
 package entities;
 
 import entities.recipe.*;
-import entities.recipe.factory.CocktailFactory;
-import entities.recipe.factory.MealFactory;
+import entities.recipe.factory.RecipeFactory;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
@@ -188,11 +187,11 @@ class SimpleRecipeTest {
     }
 }
 
-class CocktailFactoryTest {
+class RecipeFactoryTest {
     @Test
     void testCreate() {
         // Arrange
-        CocktailFactory factory = new CocktailFactory();
+        RecipeFactory factory = new RecipeFactory();
         String name = "Margarita";
         int id = 123;
         String instruction = "Mix tequila";
@@ -203,10 +202,11 @@ class CocktailFactoryTest {
         String imageLink = "margarita.jpg";
         String videoLink = "margarita.mp4";
         String isAlcoholic = "Alcoholic";
+        String type = "cocktail";
 
         // Act
         Recipe recipe = factory.create(name, id, instruction, ingredients,
-                imageLink, videoLink, isAlcoholic);
+                imageLink, videoLink, isAlcoholic, type);
 
         // Assert
         assertInstanceOf(CocktailRecipe.class, recipe);
@@ -218,36 +218,25 @@ class CocktailFactoryTest {
         assertEquals(videoLink, recipe.getVideoLink());
         assertEquals(isAlcoholic, recipe.getIsAlcoholic());
     }
-}
 
-class MealFactoryTest {
     @Test
-    void testCreate() {
+    void testCreateInvalidRecipeType() {
         // Arrange
-        MealFactory factory = new MealFactory();
-        String name = "Pizza";
-        int id = 456;
-        String instruction = "Bake in oven";
-        List<Ingredient> ingredients = Arrays.asList(
-                new Ingredient("Flour", "500g"),
-                new Ingredient("Tomato", "2 pieces")
+        RecipeFactory factory = new RecipeFactory();
+        String name = "Invalid Recipe";
+        int id = 999;
+        String instruction = "No instruction";
+        List<Ingredient> ingredients = null;
+        String imageLink = null;
+        String videoLink = null;
+        String isAlcoholic = null;
+        String type = "invalid_type";
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                factory.create(name, id, instruction, ingredients,
+                        imageLink, videoLink, isAlcoholic, type)
         );
-        String imageLink = "pizza.jpg";
-        String videoLink = "pizza.mp4";
-        String isAlcoholic = "Non-Alcoholic";
-
-        // Act
-        Recipe recipe = factory.create(name, id, instruction, ingredients,
-                imageLink, videoLink, isAlcoholic);
-
-        // Assert
-        assertInstanceOf(CocktailRecipe.class, recipe);  // Note: This seems like a bug in MealFactory
-        assertEquals(name, recipe.getName());
-        assertEquals(id, recipe.getId());
-        assertEquals(instruction, recipe.getInstruction());
-        assertEquals(ingredients, recipe.getIngredients());
-        assertEquals(imageLink, recipe.getImageLink());
-        assertEquals(videoLink, recipe.getVideoLink());
-        assertEquals(isAlcoholic, recipe.getIsAlcoholic());
+        assertEquals("Invalid type of recipe", exception.getMessage());
     }
 }

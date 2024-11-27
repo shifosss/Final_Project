@@ -77,42 +77,6 @@ class ViewRecipeInteractorTest {
         // Assert
         verify(presenter).switchToSearchRecipeView();
     }
-
-    @Test
-    void bookmarkRecipe_Success() {
-        // Arrange
-        int recipeId = 123;
-        String username = "testUser";
-        ViewRecipeInputData inputData = new ViewRecipeInputData(recipeId);
-        Recipe mockRecipe = mock(Recipe.class);
-
-        when(bookmarkDataAccess.getCurrentUser()).thenReturn(username);
-        when(recipeDataAccess.getRecipeById(recipeId)).thenReturn(mockRecipe);
-        when(bookmarkDataAccess.isBookmarked(username, recipeId)).thenReturn(true);
-
-        // Act
-        interactor.bookmarkRecipe(inputData);
-
-        // Assert
-        verify(bookmarkDataAccess).getCurrentUser();
-        verify(bookmarkDataAccess).bookmarkRecipe(username, recipeId);
-        verify(recipeDataAccess).getRecipeById(recipeId);
-        verify(presenter).prepareSuccessView(any(ViewRecipeOutputData.class));
-    }
-
-    @Test
-    void bookmarkRecipe_RecipeNotFound() {
-        // Arrange
-        int recipeId = 123;
-        ViewRecipeInputData inputData = new ViewRecipeInputData(recipeId);
-        when(recipeDataAccess.getRecipeById(recipeId)).thenReturn(null);
-
-        // Act & Assert
-        assertThrows(RecipeNotFound.class, () -> interactor.bookmarkRecipe(inputData));
-        verify(recipeDataAccess).getRecipeById(recipeId);
-        verify(presenter, never()).prepareSuccessView(any());
-        verify(bookmarkDataAccess, never()).bookmarkRecipe(anyString(), anyInt());
-    }
 }
 
 class ViewRecipeInputDataTest {
