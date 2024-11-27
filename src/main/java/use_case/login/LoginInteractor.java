@@ -2,9 +2,9 @@ package use_case.login;
 
 import java.util.List;
 
+import data_access.exceptions.UserNotFound;
 import entities.recipe.Recipe;
 import entities.user.User;
-import exceptions.UserNotFound;
 
 /**
  * The interactor for the login usecase.

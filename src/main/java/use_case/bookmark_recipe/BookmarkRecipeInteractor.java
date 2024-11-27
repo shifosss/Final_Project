@@ -3,8 +3,6 @@ package use_case.bookmark_recipe;
 import java.util.List;
 
 import entities.recipe.Recipe;
-import use_case.bookmarkRecipe.BookmarkRecipeInputBoundary;
-import use_case.bookmarkRecipe.BookmarkRecipeInputData;
 import use_case.search_recipes.SearchRecipeDataAccessInterface;
 import use_case.view_recipe.ViewRecipeOutputBoundary;
 

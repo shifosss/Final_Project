@@ -8,6 +8,7 @@ import interface_adapter.custom_recipe.CustomRecipePresenter;
 import interface_adapter.custom_recipe.CustomRecipeViewModel;
 import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.services.ServiceManager;
+import interface_adapter.user_profile.UserProfileViewModel;
 import use_case.create_recipe.CustomRecipeInputBoundary;
 import use_case.create_recipe.CustomRecipeInteractor;
 import use_case.create_recipe.CustomRecipeOutputBoundary;

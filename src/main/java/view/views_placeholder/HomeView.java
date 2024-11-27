@@ -6,7 +6,7 @@ import interface_adapter.home_page.HomePageViewModel;
 import interface_adapter.services.ServiceManager;
 import view.PageView;
 import view.concrete_page.HomeConcrete;
-import view.ui_components.main_page.BookmarkedPanel;
+import view.ui_components.main_page.BookmarkedDecoratorPanel;
 import view.ui_components.main_page.ContentPanel;
 import view.ui_components.main_page.HeaderPanel;
 import view.ui_components.main_page.RecommendedPanel;
@@ -49,7 +49,7 @@ public class HomeView extends JPanel implements ActionListener, PropertyChangeLi
                 homePageViewModel, homePageController, serviceManager, homeConcrete);
         final RecommendedPanel recommendedPanel = new RecommendedPanel(
                 homePageViewModel, homePageController, serviceManager, contentPanel);
-        final BookmarkedPanel bookmarkedPanel = new BookmarkedPanel(
+        final BookmarkedDecoratorPanel bookmarkedPanel = new BookmarkedDecoratorPanel(
                 homePageViewModel, homePageController, serviceManager, recommendedPanel);
         pageHandler = bookmarkedPanel;
 

@@ -15,23 +15,16 @@ import java.util.List;
 /**
  * The panel where the bookmarked recipes will show.
  */
-public class BookmarkedPanel extends JPanel {
-    public static final int TITLE_FONT_SIZE = 24;
-    public static final int TITLE_BOX_HEIGHT = 20;
-    public static final int RECIPE_PANEL_COLS = 3;
-    public static final int RECIPE_PANEL_HORIZONTAL_GAP = 10;
-    public static final int RECIPE_PANEL_VERTICAL_GAP = 10;
-    private final JPanel recipesPanel;
-public class BookmarkedPanel extends AbstractViewDecorator<HomePageState> {
+public class BookmarkedDecoratorPanel extends AbstractViewDecorator<HomePageState> {
     private final JPanel gridPanel;
 
     private final HomePageViewModel homePageViewModel;
     private final ServiceManager serviceManager;
     private final HomePageController homePageController;
 
-    public BookmarkedPanel(HomePageViewModel homePageViewModel,
-                           HomePageController homePageController,
-                           ServiceManager serviceManager, PageView<HomePageState> pageView) {
+    public BookmarkedDecoratorPanel(HomePageViewModel homePageViewModel,
+                                    HomePageController homePageController,
+                                    ServiceManager serviceManager, PageView<HomePageState> pageView) {
         super(pageView);
         this.homePageViewModel = homePageViewModel;
         this.homePageController = homePageController;
