@@ -122,6 +122,15 @@ public class LoginView extends JPanel implements PageView<LoginState>, ActionLis
     @Override
     public void actionPerformed(ActionEvent e) {}
 
+    public String getViewName() {
+        return viewName;
+    }
+
+    @Override
+    public void update(LoginState state) {
+
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final LoginState state = loginViewModel.getState();
@@ -134,15 +143,6 @@ public class LoginView extends JPanel implements PageView<LoginState>, ActionLis
         if (state.getLoginError() != null) {
             JOptionPane.showMessageDialog(this, state.getLoginError());
         }
-    }
-
-    public String getViewName() {
-        return viewName;
-    }
-
-    @Override
-    public void update(LoginState state) {
-
     }
 
     private void addUsernameListener() {

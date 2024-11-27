@@ -9,12 +9,12 @@ import java.util.List;
  */
 public class LoginOutputData {
     private String username;
-    private List<Integer> ingredientsToAvoidId;
+    private List<String> ingredientsToAvoidId;
     private List<Recipe> randomRecipes;
     private List<Recipe> bookmarkedRecipe;
     private boolean useCaseFailed;
 
-    public LoginOutputData(String username, List<Integer> ingredientsToAvoidId,
+    public LoginOutputData(String username, List<String> ingredientsToAvoidId,
                            List<Recipe> randomRecipes, List<Recipe> bookmarkedRecipe, boolean useCaseFailed) {
         this.username = username;
         this.ingredientsToAvoidId = ingredientsToAvoidId;
@@ -31,7 +31,7 @@ public class LoginOutputData {
         return randomRecipes;
     }
 
-    public List<Integer> getIngredientsToAvoidId() {
+    public List<String> getIngredientsToAvoidId() {
         return ingredientsToAvoidId;
     }
 

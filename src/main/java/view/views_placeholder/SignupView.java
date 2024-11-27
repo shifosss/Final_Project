@@ -161,6 +161,10 @@ public class SignupView extends JPanel implements PageView<SignupState>, ActionL
         if (state.getUsernameError() != null) {
             JOptionPane.showMessageDialog(this, state.getUsernameError());
         }
+        else if (evt.getPropertyName().equals("successful signup")) {
+            JOptionPane.showMessageDialog(this,
+                    String.format("Account successfully created, %s", state.getUsername()));
+        }
     }
 
     private void addUsernameListener() {

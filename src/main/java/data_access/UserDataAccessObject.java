@@ -119,12 +119,12 @@ public class UserDataAccessObject implements
     }
 
     @Override
-    public List<Integer> getIngredientsToAvoid(String username) {
+    public List<String> getIngredientsToAvoid(String username) {
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
         final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);
         final Document foundUser = usersCollection.find(Filters.eq(USERNAME, username)).first();
 
-        return foundUser.getList(INGREDIENTS_TO_AVOID, Integer.class, List.of());
+        return foundUser.getList(INGREDIENTS_TO_AVOID, String.class, List.of());
 
     }
 
@@ -143,11 +143,11 @@ public class UserDataAccessObject implements
         final String password = user.getPassword();
 
         if (existsByName(username)) {
-            throw new UserNotFound(username);
+            throw new UserNotFound(String.format("User: %s, not found", username));
         }
 
         if (!validatePassword(password) || !validateUsername(username)) {
-            return;
+            throw new IllegalArgumentException("Need stronger password");
         }
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
 
@@ -158,7 +158,7 @@ public class UserDataAccessObject implements
                     .append(PASSWORD, password)
                     .append(BOOKMARKED_RECIPE_IDS, List.of())
                     .append(CREATED_RECIPES, List.of())
-                    .append(INGREDIENTS_TO_AVOID, List.of(1, 2, 3));
+                    .append(INGREDIENTS_TO_AVOID, List.of());
 
         // Insert the document into the collection
         usersCollection.insertOne(newUser);
@@ -178,7 +178,7 @@ public class UserDataAccessObject implements
     @Override
     public boolean isBookmarked(String username, int recipeId) {
         if (!existsByName(username)) {
-            throw new UserNotFound(username);
+            throw new UserNotFound(String.format("User: %s, not found", username));
         }
 
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
@@ -193,7 +193,7 @@ public class UserDataAccessObject implements
     @Override
     public void bookmarkRecipe(String username, int recipeId) {
         if (!existsByName(username)) {
-            throw new UserNotFound(username);
+            throw new UserNotFound(String.format("User: %s, not found", username));
         }
 
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
@@ -218,7 +218,7 @@ public class UserDataAccessObject implements
                                          String recipeInstruction, List<String> ingredients,
                                          List<String> measurements, String isAlcoholic) {
         if (!existsByName(username)) {
-            throw new UserNotFound(username);
+            throw new UserNotFound(String.format("User: %s, not found", username));
         }
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
         final MongoCollection<Document> recipesCollection = database.getCollection(RECIPES_COLLECTION_NAME);
@@ -244,7 +244,7 @@ public class UserDataAccessObject implements
     @Override
     public void removeCustomRecipe(String username, int id) {
         if (!existsByName(username)) {
-            throw new UserNotFound(username);
+            throw new UserNotFound(String.format("User: %s, not found", username));
         }
         final MongoDatabase database = mongoClient.getDatabase(RECIPE_DATABASE_NAME);
         final MongoCollection<Document> usersCollection = database.getCollection(USERS_COLLECTION_NAME);

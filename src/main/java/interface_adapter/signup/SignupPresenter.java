@@ -31,6 +31,7 @@ public class SignupPresenter implements SignupOutputBoundary {
         loginState.setPassword("");
         this.loginViewModel.setState(loginState);
         loginViewModel.firePropertyChanged();
+        loginViewModel.firePropertyChanged("successful signup");
 
         viewManagerModel.setState(loginViewModel.getViewName());
         viewManagerModel.firePropertyChanged();

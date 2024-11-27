@@ -27,8 +27,11 @@ public class SearchRecipeInteractor implements SearchRecipeInputBoundary {
     @Override
     public void execute(SearchRecipeInputData searchRecipeInputData) {
         final String query = searchRecipeInputData.getSearchQuery();
+        final String username = bookmarkRecipeDataAccessObject.getCurrentUser();
+        final List<String> ingredientsToAvoid = bookmarkRecipeDataAccessObject.getIngredientsToAvoid(username);
 
-        final List<Recipe> recipeResults = recipeDataAccessObject.searchRecipeByKeyword(query);
+        final List<Recipe> recipeResults = recipeDataAccessObject.searchRecipeByKeyword(
+                query, ingredientsToAvoid);
         if (recipeResults.isEmpty()) {
             final SearchRecipeOutputData recipeOutputData = new SearchRecipeOutputData(
                     query,

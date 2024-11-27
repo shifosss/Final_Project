@@ -11,9 +11,10 @@ public interface SearchRecipeDataAccessInterface {
     /**
      * Searches for recipes that matches the keyword.
      * @param keyword user query.
+     * @param ingredientsToAvoid the list of ingredients to avoid or filtered out.
      * @return a list of recipe.
      */
-    List<Recipe> searchRecipeByKeyword(String keyword);
+    List<Recipe> searchRecipeByKeyword(String keyword, List<String> ingredientsToAvoid);
 
     /**
      * Returns a recipe given the id input.
