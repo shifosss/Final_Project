@@ -16,7 +16,7 @@ public class SearchRecipeInputData {
         this.recipes = recipes;
     }
 
-    String getSearchQuery() {
+    public String getSearchQuery() {
         return searchQuery;
     }
 
